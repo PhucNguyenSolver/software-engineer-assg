@@ -1,9 +1,9 @@
 import './App.css';
-import Menu from './components/menu.js'
+import FoodInMenu from './components/FoodInMenu.js'
 
 function App() {
   return (
-    <Menu />
+    <FoodInMenu />
   );
 }
 
