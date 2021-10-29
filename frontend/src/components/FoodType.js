@@ -10,7 +10,7 @@ function FoodType({name}) {
     <Button class="btn btn-light text-danger" 
             variant="primary" 
             style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', borderRadius:'50px',
-            borderColor:'#F63C3C',fontWeight:'bold',color:'#F63C3C',boxShadow:'1px 1px #F63C3C'  }}>
+            borderColor:'#F63C3C',fontWeight:'bold',color:'#F63C3C',boxShadow:'1px 1px #F63C3C',margin: '15px'  }}>
             {name}
     </Button>
     
