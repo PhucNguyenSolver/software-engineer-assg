@@ -27,7 +27,7 @@ function FoodTypeList() {
     }
 
     return (
-        <div style={{backgroundColor:'#15615454',height:'100px', width:'100%'}}
+        <div style={{backgroundColor:'#ffffff',height:'100px', width:'100%'}}
         >
             <Button id="combo" class="btn btn-light text-danger" 
             variant="primary" onClick={ChangeEffective}

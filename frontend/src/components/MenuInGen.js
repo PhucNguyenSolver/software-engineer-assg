@@ -1,11 +1,11 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from "react";
-import RenderElement from './RenderElement.js'
 import FoodTypeList from './FoodTypeList.js'
+import FoodInMenu from './FoodInMenu.js'
 import JSONDATA from './MOCK_DATA.json'
 
 
-function MenuTest() {
+function MenuInGen() {
   return (
       <div >
       <div style={{width:'100%'}}>
@@ -14,7 +14,7 @@ function MenuTest() {
       <div style={{backgroundColor:'#F0F8FF',height:'750px',width:'100%'}}>
           {
           JSONDATA.map((val) => {
-            return <RenderElement val={val} />
+            return <FoodInMenu name={val.food_name} price={val.price} image={val.img} />
           })
           }
       </div>
@@ -22,4 +22,4 @@ function MenuTest() {
   );
 }
 
-export default MenuTest;
+export default MenuInGen;
