@@ -1,10 +1,8 @@
-
+import Homepage from "./components/homepage/HomePage";
 
 function App() {
 	return (
-		<div className="App">
-			Hello cc
-		</div>
+		<Homepage />
 	);
 }
 
