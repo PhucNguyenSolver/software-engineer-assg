@@ -133,7 +133,7 @@ export default function CartTotalPrice(props) {
 		amount: function() {
 			let totalAmount = 0;
 			props.cartItems.forEach(function(item) {
-				totalAmount += item.price * item.quantity;
+				if(item.active) totalAmount += item.price * item.quantity;
 			})
 			return totalAmount;
 		},
