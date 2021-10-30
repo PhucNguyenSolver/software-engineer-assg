@@ -3,6 +3,8 @@ import { ImagesSlide } from "./ImagesSlide";
 import { useState, useEffect } from "react";
 import { OrderOptionItem } from "./OrderOptionItem";
 import { OrderOptionModal } from "./OrderOptionModal";
+import {ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const food = {
     name: "Cánh gà xóc tỏi",
@@ -21,30 +23,30 @@ const food = {
     ],
     orderOptions: [
         {
-            "title": "Chọn nước",
-            "options": ["Pepsi", "Fanta", "Sprite", "Trà đào"],
-            "price": [0, 0, 0, 10000],
-            "isMultiSelect": false,
-            "default": [true, false, false, false],
-            "answer":  [true, false, false, false],
+            title: "Chọn nước",
+            options: ["Pepsi", "Fanta", "Sprite", "Trà đào"],
+            price: [0, 0, 0, 10000],
+            isMultiSelect: false,
+            default: [true, false, false, false],
+            answer:  [true, false, false, false]
         },
 
         {
-            "title": "Cay/Không cay",
-            "options": ["Cay", "Không cay"],
-            "price": [0, 0],
-            "isMultiSelect": false,
-            "default":[true, false],
-            "answer": [true, false],
+            title: "Cay/Không cay",
+            options: ["Cay", "Không cay"],
+            price: [0, 0],
+            isMultiSelect: false,
+            default:[true, false],
+            answer: [true, false]
         },
 
         {
-            "title": "Chọn món thêm",
-            "options": ["Salad", "Cà chua", "Súp bí đỏ", "Sốt"],
-            "price": [5000, 10000, 15000, 10000],
-            "isMultiSelect": true,
-            "default":[true, false, false, false],
-            "answer": [true, false, false, false],
+            title: "Chọn món thêm",
+            options: ["Salad", "Cà chua", "Súp bí đỏ", "Sốt"],
+            price: [5000, 10000, 15000, 10000],
+            isMultiSelect: true,
+            default:[false, false, false, false],
+            answer: [false, false, false, false],
         }
     ]
 }
@@ -55,13 +57,17 @@ export function FoodInfo() {
     const [totalPrice, setTotalPrice] = useState(0);
     const [additionalPrice, setAdditionalPrice] = useState( () => {
         let orderOptionPrice = 0;
+        console.log("Heree");
         food.orderOptions.forEach( orderOption => {
             orderOptionPrice += orderOption.price.reduce((r,a,i) => {return r + a * orderOption.answer[i]},0);
+            console.log(orderOptionPrice);
         })
         return orderOptionPrice;
     });
 
     useEffect(() => {
+        console.log("Order Option");
+        console.log(food.orderOptions[2]);
         let basePrice = food.unitPrice * quantity;
         let newTotalPrice = basePrice + additionalPrice;
         if(newTotalPrice != totalPrice) {
@@ -69,8 +75,21 @@ export function FoodInfo() {
         }
     });
 
+    function onSubmit() {
+        toast.success('Thêm vào giỏ hàng thành công', {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+        });
+    }
+
     return(
         <div class="container">
+            <ToastContainer/>
             <div class="row">
                 <div class="col-md-4">
                     <ImagesSlide imageData={food.images}/>
@@ -85,6 +104,7 @@ export function FoodInfo() {
                             setAdditionalPrice={setAdditionalPrice}
                             totalPrice={totalPrice}
                             setTotalPrice={setTotalPrice}
+                            onSubmit={onSubmit}
                         />
                     </div>
                 </div>

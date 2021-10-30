@@ -1,6 +1,6 @@
 import { OrderOptionItem } from "./OrderOptionItem";
 
-export function OrderOptionModal({food, quantity, additionalPrice, setAdditionalPrice, totalPrice, setTotalPrice}) {
+export function OrderOptionModal({food, quantity, additionalPrice, setAdditionalPrice, totalPrice, setTotalPrice, onSubmit}) {
     return(
         <>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#orderOptionModal">
@@ -49,7 +49,7 @@ export function OrderOptionModal({food, quantity, additionalPrice, setAdditional
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
-                        <button type="button" class="btn btn-primary">Đặt món +{Intl.NumberFormat().format(totalPrice)} đ</button>
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onClick={onSubmit}>Đặt món +{Intl.NumberFormat().format(totalPrice)} đ</button>
                     </div>
                     </div>
                 </div>
