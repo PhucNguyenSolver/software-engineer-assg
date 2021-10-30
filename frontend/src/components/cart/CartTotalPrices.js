@@ -86,42 +86,67 @@ const PayButton = styled.button`
 	font-weight: 700;
 `
 
-export default function CartTotalPrices() {
+const contactData = {
+	name: 'Nguyễn Phúc Vinh',
+	phone: '0373 395 726',
+	addr: `Ticklab, 92/10, đường Vành Đai ĐH Quốc Gia TP.HCM, khu phố Tân Lập,
+	 	Phường Linh Trung, Quận Thủ Đức, Hồ Chí Minh`
+};
+
+function ContactInfo(props) {
+	return <Contact>
+		<Contact.Header>
+			<span style={{ fontWeight: '600', fontSize: '16px' }}>Giao tới</span>
+			<ChangeContact>Thay đổi</ChangeContact>
+		</Contact.Header>
+		<Contact.SecondLine>
+			<div>{props.name}</div>
+			<div>{props.phone}</div>
+		</Contact.SecondLine>
+		<p>{props.addr}</p>
+	</Contact>
+}
+function TotalPrice(props) {
+	return <Total>
+		<Total.Calculation>
+			<div className='cal'>
+				<span>Tạm tính</span>
+				<span>{props.amount()}đ</span>
+			</div>
+			<div className='cal'>
+				<span>Giảm giá</span>
+				<span>- {props.discount}đ</span>
+			</div>
+		</Total.Calculation>
+		<Total.TotalPrice>
+			<div>Tổng cộng</div>
+			<div style={{ display: 'flex', flexFlow: 'column', alignItems: 'end' }}>
+				<div className='total-pay'>{props.amount() - props.discount}đ</div>
+				<div className='description'>(Đã bao gồm VAT nếu có)</div>
+			</div>
+		</Total.TotalPrice>
+	</Total>
+}
+
+export default function CartTotalPrice(props) {
+	const total = {
+		amount: function() {
+			let totalAmount = 0;
+			props.cartItems.forEach(function(item) {
+				totalAmount += item.price * item.quantity;
+			})
+			return totalAmount;
+		},
+		discount: 3000
+	}
+	
 	return (
 		<div style={cartTotalStyle}>
-			<Contact>
-				<Contact.Header>
-					<span style={{ fontWeight: '600', fontSize: '16px' }}>Giao tới</span>
-					<ChangeContact>Thay đổi</ChangeContact>
-				</Contact.Header>
-				<Contact.SecondLine>
-					<div>{'Nguyễn Phúc Vinh'}</div>
-					<div>{'0373 395 726'}</div>
-				</Contact.SecondLine>
-				<p>Ticklab, 92/10, đường Vành Đai ĐH Quốc Gia TP.HCM, khu phố Tân Lập, Phường Linh Trung, Quận Thủ Đức, Hồ Chí Minh</p>
-			</Contact>
-
-			<Total>
-				<Total.Calculation>
-					<div className='cal'>
-						<span>Tạm tính</span>
-						<span>0đ</span>
-					</div>
-					<div className='cal'>
-						<span>Giảm giá</span>
-						<span>- 0đ</span>
-					</div>
-				</Total.Calculation>
-				<Total.TotalPrice>
-					<div>Tổng cộng</div>
-					<div style={{ display: 'flex', flexFlow: 'column', alignItems: 'end' }}>
-						<div className='total-pay'>0đ</div>
-						<div className='description'>(Đã bao gồm VAT nếu có)</div>
-					</div>
-				</Total.TotalPrice>
-			</Total>
-
-			<PayButton>Đặt hàng (0)</PayButton>
+			<ContactInfo {...contactData} />
+			<TotalPrice {...total}/>
+			<PayButton>Đặt hàng ({
+				props.cartItems.filter(value => value.active === true).length
+				})</PayButton>
 		</div>
 	)
 }
