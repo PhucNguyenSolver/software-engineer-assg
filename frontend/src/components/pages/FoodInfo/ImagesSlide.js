@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const imageData = [
+const images = [
     "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
     "https://vuacua.vn/storage/media/iPfA30ZgTpzyDuzoMHJBYIC3pbdwIJlcOAsC4DHQ.jpeg",
     "https://vuacua.vn/storage/media/YE93ZWhvd8hKQZ8SoFPKCBn6cyzPPR5UCIUtaEeu.jpeg",
@@ -11,8 +11,8 @@ const imageData = [
     "https://vuacua.vn/storage/media/4URBXmwIR2f2foAQjmCK9goo8ZHa4e9o8irdGB10.png",
     "https://vuacua.vn/storage/media/GkuRArvrbDfL5WLjFcSEkA04mXu7XqEPoLT1NAbo.png"
 ]
-export function ImagesSlide() {
-    
+export function ImagesSlide({imageData}) {
+    // imageData = images;
     const N_BOTTOM_IMGS = 4;
     const [mainImgIdx, setMainImgIdx] = useState(0);
     const [bottomImgIdxs, setBottomImgIdxs] = useState(getInitBottomImgs());
@@ -55,9 +55,9 @@ export function ImagesSlide() {
                     {bottomImgIdxs.map((idx) => {
                         return (
                             <div class={"col w-25 p-1" + " " + (idx == mainImgIdx ? "" : "opacity-50")} onMouseEnter={() => {setMainImgIdx(idx)}}>
-                                <a class="text-primary" href="#">
+                                <button class="btn button-light p-0 shadow-none">
                                     <img class="w-100" src={imageData[idx]}/>
-                                </a>                            
+                                </button>                            
                             </div>
                         )
                     })}

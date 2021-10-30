@@ -6,4 +6,7 @@ $theme-colors: (
   "info": #DDDDDD
 );
 
+$component-active-bg: #E30220;
+// $input-border-color: #E30220;
+
 @import '../../node_modules/bootstrap/scss/bootstrap.scss';
