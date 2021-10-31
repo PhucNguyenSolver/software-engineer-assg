@@ -1,41 +1,29 @@
 import React, { Component } from "react";
 import Food from "./Food";
+import foods from "./foods.json";
 
-class FoodList extends Component {
-  constructor(prop) {
-    super(prop);
-    this.state = prop;
-  }
+// TODO: useContext for foods.json
 
-  renderPlaceHolder() {
-    return (
-      <div className="col-12 col-sm-6 col-md-4 col-lg-3">
-        <Food />      
-      </div>
-    );
-  }
+export default function FoodList() {  
+  const rawFoods = foods.foods;
+  const listItems = rawFoods.map((afood) => (
+    <div className="col-10 col-sm-6 col-md-4 col-xl-3">
+      <Food food={afood}/>      
+    </div>
+  ));
 
-  render() {
-    return (
-      <div className="fluid-container overflow-hidden">
-        <div className="row">
-          <div className="col">
-            <div class="mb-4">
-              <h1>COMBO HẤP DẪN TẠI CỬA HÀNG</h1>
-            </div>
+  return (
+    <div className="container overflow-hidden">
+      <div className="row">
+        <div className="col">
+          <div class="mb-4">
+            <h1>COMBO HẤP DẪN TẠI CỬA HÀNG</h1>
           </div>
         </div>
-        <div className="row g-5 justify-content-start">
-          {this.renderPlaceHolder()}
-          {this.renderPlaceHolder()}
-          {this.renderPlaceHolder()}
-          {this.renderPlaceHolder()}
-          {this.renderPlaceHolder()}
-          {this.renderPlaceHolder()}
-        </div>
       </div>
-    );
-  }
+      <div className="row g-5 justify-content-center justify-content-sm-start">
+        {listItems}
+      </div>
+    </div>
+  );
 }
-
-export default FoodList;
