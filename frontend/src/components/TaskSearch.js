@@ -4,11 +4,10 @@ import MenuInGen from './MenuInGen.js'
 import RenderElement from './RenderElement.js'
 import JSONDATA from './MOCK_DATA.json'
 import { useState } from 'react';
-import MenuTest from './MenuTest.js';
 
 
 function Filter(props) {
-  if (props.searchTerm == "") {
+  if (props.searchTerm === "") {
     return <MenuInGen />
   }
   return JSONDATA.filter((val)=>{
