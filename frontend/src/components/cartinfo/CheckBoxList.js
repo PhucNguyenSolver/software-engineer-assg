@@ -1,20 +1,13 @@
+import CheckBox from "./CheckBox"
 
-export default function CheckBoxList({heading}) {
+export default function CheckBoxList(props) {
     return (
         <div>
-            <span>{heading}</span>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></input>
-                <label class="form-check-label" for="flexCheckDefault">
-                    Tương cà
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></input>
-                <label class="form-check-label" for="flexCheckDefault">
-                    Tương ớt
-                </label>
-            </div>
+            <span>{props.heading}</span>
+            
+            {props.labels.map((label, index) => (
+                <CheckBox label={label} index={index}/>
+            ))}
         </div>
     )
 }
