@@ -3,83 +3,74 @@ import { Trash } from 'react-bootstrap-icons';
 import chicken from './chicken.png'
 import { useState, useEffect } from "react";
 import ReactPaginate from 'react-paginate';
+import breakPoint from './breakPoint';
 
-const cartContentStyle = {
-  width: '75%',
-  paddingRight: '15px',
-}
 const Container = styled.div`
-  width: 100%;
-  border-radius: 5px;
   background: #fff;
-  padding: 15px; 
-  margin-top: 10px;
+  border-radius: 5px;
+  padding: 10px 0 .5px 0;
 `;
 
 const Header = styled(Container)`
-  padding: 10px 15px;
-  display: grid;
-  grid-template-columns: 50% 12.5% 20% 12.5% 5%;
-  align-items: center;
+  padding: 10px 0;
+  margin: 0 0 10px 0;
+  input {
+    margin-right: 7px;
+  }
+  span {
+    display:inline;
+  }
+  @media only screen and (max-width: ${breakPoint.md}) {
+    span {
+      display: none;
+    }
+  }
 `;
 const TrashIcon = styled(Trash)`
-  justify-self: end;
-  font-size: 18px;
+  font-size: 20px;
+  width: fit-content!important;
   &:hover {
     cursor: pointer;
   }
 `;
 const Item = styled.div`
-  display: grid;
-  grid-template-columns: 50% 12.5% 20% 12.5% 5%;
-  align-items: center;
+  margin: 10px 0;
 `;
 Item.FirstGrid = styled.div`
-  display: flex;
-  align-items: center;
+  input {
+    margin-right: 7px;
+  }
 `;
 Item.Description = styled.div`
-  padding: 0 20px;
-  display: flex;
-  flex-flow: column;
-  justify-content: space-between;
+  margin: 0 0 0 7px;
 `;
 Item.Name = styled.span`
-  font-size: 22px;
-  font-weight: bold;
-  color: black;
+  font-size: 18px;
+  font-weight: 600;
   &:hover {
     color: red;
     cursor: pointer;
   }
-`
+`;
 Item.SideDish = styled.p`
+  font-size: 13px;
   color: gray;
-  font-size: 14px;
-  max-width: 250px;
 `;
 Item.SinglePrice = styled.span`
-  color: rgb(36, 36, 36);
-  font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
 `;
 Item.Amount = styled.span`
+  font-weight: 600;
   color: red;
-  font-size: 14px;
-  font-weight: 500;
 `;
 // For number counting button
 const InputGroup = styled.div`
-  display: flex;
-  border-radius: 5px;
-  border: 0.2px solid #dedede;
-  width: fit-content;
   input {
     color: black;
     font-size: 14px;
     font-weight: 500;
-    width: 40px;
-    padding: 5px 7px;
+    width: 40px!important;
+    padding: 2px 7px;
     text-align: center;
     border: none;
   }
@@ -91,61 +82,84 @@ const InputGroup = styled.div`
   input:focus {
     outline: none;
   }
+
   button {
-    font-size: 16px;
-    padding: 5px 10px;
+    border-radius: 0;
+    width: 30px;
     border: none;
-    background-color: transparent;
+    font-weight: 600;
+    padding: 2px;
+  }
+  .input-group {
+    margin: 0;
+    border: .5px solid #dedede;
+    width: fit-content;
+    height: fit-content;
+    border-radius: 7px;
+    overflow: hidden;
+    flex-wrap: nowrap;
   }
 `;
+
 
 function prettyNumber(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
+/* Component tăng giảm số lượng */
 function ItemQuantity(props) {
-  const handleValue = function(data) {
+  const handleValue = function (data) {
     let nextValue;
-    if(data === '') nextValue = 1;
+    if (data === '') nextValue = 1;
     else nextValue = parseInt(data);
     props.updateQuantity(props.id, nextValue);
   }
 
   return (
-    <InputGroup>
-      <button onClick={() => props.decQuantity(props.id)}>{'-'}</button>
-      <input type='number' min={1}
-        onChange={e => handleValue(e.target.value)} value={props.quantity} />
-      <button onClick={() => props.incQuantity(props.id)}>{'+'}</button>
+    <InputGroup className='col-md-4 col-8'>
+      <div className='input-group'>
+        <div className='input-group-prepend'>
+          <button onClick={() => props.decQuantity(props.id)}
+            className='btn btn-danger shadow-none'>
+            {'-'}
+          </button>
+        </div>
+        <input type='number' min={1}
+          onChange={e => handleValue(e.target.value)} value={props.quantity} />
+        <div className='input-group-append'>
+          <button onClick={() => props.incQuantity(props.id)}
+            className='btn btn-danger shadow-none'>
+            {'+'}
+          </button>
+        </div>
+      </div>
     </InputGroup>
   )
 }
 
 function CartHeader(props) {
   return (
-    <Header>
-      <label style={{ display: 'flex', alignItems: 'center' }}>
-        <input type='checkbox' style={{ marginRight: '7px' }}
-          className='form-check-input shadow-none outline-none' checked={props.isActiveAll}
+    <Header className='row d-flex justify-content-between align-items-center'>
+      <label className='col-md-5 col-10'>
+        <input type='checkbox' checked={props.isActiveAll}
           onChange={props.toggleAll} />
         {`Tất cả (${props.checkedNumber} sản phẩm)`}
       </label>
-      <span>Đơn giá</span>
-      <span>Số lượng</span>
-      <span>Thành tiền</span>
-      <TrashIcon onClick={props.deleteActiveItems}/>
+      <span className='col-md-2'>Đơn giá</span>
+      <span className='col-md-4'>Số lượng</span>
+      <span className='col-md-3'>Thành tiền</span>
+      <TrashIcon onClick={props.deleteActiveItems} className='col-md-05 col-2' />
     </Header>
   )
 }
 
 function OrderItem(props) {
-  return <Item>
-    <Item.FirstGrid>
-      <input type='checkbox' style={{ marginRight: '10px' }}
-        className='form-check-input shadow-none outline-none'
+  return <Item className='row align-items-center justify-content-between'>
+    <Item.FirstGrid className='col-md-5 col-12 d-flex align-items-center'>
+      <input type='checkbox'
         checked={props.active} onChange={() => props.toggle(props.id)} />
 
-      <img src={chicken} width='100' height='100' alt='chicken' />
+      <img src={chicken} width='90' height='90' alt='chicken' />
 
       <Item.Description>
         <Item.Name>{props.name}</Item.Name>
@@ -153,16 +167,31 @@ function OrderItem(props) {
       </Item.Description>
     </Item.FirstGrid>
 
-    <Item.SinglePrice>{prettyNumber(props.price)}</Item.SinglePrice>
-    {/* Must update */}
-    <ItemQuantity id={props.id} {...props.handleQuantity} quantity={props.quantity}/>
+    <Item.SinglePrice className='col-md-2 col-1'>
+      {prettyNumber(props.price)}
+    </Item.SinglePrice>
 
-    <Item.Amount>{prettyNumber(props.price * props.quantity)}đ</Item.Amount>
-    <TrashIcon onClick={() => props.deleteItem(props.id)}/>
+    <ItemQuantity id={props.id} {...props.handleQuantity}
+      quantity={props.quantity} />
+
+    <Item.Amount className='col-md-3 col-1'>
+      {prettyNumber(props.price * props.quantity)}đ
+    </Item.Amount >
+    <TrashIcon onClick={() => props.deleteItem(props.id)} className='col-md-05 col-1'/>
   </Item>
 }
 
-function PaginatedItems({ itemsPerPage, items, toggle, handleQuantity, deleteItem}) {
+/** 
+ * Pagination
+ * @param numItemsPerPage: Số lượng item tối đa trong 1 page
+ * @param items: List item data truyền vào
+ * @param {*} : Các parameters khác là function t truyền từ các component cha nên ko cần quan tâm
+ * @returns <ReactPaginate /> (https://www.npmjs.com/package/react-paginate)
+ * Lưu ý: Trong giỏ hàng có thể gửi 1 lần hết dữ liệu, tuy nhiên paginate trong phần khám phá món ăn (thực đơn), 
+ * việc gửi hết data về client là lãng phí không cần thiết. Nguyên do là khách hàng có thể chỉ coi một vài trang.
+ * Cách giải quyết: Thay đổi logic @function handlePageClick(), @function useEffect() ...
+ */
+function PaginatedItems({ numItemsPerPage, items, toggle, handleQuantity, deleteItem }) {
   // We start with an empty list of items.
   const [currentItems, setCurrentItems] = useState([]);
   const [pageCount, setPageCount] = useState(0);
@@ -172,29 +201,28 @@ function PaginatedItems({ itemsPerPage, items, toggle, handleQuantity, deleteIte
 
   useEffect(() => {
     // Fetch items from another resources.
-    const endOffset = itemOffset + itemsPerPage;
-    console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+    const endOffset = itemOffset + numItemsPerPage;
     setCurrentItems(items.slice(itemOffset, endOffset));
-    setPageCount(Math.ceil(items.length / itemsPerPage));
-  }, [itemOffset, itemsPerPage, items]);
+    setPageCount(Math.ceil(items.length / numItemsPerPage));
+  }, [itemOffset, numItemsPerPage, items]);
 
   // Invoke when user click to request another page.
   const handlePageClick = (event) => {
-    const newOffset = (event.selected * itemsPerPage) % items.length;
-    console.log(
-      `User requested page number ${event.selected}, which is offset ${newOffset}`
-    );
+    const newOffset = (event.selected * numItemsPerPage) % items.length;
     setItemOffset(newOffset);
   };
 
   return (
     <Container>
-      {
-        currentItems.map(value =>
-          <OrderItem {...value} toggle={toggle} handleQuantity={handleQuantity}
-            key={value.id} deleteItem={deleteItem}/>
-        )
-      }
+      <div>
+        {
+          currentItems.map(value =>
+            <OrderItem {...value} toggle={toggle} handleQuantity={handleQuantity}
+              key={value.id} deleteItem={deleteItem} />
+          )
+        }
+      </div>
+      <div style={{marginRight: '12px'}}>
       <ReactPaginate
         breakLabel="..."
         nextLabel=">"
@@ -214,21 +242,35 @@ function PaginatedItems({ itemsPerPage, items, toggle, handleQuantity, deleteIte
         nextLinkClassName={'page-link'}
         activeClassName={'active'}
       />
+      </div>
+      
     </Container>
   );
 }
 
+const Content = styled.div`
+  .col-md-4 {
+    width: 17.5%;
+    flex: 0 0 auto;
+    max-width: 45%;
+  }
+  .col-md-3 {
+    width: 15%;
+    flex: 0 0 auto;
+    max-width: 45%;
+  }
+`
 
 function CartContent(props) {
   return (
-    <div style={cartContentStyle}>
+    <Content className='col-lg-9 col-md-12'>
       <CartHeader toggleAll={props.toggleAll} isActiveAll={props.isActiveAll}
-        checkedNumber={props.cartItems.length} 
-        deleteActiveItems={props.deleteActiveItems}/>
-      <PaginatedItems itemsPerPage={3} items={props.cartItems}
+        checkedNumber={props.cartItems.length}
+        deleteActiveItems={props.deleteActiveItems} />
+      <PaginatedItems numItemsPerPage={4} items={props.cartItems}
         toggle={props.toggle} handleQuantity={props.handleQuantity}
-        deleteItem={props.deleteItem}/>
-    </div>
+        deleteItem={props.deleteItem} />
+    </Content>
   );
 }
 

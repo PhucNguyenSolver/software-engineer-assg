@@ -3,25 +3,20 @@ import CartContent from "./CartContent"
 import CartTotalPrice from "./CartTotalPrices"
 import { useState } from "react"
 
+
 const ShoppingCart = styled.div`
-    width: 90%;
-    margin-top: 50px;
-    left: 50%;
-    transform: translateX(-50%);
-    height: 90%;
-    position: relative;
+    margin-top: 5px;
+    max-width: 94%;
 `
 const CartTitle = styled.div`
     text-transform: uppercase;
     font-size: 20px;
     font-weight: 650;
     line-height: 28px;
+    margin-bottom: 5px;
 `
 const CartInner = styled.div`
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    font-size: 13px;
+
 `
 
 const cartItem = [{
@@ -80,7 +75,7 @@ const cartItem = [{
     price: 5000,
     quantity: 1,
     active: false
-}]
+}];
 
 export default function Cart() {
     const [data, setData] = useState(cartItem)
@@ -137,14 +132,14 @@ export default function Cart() {
         setData(newData)
     }
     return (
-        <ShoppingCart>
+        <ShoppingCart className='container'>
             <CartTitle>Giỏ hàng</CartTitle>
-            <CartInner>
+            <CartInner className='row'>
                 <CartContent cartItems={data} toggle={toggleActive}
                     toggleAll={toggleAllActive} isActiveAll={chooseAll}
                     handleQuantity={handleQuantity}
                     deleteItem={deleteItem} 
-                    deleteActiveItems={deleteActiveItems}/>
+                    deleteActiveItems={deleteActiveItems} />
                 <CartTotalPrice cartItems={data}/>
             </CartInner>
         </ShoppingCart>

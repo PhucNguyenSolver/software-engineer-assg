@@ -1,9 +1,5 @@
 import styled from "styled-components"
 
-const cartTotalStyle = {
-	width: '25%'
-}
-
 const Container = styled.div`
   width: 100%;
   border-radius: 5px;
@@ -34,7 +30,7 @@ Contact.SecondLine = styled.div`
 	font-weight: 500;
 	div:first-child {
 		width: 55%;
-		border-right: 1px solid black;
+		border-right: 1px solid #dedede;
 		box-sizing: border-box;
 	}
 `
@@ -141,7 +137,7 @@ export default function CartTotalPrice(props) {
 	}
 	
 	return (
-		<div style={cartTotalStyle}>
+		<div className='col-lg-3 col-md-12'>
 			<ContactInfo {...contactData} />
 			<TotalPrice {...total}/>
 			<PayButton>Đặt hàng ({
