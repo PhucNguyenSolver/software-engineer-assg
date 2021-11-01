@@ -1,7 +1,9 @@
 import { Col, Row } from "react-bootstrap"
 
-export default function CheckBox(props) {
+export default function CheckBox({label, index, price}) {
     let toPrice = (price) => '+ ' + (price === 0 ? '0đ': price + ',000đ')
+
+    function handleCheckedBox(){}
 
     return (
         <div className="form-check">
@@ -10,16 +12,17 @@ export default function CheckBox(props) {
                     <input
                         className="form-check-input"
                         type="checkbox"
-                        id={"flexCheckDefault" + props.index}
+                        id={"flexCheckDefault" + index}
+                        onChange={handleCheckedBox}
                     />
                     <label
                         className="form-check-label"
-                        for={"flexCheckDefault" + props.index}
+                        for={"flexCheckDefault" + index}
                     >
-                        {props.label}
+                        {label}
                     </label>
                 </Col>
-                <Col><p className="text-end">{toPrice(props.price)}</p></Col>
+                <Col><p className="text-end">{toPrice(price)}</p></Col>
             </Row>
         </div>
     )

@@ -3,25 +3,39 @@ import NumericUpDown from "./NumericUpDown"
 import CheckBoxList from "./CheckBoxList"
 import { QuantitySelector } from "../pages/FoodInfo/QuantitySelector"
 import { Container, Col, Row, Figure } from 'react-bootstrap'
+import { useState } from "react"
 
 export default function CartInfo({cartId, cartHeading, imgUrl}) {
-    const options = {
-        'Tương cà': 2,
-        'Tương ớt': 2,
-        'Salad': 3,
-        'Phô mai': 5,
-        'Khoai tây chiên': 15,
-    }
-    const drinks = {
-        'Pepsi': 10,
-        'Fanta': 8,
-        'Sprite': 8,
-        'Trà đào': 15,
-    }
-    const isSpices = {
-        'Cay': 0,
-        'Không cay': 0,
-    }
+    const additionalFood = [
+        {
+            'Tương cà': 2,
+            'Tương ớt': 2,
+            'Salad': 3,
+            'Phô mai': 5,
+            'Khoai tây chiên': 15,
+        },
+        {
+            'Pepsi': 10,
+            'Fanta': 8,
+            'Sprite': 8,
+            'Trà đào': 15,
+        },
+        {
+            'Cay': 0,
+            'Không cay': 0,
+        }
+    ]
+
+    const additionalPrice = [7, 0, 0]
+
+    // const [price, setPrice] = useState(additionalPrice)
+
+    // const handleChangePrice = (index, price) => {
+    //     setPrice(prevState => {
+    //         prevState[index] += price
+    //     })
+    // }
+
     return (
         <Container>
             <Row>
@@ -41,7 +55,7 @@ export default function CartInfo({cartId, cartHeading, imgUrl}) {
                         />
                     </Row>
                     <Row>
-                        <TotalPayment price={90} />
+                        <TotalPayment price={90} additionalPrice={additionalPrice}/>
                     </Row>
                 </Col>
                 <Col xl={{span: 4, offset: 1}} lg={{span: 6, offset: 1}} md={{span: 6, offset: 1}}>
@@ -52,9 +66,9 @@ export default function CartInfo({cartId, cartHeading, imgUrl}) {
                         <Col xl={4} lg={4} md={4} sm={4} xs={4}>Số lượng:</Col>
                         <Col xl={8} lg={8} md={8} sm={8} xs={8}><NumericUpDown /></Col>
                     </Row>
-                    <Row><CheckBoxList heading="Tùy chọn thêm (chọn nhiều):" items={options} /></Row>
-                    <Row><CheckBoxList heading="Chọn nước (chọn 1):" items={drinks} /></Row>
-                    <Row><CheckBoxList heading="Cay (chọn 1):" items={isSpices} /></Row>
+                    <Row><CheckBoxList heading="Tùy chọn thêm (chọn nhiều):" items={additionalFood[0]}/></Row>
+                    <Row><CheckBoxList heading="Chọn nước (chọn 1):" items={additionalFood[1]}/></Row>
+                    <Row><CheckBoxList heading="Cay (chọn 1):" items={additionalFood[2]}/></Row>
                     <Row>
                         <Col xl={8} lg={9} md={8} sm={9} xs={8}><button type="button" className="btn btn-secondary">Quay lại</button></Col>
                         <Col xl={4} lg={3} md={4} sm={3} xs={4}><button type="button" className="btn btn-primary">Tiếp theo</button></Col>
