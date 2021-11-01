@@ -1,12 +1,13 @@
+import { Row } from "react-bootstrap"
 import CheckBox from "./CheckBox"
 
 export default function CheckBoxList(props) {
     return (
         <div>
-            <span>{props.heading}</span>
+            <Row><h5>{props.heading}</h5></Row>
             
-            {props.labels.map((label, index) => (
-                <CheckBox label={label} index={index}/>
+            {Object.keys(props.items).map((label, index) => (
+                <CheckBox label={label} index={index} price={props.items[label]}/>
             ))}
         </div>
     )

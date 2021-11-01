@@ -1,6 +1,14 @@
-import { Col, ListGroup, ListGroupItem, Row } from "react-bootstrap"
+import { Col, ListGroup, ListGroupItem, Badge, Row } from "react-bootstrap"
 
 export default function TotalPayment(props) {
+    const lst = [
+        7,
+        0,
+        0,
+    ]
+
+    let toPrice = (price) => price === 0 ? '0đ': price + ',000đ'
+
     return (
         <ListGroup as="ul">
             <ListGroupItem as="li" active>Tổng thanh toán</ListGroupItem>
@@ -8,20 +16,33 @@ export default function TotalPayment(props) {
                 <Row>
                     <Col>Tạm tính</Col>
                     <Col>
-                        <p className="text-end">{props.price} x 1</p>
+                        <h6 className="text-end">{toPrice(props.price)} x 1</h6>
                     </Col>
                 </Row>
             </ListGroupItem>
             <ListGroupItem as="li">
                 <Row>
                     <Col>Tùy chọn thêm</Col>
-                    <Col>7,000đ</Col>
+                    <Col><h6 className="text-end">{toPrice(lst[0])}</h6></Col>
                 </Row>
             </ListGroupItem>
-            <ListGroupItem as="li">Chọn nước 0đ</ListGroupItem>
-            <ListGroupItem as="li">Cay 0đ</ListGroupItem>
             <ListGroupItem as="li">
-                <p>Tổng 97,000đ</p>
+                <Row>
+                    <Col>Chọn nước</Col>
+                    <Col><h6 className="text-end">{toPrice(lst[1])}</h6></Col>
+                </Row>
+            </ListGroupItem>
+            <ListGroupItem as="li">
+                <Row>
+                    <Col>Cay</Col>
+                    <Col><h6 className="text-end">{toPrice(lst[2])}</h6></Col>
+                </Row>
+            </ListGroupItem>
+            <ListGroupItem as="li">
+                <Row>
+                    <Col><h5>Tổng</h5></Col>
+                    <Col><h5 className="text-end"><Badge variant="primary" pill>97,000đ</Badge></h5></Col>
+                </Row>
             </ListGroupItem>
         </ListGroup>
     )
