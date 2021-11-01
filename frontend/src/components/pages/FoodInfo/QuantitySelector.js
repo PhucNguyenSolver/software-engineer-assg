@@ -61,7 +61,7 @@ export function QuantitySelector({callbacks}) {
                 </button>
             </div>
             <div class="col p-0">
-                <input type="text" class="form-control shadow-none input-focus p-1" value={quantity == 0 ? "" : quantity} 
+                <input type="text" class="form-control shadow-none input-focus p-1 text-center" value={quantity == 0 ? "" : quantity} 
                     onBlur={quantityFieldOutFoucus}
                     onChange={quantityFieldOnChange}/>
             </div>

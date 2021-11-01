@@ -109,6 +109,7 @@ export function FoodInfo() {
                     </div>
                 </div>
             </div>
+
         </div>
     )
 }
