@@ -11,6 +11,8 @@ const userAccountData = [
 ]
 
 
+let accountDataSend = []
+
 
 
 export default function Login() {
@@ -22,7 +24,14 @@ export default function Login() {
     function handleSubmit(e) {
         e.preventDefault();
         for (let userAccount of userAccountData) {
-            if (userAccount.account == account && userAccount.password == pw) return // send request login
+            if (userAccount.account == account && userAccount.password == pw) {
+                // accountDataSend = accountDataSend.concat({
+                //     "account": account,
+                //     "password": pw
+                // }) 
+                // console.log(accountDataSend)
+                return 
+            } // send request login
         }
         // e.preventDefault();
         // alert("Tài khoản hoặc mật khẩu không đúng")
