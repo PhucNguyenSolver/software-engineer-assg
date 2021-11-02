@@ -51,7 +51,7 @@ export default function CartInfo() {
         <Container>
             <Row>
                 <Col xl={{span: 1, offset: 2}} lg={1} md={1} sm={1} xs={1}>
-                    <button type="button" class="btn btn-light"><i class="bi bi-arrow-left"></i></button>
+                    <button type="button" className="btn btn-light"><i className="bi bi-arrow-left"></i></button>
                 </Col>
                 <Col xl={9} lg={11} md={11} sm={11} xs={11}>
                     <h4>Thông tin đơn hàng {order.id}</h4>
