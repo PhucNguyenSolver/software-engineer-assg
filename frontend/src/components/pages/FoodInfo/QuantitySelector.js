@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 
-export function QuantitySelector({callbacks}) {
+export function QuantitySelector({initQuantity = 1, callbacks = []}) {
     const LOWER_BOUND = 0;
     const UPPER_BOUND = 99;
 
-    const [quantity, setQuantity] = useState(1);
+    const [quantity, setQuantity] = useState(initQuantity);
 
     function decrement() {
         if(quantity > LOWER_BOUND + 1) {

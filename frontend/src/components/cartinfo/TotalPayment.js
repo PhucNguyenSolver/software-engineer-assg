@@ -1,13 +1,6 @@
 import { Col, ListGroup, ListGroupItem, Badge, Row } from "react-bootstrap"
 
-export default function TotalPayment(props) {
-    const lst = [
-        7,
-        0,
-        0,
-    ]
-
-    let toPrice = (price) => price === 0 ? '0đ': price + ',000đ'
+export default function TotalPayment({fooUnitPrice, quantity, orderOptionsAnswer=[]}) {
 
     return (
         <ListGroup as="ul">
@@ -16,32 +9,37 @@ export default function TotalPayment(props) {
                 <Row>
                     <Col>Tạm tính</Col>
                     <Col>
-                        <h6 className="text-end">{toPrice(props.price)} x 1</h6>
+                        <h6 className="text-end">{Intl.NumberFormat().format(fooUnitPrice) + "đ x " + quantity}</h6>
                     </Col>
                 </Row>
             </ListGroupItem>
-            <ListGroupItem as="li">
-                <Row>
-                    <Col>Tùy chọn thêm</Col>
-                    <Col><h6 className="text-end">{toPrice(lst[0])}</h6></Col>
-                </Row>
-            </ListGroupItem>
-            <ListGroupItem as="li">
-                <Row>
-                    <Col>Chọn nước</Col>
-                    <Col><h6 className="text-end">{toPrice(lst[1])}</h6></Col>
-                </Row>
-            </ListGroupItem>
-            <ListGroupItem as="li">
-                <Row>
-                    <Col>Cay</Col>
-                    <Col><h6 className="text-end">{toPrice(lst[2])}</h6></Col>
-                </Row>
-            </ListGroupItem>
+
+            {orderOptionsAnswer.map((item) => {
+                return(
+                    <>
+                    <ListGroupItem as="li">
+                        <Row>
+                            <Col>{item.title}</Col>
+                            <Col>
+                                <h6 className="text-end">{Intl.NumberFormat().format(item.price.reduce((r,a,i) => {return r + a * item.answer[i]},0))}đ</h6>
+                            </Col>
+                        </Row>
+                    </ListGroupItem>
+                    </>
+                )
+            })}
+            
             <ListGroupItem as="li">
                 <Row>
                     <Col><h5>Tổng</h5></Col>
-                    <Col><h5 className="text-end"><Badge variant="primary" pill>97,000đ</Badge></h5></Col>
+                    <Col><h5 className="text-end"><Badge variant="primary" pill>{
+                        Intl.NumberFormat().format(
+                        fooUnitPrice * quantity +
+                        orderOptionsAnswer.map( item => {
+                            return item.price.reduce((r,a,i) => {return r + a * item.answer[i]},0);
+                        }).reduce((pre, cur) => pre + cur, 0))
+                        
+                    }đ</Badge></h5></Col>
                 </Row>
             </ListGroupItem>
         </ListGroup>

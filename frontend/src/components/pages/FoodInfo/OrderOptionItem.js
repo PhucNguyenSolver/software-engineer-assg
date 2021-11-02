@@ -1,11 +1,11 @@
 import { useState} from "react";
 
-export function OrderOptionItem({order, callbacks}) {
-    const [checkedOptions, setCheckedOptions] = useState(order.default);
+export function OrderOptionItem({orderOptionItem, callbacks}) {
+    const [checkedOptions, setCheckedOptions] = useState(orderOptionItem.answer);
 
     function onCheck(idx) {
         let new_checkOptions;
-        if(order.isMultiSelect) {
+        if(orderOptionItem.isMultiSelect) {
             new_checkOptions = checkedOptions.map((val) => {return val})
         }
         else {
@@ -15,7 +15,7 @@ export function OrderOptionItem({order, callbacks}) {
         if(JSON.stringify(checkedOptions) != JSON.stringify(new_checkOptions)) {
             setCheckedOptions(new_checkOptions);
             raiseEvent(new_checkOptions);
-            order.answer = new_checkOptions;
+            orderOptionItem.answer = new_checkOptions;
         }
     }
 
@@ -27,19 +27,19 @@ export function OrderOptionItem({order, callbacks}) {
     return(
         <div class="container">
             <div class="row">
-                <h5 class="px-0">{order.title}</h5>
+                <h5 class="px-0">{orderOptionItem.title}</h5>
             </div>
             <div class="row">
-                {order.options.map((option, idx) => {
+                {orderOptionItem.options.map((option, idx) => {
                     return(
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox"  name={order.title} id={option} value={option} checked={checkedOptions[idx]} onChange={() => onCheck(idx)}/>
+                            <input class="form-check-input" type="checkbox"  name={orderOptionItem.title} id={option} value={option} checked={checkedOptions[idx]} onChange={() => onCheck(idx)}/>
                             <div class="row">
                                 <label class="form-check-label col" for={option}>
                                     {option}
                                 </label>
                                 <label class="form-check-label col" for={option}>
-                                   + {Intl.NumberFormat().format(order.price[idx])} đ
+                                   + {Intl.NumberFormat().format(orderOptionItem.price[idx])} đ
                                 </label>
                             </div>
                         </div>

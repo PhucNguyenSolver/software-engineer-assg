@@ -27,7 +27,6 @@ const food = {
             options: ["Pepsi", "Fanta", "Sprite", "Trà đào"],
             price: [0, 0, 0, 10000],
             isMultiSelect: false,
-            default: [true, false, false, false],
             answer:  [true, false, false, false]
         },
 
@@ -36,7 +35,6 @@ const food = {
             options: ["Cay", "Không cay"],
             price: [0, 0],
             isMultiSelect: false,
-            default:[true, false],
             answer: [true, false]
         },
 
@@ -45,7 +43,6 @@ const food = {
             options: ["Salad", "Cà chua", "Súp bí đỏ", "Sốt"],
             price: [5000, 10000, 15000, 10000],
             isMultiSelect: true,
-            default:[false, false, false, false],
             answer: [false, false, false, false],
         }
     ]
@@ -57,7 +54,6 @@ export function FoodInfo() {
     const [totalPrice, setTotalPrice] = useState(0);
     const [additionalPrice, setAdditionalPrice] = useState( () => {
         let orderOptionPrice = 0;
-        console.log("Heree");
         food.orderOptions.forEach( orderOption => {
             orderOptionPrice += orderOption.price.reduce((r,a,i) => {return r + a * orderOption.answer[i]},0);
             console.log(orderOptionPrice);
@@ -66,8 +62,6 @@ export function FoodInfo() {
     });
 
     useEffect(() => {
-        console.log("Order Option");
-        console.log(food.orderOptions[2]);
         let basePrice = food.unitPrice * quantity;
         let newTotalPrice = basePrice + additionalPrice;
         if(newTotalPrice != totalPrice) {
