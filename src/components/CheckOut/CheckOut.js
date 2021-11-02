@@ -113,8 +113,9 @@ export default function CheckOut() {
 
     return (
         <div class="container">
+
             <main>
-                <div class="py-5 text-center">
+                <div class="pb-5 text-center">
 
                 </div>
 

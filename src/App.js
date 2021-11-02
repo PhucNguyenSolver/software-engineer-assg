@@ -1,9 +1,12 @@
-
+import Appbar from './components/NavBar/Appbar'
+import Login from './components/Login/Login.js'
+import CheckOut from './components/CheckOut/CheckOut.js'
 
 function App() {
 	return (
-		<div className="App">
-			Hello cc
+		<div className="container">
+			<Appbar />
+			<Login />
 		</div>
 	);
 }

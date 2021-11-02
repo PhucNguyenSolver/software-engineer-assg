@@ -5,13 +5,11 @@ import React from 'react';
 
 import 'react-toastify/dist/ReactToastify.css';
 
-import Login from './components/Login/Login.js'
-import CheckOut from './components/CheckOut/CheckOut.js'
-
+import App from './App'
 
 
 // ReactDOM.render(<Login/>,document.getElementById('root'))
-ReactDOM.render(<CheckOut/>,document.getElementById('root'))
+ReactDOM.render(<App/>,document.getElementById('root'))
 
 
 
