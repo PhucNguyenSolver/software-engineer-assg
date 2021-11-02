@@ -1,5 +1,5 @@
 import CartInfo from './components/cartinfo/CartInfo';
-import { FoodInfo } from './components/pages/FoodInfo/FoodInfo';
+import { FoodInfo } from './components/FoodInfo/FoodInfo';
 
 function App() {
     return (

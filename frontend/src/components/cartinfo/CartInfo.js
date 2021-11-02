@@ -1,7 +1,7 @@
 import TotalPayment from "./TotalPayment"
-import { QuantitySelector } from "../pages/FoodInfo/QuantitySelector"
+import { QuantitySelector } from "../FoodInfo/QuantitySelector"
 import { Container, Col, Row, Figure } from 'react-bootstrap'
-import { OrderOptionItem } from "../pages/FoodInfo/OrderOptionItem"
+import { OrderOptionItem } from "../FoodInfo/OrderOptionItem"
 import { useState, useEffect } from "react"
 
 const order = {
