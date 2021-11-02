@@ -53,9 +53,9 @@ function TaskSearch() {
     }
 
     return (
-      <div class="dropdown" style={{position:'absolute', right:'0px'}}>
+      <div class="dropdown" style={{position:'absolute', right:'0px',top:'50px'}}>
     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
-    style={{backgroundColor: '#F0A12A',width:'200px'}}>
+    style={{backgroundColor: '#F0A12A',width:'200px',height:'52px'}}>
       {filterNameInit}
     </button>
     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">

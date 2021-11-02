@@ -32,31 +32,31 @@ function FoodTypeList() {
             <Button id="combo" class="btn btn-light text-danger" 
             variant="primary" onClick={ChangeEffective}
             style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
-            borderColor:'#000000',fontWeight:'bold',color:'#000000',margin: '25px 75px',borderRadius:'12px' }}>
+            borderColor:'#000000',fontWeight:'bold',color:'#000000',margin: '10px 50px',borderRadius:'12px' }}>
             {"Combo"}
             </Button>
             <Button id="doan" class="btn btn-light text-danger" 
             variant="primary" onClick={ChangeEffective}
             style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
-            borderColor:'#000000',fontWeight:'bold',color:'#000000',margin: '15px 75px',borderRadius:'12px' }}>
+            borderColor:'#000000',fontWeight:'bold',color:'#000000',margin: '15px 50px',borderRadius:'12px' }}>
             {"Đồ ăn"}
             </Button>
             <Button id="thucuong" class="btn btn-light text-danger" 
             variant="primary" onClick={ChangeEffective}
             style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
-            borderColor:'#000000',fontWeight:'bold',color:'#000000',margin: '15px 75px',borderRadius:'12px' }}>
+            borderColor:'#000000',fontWeight:'bold',color:'#000000',margin: '15px 50px',borderRadius:'12px' }}>
             {"Thức uống"}
             </Button>
             <Button id="khaivi" class="btn btn-light text-danger" 
             variant="primary" onClick={ChangeEffective}
             style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
-            borderColor:'#000000',fontWeight:'bold',color:'#000000',margin: '15px 75px',borderRadius:'12px' }}>
+            borderColor:'#000000',fontWeight:'bold',color:'#000000',margin: '15px 50px',borderRadius:'12px' }}>
             {"Khai vị"}
             </Button>
             <Button id="trangmieng" class="btn btn-light text-danger" 
             variant="primary" onClick={ChangeEffective}
             style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
-            borderColor:'#000000',fontWeight:'bold',color:'#000000',margin: '15px 75px',borderRadius:'12px' }}>
+            borderColor:'#000000',fontWeight:'bold',color:'#000000',margin: '15px 50px',borderRadius:'12px' }}>
             {"Tráng miệng"}
             </Button>
         </div>
