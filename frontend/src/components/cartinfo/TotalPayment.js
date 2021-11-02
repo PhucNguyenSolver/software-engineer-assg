@@ -35,7 +35,7 @@ export default function TotalPayment({price, additionalPrice}) {
             <ListGroupItem as="li">
                 <Row>
                     <Col><h5>Tổng</h5></Col>
-                    <Col><h5 className="text-end"><Badge variant="primary" pill>{toPrice(price + 7)}</Badge></h5></Col>
+                    <Col><h5 className="text-end"><Badge variant="primary" pill>{toPrice(price + additionalPrice.reduce((acc, ele) => acc + ele, 0))}</Badge></h5></Col>
                 </Row>
             </ListGroupItem>
         </ListGroup>
