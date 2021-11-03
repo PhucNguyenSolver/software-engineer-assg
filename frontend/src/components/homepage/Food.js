@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 // import foodImage from "./img/ga_ran.png"
-import 'bootstrap/dist/css/bootstrap.css';
+import { Link } from "react-router-dom";
 // import FoodList from "./FoodList";
 
 function addToCart(id) { // TODO: make this a callback with foodId
@@ -26,7 +26,8 @@ function Food(props) {
   };
 
   return (
-    <div className="fluid-container overflow-hidden shadow rounded">
+    <div className="fluid-container overflow-hidden shadow rounded" >
+
       <img className="w-100 round" src={food.image} alt=""/>
       <div className="px-3">
         <h3 className="my-2 my-sm-4">{food.name}</h3>
@@ -54,13 +55,14 @@ function Food(props) {
       <div className="d-flex justify-content-center">
         <div className="py-2 py-sm-3">
           <button 
-            onClick={() => addToCart(food.id) }
+            onClick={() => window.location.href="/food-info" }
             className="btn btn-md shadow-none" style={{backgroundColor: '#E30220', color: '#FFFFFF'}}
           >
             Đặt hàng
           </button>
         </div>
       </div>
+
     </div>
   );
 }

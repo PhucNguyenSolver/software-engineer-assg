@@ -49,7 +49,7 @@ const food = {
 }
 
 
-export function FoodInfo() {
+export default function FoodInfo() {
     const [quantity, setQuantity] = useState(1);
     const [totalPrice, setTotalPrice] = useState(0);
     const [additionalPrice, setAdditionalPrice] = useState( () => {

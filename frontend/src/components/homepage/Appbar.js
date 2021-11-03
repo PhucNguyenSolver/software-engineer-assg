@@ -1,5 +1,4 @@
 import {Nav, Navbar, Form, FormControl, Col} from 'react-bootstrap'
-import 'bootstrap/dist/css/bootstrap.css'
 import './Appbar.css'
 
 export default function Appbar() {

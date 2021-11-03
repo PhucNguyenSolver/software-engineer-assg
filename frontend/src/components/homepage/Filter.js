@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import 'bootstrap/dist/css/bootstrap.css';
 import FoodList from "./FoodList";
 // import Food from "./Food";
 

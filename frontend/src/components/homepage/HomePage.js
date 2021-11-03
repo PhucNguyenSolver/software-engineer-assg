@@ -9,7 +9,6 @@ function Homepage() {
     <div className="container">
         <Banner />
         <Filter />
-        <Footer />
     </div>
   );
 }

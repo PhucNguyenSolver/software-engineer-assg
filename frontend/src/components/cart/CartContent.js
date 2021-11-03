@@ -121,7 +121,7 @@ function ItemQuantity(props) {
       <div className='input-group'>
         <div className='input-group-prepend'>
           <button onClick={() => props.decQuantity(props.id)}
-            className='btn btn-danger shadow-none'>
+            className='btn btn-primary shadow-none'>
             {'-'}
           </button>
         </div>
@@ -129,7 +129,7 @@ function ItemQuantity(props) {
           onChange={e => handleValue(e.target.value)} value={props.quantity} />
         <div className='input-group-append'>
           <button onClick={() => props.incQuantity(props.id)}
-            className='btn btn-danger shadow-none'>
+            className='btn btn-primary shadow-none'>
             {'+'}
           </button>
         </div>
@@ -164,7 +164,7 @@ function OrderItem(props) {
 
       <Item.Description>
         <Item.Name>
-          <Link to="/cart-item-info">{props.name}</Link>
+          <Link class="text-black" to="/cart-item-info">{props.name}</Link>
         </Item.Name>
         <Item.SideDish>{props.sideDish}</Item.SideDish>
       </Item.Description>
