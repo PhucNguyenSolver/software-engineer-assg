@@ -3,6 +3,7 @@ import Cart from './components/cart/Cart';
 import Appbar from "./components/homepage/Appbar";
 import CartInfo from "./components/cartinfo/CartInfo";
 import FoodInfo from "./components/FoodInfo/FoodInfo";
+import Login from "./components/Login/Login";
 import {
     BrowserRouter as Router,
     Switch,
@@ -12,6 +13,7 @@ import {
 } from "react-router-dom";
 import Footer from "./components/homepage/Footer";
 import MenuInGen from "./components/MenuInGen";
+import CheckOut from "./components/CheckOut/CheckOut";
 
 function App() {
 	return (
@@ -19,11 +21,13 @@ function App() {
 			<div class="row">
 				<Appbar/>
 			</div>
-			<div class="row">
+			<div class="row container">
 				<Router>
 					<Switch>
+						<Route path="/login" exact component={Login} />
 						<Route path="/cart" exact component={Cart} />
 						<Route path="/menu" exact component={MenuInGen} />
+						<Route path="/checkout" exact component={CheckOut} />
 						<Route path="/cart-item-info" exact component={CartInfo} />
 						<Route path="/food-info" exact component={FoodInfo} />
 						<Route path="/" exact component={Homepage} />

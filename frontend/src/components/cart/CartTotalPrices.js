@@ -140,7 +140,7 @@ export default function CartTotalPrice(props) {
 		<div className='col-lg-3 col-md-12'>
 			<ContactInfo {...contactData} />
 			<TotalPrice {...total}/>
-			<PayButton>Đặt hàng ({
+			<PayButton onClick={() => window.location.href="/checkout"}>Đặt hàng ({
 				props.cartItems.filter(value => value.active === true).length
 				})</PayButton>
 		</div>
