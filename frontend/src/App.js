@@ -11,6 +11,7 @@ import {
     Redirect
 } from "react-router-dom";
 import Footer from "./components/homepage/Footer";
+import MenuInGen from "./components/MenuInGen";
 
 function App() {
 	return (
@@ -22,6 +23,7 @@ function App() {
 				<Router>
 					<Switch>
 						<Route path="/cart" exact component={Cart} />
+						<Route path="/menu" exact component={MenuInGen} />
 						<Route path="/cart-item-info" exact component={CartInfo} />
 						<Route path="/food-info" exact component={FoodInfo} />
 						<Route path="/" exact component={Homepage} />
