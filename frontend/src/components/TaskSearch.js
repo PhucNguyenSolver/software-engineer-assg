@@ -93,9 +93,29 @@ return (
    <input type="text" placeholder="Search Food..." onChange={event => {setSearchTerm(event.target.value)}} style={{marginRight:'5px'}}></input>
    <button class="btn btn-primary" type="submit" onClick={HandleSearch}>Search</button>
    </div>
-   <div id="MenuFirst">
+   <div id="MenuFirst" style={{height:'1100px',backgroundColor:'#F0F8FF'}}>
     <MenuInGen />
   </div> 
+
+  <div style={{height:'50px',backgroundColor:'#F0F8FF'}}>
+  <nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center pagination-lg">
+    <li class="page-item">
+      <a class="page-link" href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li class="page-item"><a class="page-link" href="#">1</a></li>
+    <li class="page-item"><a class="page-link" href="#">2</a></li>
+    <li class="page-item"><a class="page-link" href="#">3</a></li>
+    <li class="page-item">
+      <a class="page-link" href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+  </div>
   </div>
 );
 }
