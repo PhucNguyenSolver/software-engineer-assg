@@ -12,7 +12,7 @@ export default function Appbar() {
                 <Nav.Link href='#'><span className="navItem">Trang chủ</span></Nav.Link>
                 <Nav.Link href='#'><span className="navItem">Thực đơn</span></Nav.Link>
                 <Nav.Link href='#'><span className="navItem">Đơn hàng</span></Nav.Link>
-                <Nav.Link href='#'><span className="navItem">Giới thiệu</span></Nav.Link>
+                <Nav.Link href='/Footer'><span className="navItem">Giới thiệu</span></Nav.Link>
             </Nav>
           <Form className="d-flex">
             <Col xs="auto">

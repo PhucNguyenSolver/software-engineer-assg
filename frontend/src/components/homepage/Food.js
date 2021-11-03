@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import foodImage from "./img/ga_ran.png"
+// import foodImage from "./img/ga_ran.png"
 import 'bootstrap/dist/css/bootstrap.css';
-import FoodList from "./FoodList";
+// import FoodList from "./FoodList";
 
 function addToCart(id) { // TODO: make this a callback with foodId
   console.log("Add to cart: " + id);
@@ -55,7 +55,7 @@ function Food(props) {
         <div className="py-2 py-sm-3">
           <button 
             onClick={() => addToCart(food.id) }
-            className="btn btn-primary btn-lg shadow-none"
+            className="btn btn-md shadow-none" style={{backgroundColor: '#E30220', color: '#FFFFFF'}}
           >
             Đặt hàng
           </button>

@@ -1,8 +1,8 @@
 import React from "react";
 import Appbar from "./Appbar"
 import Banner from "./Banner"
-import FoodList from "./FoodList";
 import Filter from "./Filter";
+import Footer from "./Footer";
 
 function Homepage() {
   return (
@@ -10,7 +10,7 @@ function Homepage() {
         <Appbar />
         <Banner />
         <Filter />
-        <FoodList />
+        <Footer />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 {
-  "foods": [
+  "combo": [
     {
       "id": "16481642",
       "name": "COMBO GÀ RÁN A",
@@ -41,6 +41,43 @@
       "image": "https://kfcvietnam.com.vn/uploads/combo/c94db21b4ac5ab7333300f3f7e78671e.jpg",
       "price": "85000",
       "information": "[\"1 Miếng Gà Giòn Cay / 1 Miếng Gà Giòn Không Cay\", \"1 Burger Tôm\", \"1 Pepsi Lon\"]"
+    }
+  ],
+  "drink": [
+    {
+      "id": "123456",
+      "name": "PEPSI LON",
+      "image": "https://kfcvietnam.com.vn/uploads/product/d9e2a3a3bd13fcf569f714339220ea7b.png",
+      "price": "17000",
+      "information": "[]"
+    },
+    {
+      "id": "234567",
+      "name": "7UP LON",
+      "image": "https://kfcvietnam.com.vn/uploads/product/31e08694578dae58aa5d0bbfc4d66b38.png",
+      "price": "17000",
+      "information": "[]"
+    },
+    {
+      "id": "345678",
+      "name": "HỘP MILO",
+      "image": "https://kfcvietnam.com.vn/uploads/product/ec86fc55906339789edbd992856951f8.jpg",
+      "price": "19000",
+      "information": "[]"
+    },
+    {
+      "id": "456789",
+      "name": "AQUAFINA",
+      "image": "https://kfcvietnam.com.vn/uploads/product/4dd31878f442ea6c57c9e6264efa84b2.jpg",
+      "price": "15000",
+      "information": "[]"
+    },
+    {
+      "id": "567890",
+      "name": "MIRINDA CAM LON",
+      "image": "https://kfcvietnam.com.vn/uploads/product/8cf236e51b8575ed546a47ddda9e4b08.png",
+      "price": "17000",
+      "information": "[]"
     }
   ]
 }
