@@ -1,8 +1,8 @@
 import Homepage from "./components/homepage/HomePage";
 
-import 'bootstrap/dist/css/bootstrap.min.css';
 import Cart from './components/cart/Cart';
 import Appbar from "./components/homepage/Appbar";
+import CartInfo from "./components/cartinfo/CartInfo";
 import {
     BrowserRouter as Router,
     Switch,
@@ -21,6 +21,7 @@ function App() {
 				<Router>
 					<Switch>
 						<Route path="/cart" exact component={Cart} />
+						<Route path="/cart-item-info" exact component={CartInfo} />
 						<Route path="/" exact component={Homepage} />
 					</Switch>
 				</Router>

@@ -4,6 +4,7 @@ import chicken from './chicken.png'
 import { useState, useEffect } from "react";
 import ReactPaginate from 'react-paginate';
 import breakPoint from './breakPoint';
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   background: #fff;
@@ -162,7 +163,9 @@ function OrderItem(props) {
       <img src={chicken} width='90' height='90' alt='chicken' />
 
       <Item.Description>
-        <Item.Name>{props.name}</Item.Name>
+        <Item.Name>
+          <Link to="/cart-item-info">{props.name}</Link>
+        </Item.Name>
         <Item.SideDish>{props.sideDish}</Item.SideDish>
       </Item.Description>
     </Item.FirstGrid>

@@ -5,11 +5,11 @@ import './Appbar.css'
 export default function Appbar() {
     return (
         <Navbar expand="lg" sticky="top" className="color-appbar">
-          <Navbar.Brand href='#'>Your logo</Navbar.Brand>
+          <Navbar.Brand href='/'>Your logo</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
-                <Nav.Link href='#'><span className="navItem">Trang chủ</span></Nav.Link>
+                <Nav.Link href='/'><span className="navItem">Trang chủ</span></Nav.Link>
                 <Nav.Link href='#'><span className="navItem">Thực đơn</span></Nav.Link>
                 <Nav.Link href='#'><span className="navItem">Đơn hàng</span></Nav.Link>
                 <Nav.Link href='/Footer'><span className="navItem">Giới thiệu</span></Nav.Link>
