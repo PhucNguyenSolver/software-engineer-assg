@@ -69,7 +69,7 @@ export default function Login() {
                         </label>
                     </div>
                     <a className="float-start wt-5" href='#' style={{marginTop : "8px"}}> Quên mật khẩu </a>
-                    <button className="w-50 btn btn-lg btn-primary float-end" type="submit" onClick={handleSubmit}>Log in</button>
+                    <button className="w-50 btn btn-lg btn-primary float-end mb-5" type="submit" onClick={handleSubmit}>Log in</button>
                     <ToastContainer />
                 </form>
             </div>
