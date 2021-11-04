@@ -21,7 +21,7 @@ function App() {
 			<div class="row">
 				<Appbar/>
 			</div>
-			<div class="row container">
+			<div class="row">
 				<Router>
 					<Switch>
 						<Route path="/login" exact component={Login} />

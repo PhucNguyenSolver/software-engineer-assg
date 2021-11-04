@@ -48,28 +48,28 @@ export default function Login() {
 
     return (
         <div>
-            <div class="container-md" style={{ width: "350px", paddingTop: "100px" }} >
+            <div className="container-md container-xs container-xl text-center" style={{ width: "30%", minWidth: "350px", paddingTop: "200px", paddingBottom: "200px"}} >
                 <form>
-                    <p class="display-5 mb-5 fw-normal text-center">Log in</p>
-                    <div class="form-floating mb-2">
-                        <input type="account" class="form-control" id="floatingInput" placeholder="name@example.com"
+                    <p className="display-5 mb-5 fw-normal text-center ">Log in</p>
+                    <div className="form-floating mb-2">
+                        <input type="account" className="form-control" id="floatingInput" placeholder="name@example.com"
                             onChange={(event) => setAccount(event.target.value)} />
                         <label for="floatingInput">Account</label>
                     </div>
-                    <div class="form-floating mb-2">
-                        <input type="password" class="form-control" id="floatingPassword" value={pw}
+                    <div className="form-floating mb-2">
+                        <input type="password" className="form-control" id="floatingPassword" value={pw}
                             placeholder="Password" onChange={(event) => setPw(event.target.value)} />
                         <label for="floatingPassword">Password</label>
                     </div>
                     {/* {userAccountData.} */}
-                    <div class="form-check mx-2 mt-3 mb-3">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                        <label class="form-check-label" for="flexCheckDefault">
+                    <div className="form-check mx-2 mt-3 mb-3" style={{ maxWidth: "150px" }}>
+                        <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                        <label className="form-check-label" for="flexCheckDefault">
                             Remember me
                         </label>
                     </div>
-                    <a class="float-start" href='#'> Quên mật khẩu </a>
-                    <button class="w-50 btn btn-lg btn-success float-end" type="submit" onClick={handleSubmit}>Log in</button>
+                    <a className="float-start wt-5" href='#' style={{marginTop : "8px"}}> Quên mật khẩu </a>
+                    <button className="w-50 btn btn-lg btn-primary float-end" type="submit" onClick={handleSubmit}>Log in</button>
                     <ToastContainer />
                 </form>
             </div>
