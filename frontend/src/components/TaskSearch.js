@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from "react";
-// import MenuInGen from './MenuInGen.js'
+//import MenuInGen from './MenuInGen.js'
 import RenderElement from './RenderElement.js'
 // import FilterBar from './FilterBar.js'
 import JSONDATA from './MOCK_DATA.json'
@@ -8,8 +8,25 @@ import { useState } from 'react';
 import ReactDOM from 'react-dom';
 import FoodTypeList from './FoodTypeList.js'
 import FoodInMenu from './FoodInMenu.js'
+import Appbar from './Appbar.js'
 
 
+function MenuInGen({arr}) {
+  return (
+      <div >
+      <div style={{width:'100%'}}>
+          <FoodTypeList />
+      </div>
+      <div style={{backgroundColor:'#F0F8FF',height:'750px',width:'100%',marginLeft:'50px'}}>
+          {
+            arr.map((val) => {
+            return <FoodInMenu name={val.food_name} price={val.price} image={val.img} />
+          })
+          }
+      </div>
+      </div>
+  );
+}
 
 function TaskSearch() { 
 
@@ -17,49 +34,37 @@ function TaskSearch() {
   const [data, setData] = useState(JSONDATA)
   var [filterNameInit,setFilterNameInit] = useState('No filter here...')
 
-  function MenuInGen() {
-    return (
-        <div >
-        <div style={{width:'100%'}}>
-            <FoodTypeList />
-        </div>
-        <div style={{backgroundColor:'#F0F8FF',height:'750px',width:'100%'}}>
-            {
-              data.map((val) => {
-              return <FoodInMenu name={val.food_name} price={val.price} image={val.img} />
-            })
-            }
-        </div>
-        </div>
-    );
-  }
-
+  
+  
   function FilterBar() {
   
     function FilterFunction(){
       setFilterNameInit("Sort by increasing price")
       setData(data.slice().sort((a,b) => a.price - b.price))
-      
+      ReactDOM.render(<MenuInGen arr={data.slice().sort((a,b) => a.price - b.price)}/>, document.getElementById('MenuFirst'))
     }
     
     function FilterFunctionDesc(){
       setFilterNameInit('Sort by decreasing price')
       setData(data.slice().sort((a,b) => -a.price + b.price))
+      ReactDOM.render(<MenuInGen arr={data.slice().sort((a,b) => -a.price + b.price)}/>, document.getElementById('MenuFirst'))
     }
   
     function NoFilterFunction(){
       setFilterNameInit('No filter here...')
       setData(JSONDATA)
+      ReactDOM.render(<MenuInGen arr={JSONDATA}/>, document.getElementById('MenuFirst'))
     }
+    
 
     return (
-      <div class="dropdown" style={{position:'absolute', right:'0px',top:'50px'}}>
+      <div class="dropdown" style={{position:'absolute', right:'62px',top:'90px'}}>
     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
     style={{backgroundColor: '#F0A12A',width:'200px',height:'52px'}}>
       {filterNameInit}
     </button>
-    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-      <li><button type="button" class="btn btn-outline-primary dropdown-item" onClick={FilterFunction}>Sort by increasing price</button></li>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
+      <li><button type="button" class="btn btn-outline-primary dropdown-item"  onClick={FilterFunction}>Sort by increasing price</button></li>
       <li><button type="button" class="btn btn-outline-primary dropdown-item" onClick={FilterFunctionDesc}>Sort by decreasing price</button></li>
       <li><button type="button" class="btn btn-outline-primary dropdown-item" onClick={NoFilterFunction}>No filter here...</button></li>
     </ul>
@@ -67,14 +72,14 @@ function TaskSearch() {
     );
   }
 
-  function HandleSearch() {
+  function HandleSearch(searchKey) {
     var filtered;
-    if (searchTerm == "") {
-      filtered = <MenuInGen />
+    if (searchKey == "") {
+      filtered = <MenuInGen arr={JSONDATA}/>
     }
     else {
     filtered = JSONDATA.filter((val)=>{
-      if (val.food_name.toLowerCase().includes(searchTerm.toLowerCase())){
+      if (val.food_name.toLowerCase().includes(searchKey.toLowerCase())){
           return val
       }
       }).map((val,key) => {
@@ -88,13 +93,22 @@ function TaskSearch() {
 
 return (
   <div>
-  <div>
-  <FilterBar />
-   <input type="text" placeholder="Search Food..." onChange={event => {setSearchTerm(event.target.value)}} style={{marginRight:'5px'}}></input>
-   <button class="btn btn-primary" type="submit" onClick={HandleSearch}>Search</button>
+  <div >
+  
+   {/* <input type="text" placeholder="Search Food..." onChange={event => {setSearchTerm(event.target.value)}} style={{marginRight:'5px'}}></input> */}
+   <Appbar onChangeFunc={event => {
+     if(event.key == "Enter") 
+      {
+        HandleSearch(event.target.value)
+        event.preventDefault()
+      }
+      setSearchTerm(event.target.value)
+   }} />
+   {/* <button class="btn btn-primary" type="submit" onClick={HandleSearch}>Search</button> */}
+   <FilterBar />
    </div>
    <div id="MenuFirst" style={{height:'1100px',backgroundColor:'#F0F8FF'}}>
-    <MenuInGen />
+    <MenuInGen arr={JSONDATA}/>
   </div> 
 
   <div style={{height:'50px',backgroundColor:'#F0F8FF'}}>
