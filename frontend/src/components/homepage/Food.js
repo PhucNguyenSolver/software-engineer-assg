@@ -56,7 +56,7 @@ function Food(props) {
         <div className="py-2 py-sm-3">
           <button 
             onClick={() => window.location.href="/food-info" }
-            className="btn btn-md shadow-none" style={{backgroundColor: '#E30220', color: '#FFFFFF'}}
+            className="btn btn-md shadow-none btn-primary"
           >
             Đặt hàng
           </button>
