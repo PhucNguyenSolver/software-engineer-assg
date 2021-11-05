@@ -1,4 +1,3 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
 import React from "react";
 import {Card} from 'react-bootstrap';
 import {Button} from 'react-bootstrap';

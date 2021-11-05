@@ -1,4 +1,3 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
 import React from "react";
 //import MenuInGen from './MenuInGen.js'
 import RenderElement from './RenderElement.js'

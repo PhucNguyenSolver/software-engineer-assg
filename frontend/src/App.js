@@ -1,20 +1,44 @@
-import './App.css';
-// import FoodInMenu from './components/FoodInMenu.js'
-// import FoodType from './components/FoodType.js'
-// import NormalFoodType from './components/NormalFoodType.js'
-//import MenuTest from './components/MenuTest.js'
-
-import TaskSearch from './components/Menu/TaskSearch.js'
-//import MenuInGen from './components/MenuInGen.js'
-//import JSONDATA from './MOCK_DATA.json'
+import Homepage from "./components/homepage/HomePage";
+import Cart from './components/cart/Cart';
+import Appbar from "./components/homepage/Appbar";
+import CartInfo from "./components/cartinfo/CartInfo";
+import FoodInfo from "./components/FoodInfo/FoodInfo";
+import Login from "./components/Login/Login";
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    Redirect
+} from "react-router-dom";
+import Footer from "./components/homepage/Footer";
+import MenuInGen from "./components/MenuInGen";
+import CheckOut from "./components/CheckOut/CheckOut";
 
 function App() {
-  return (
-    <div>
-      <TaskSearch />
-    </div>
-  );
-
+	return (
+		<div className="App container-fluid">
+			<div class="row">
+				<Appbar/>
+			</div>
+			<div class="row container">
+				<Router>
+					<Switch>
+						<Route path="/login" exact component={Login} />
+						<Route path="/cart" exact component={Cart} />
+						<Route path="/menu" exact component={MenuInGen} />
+						<Route path="/checkout" exact component={CheckOut} />
+						<Route path="/cart-item-info" exact component={CartInfo} />
+						<Route path="/food-info" exact component={FoodInfo} />
+						<Route path="/" exact component={Homepage} />
+					</Switch>
+				</Router>
+			</div>
+			<div class="row">
+				<Footer/>
+			</div>
+		</div>
+	);
 }
 
 export default App;

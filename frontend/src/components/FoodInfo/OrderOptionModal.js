@@ -1,6 +1,6 @@
 import { OrderOptionItem } from "./OrderOptionItem";
 
-export function OrderOptionModal({food, quantity, additionalPrice, setAdditionalPrice, totalPrice, setTotalPrice, onSubmit}) {
+export function OrderOptionModal({food, quantity, setAdditionalPrice, totalPrice, onSubmit}) {
     return(
         <>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#orderOptionModal">
@@ -32,8 +32,7 @@ export function OrderOptionModal({food, quantity, additionalPrice, setAdditional
                                 return(
                                     <>
                                         <li>
-                                            <OrderOptionItem order={orderOption} callbacks={[(newAnswer) => {
-                                                orderOption.answer = newAnswer;
+                                            <OrderOptionItem orderOptionItem={orderOption} callbacks={[(newAnswer) => {
                                                 let orderOptionPrice = 0;
                                                 food.orderOptions.forEach( orderOption => {
                                                     orderOptionPrice += orderOption.price.reduce((r,a,i) => {return r + a * orderOption.answer[i]},0);
