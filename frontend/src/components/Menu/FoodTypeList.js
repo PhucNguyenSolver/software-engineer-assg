@@ -17,7 +17,7 @@ function FoodTypeList() {
             if (array[i] === e.target.id) continue;
             else {
                 var idNormal = document.getElementById(array[i])
-                idNormal.style.borderColor='#000000'
+                idNormal.style.borderColor='#ffffff'
                 idNormal.style.color='#000000'
                 idNormal.style.borderRadius='12px'
                 idNormal.style.boxShadow='None'
@@ -26,36 +26,36 @@ function FoodTypeList() {
     }
 
     return (
-        <div style={{backgroundColor:'#ffffff',height:'100px', width:'100%'}}
+        <div style={{backgroundColor:'#AFEEEE',height:'100px', width:'100%'}}
         >
             <Button id="combo" class="btn btn-light text-danger" 
             variant="primary" onClick={ChangeEffective}
             style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
-            borderColor:'#000000',fontWeight:'bold',color:'#000000',margin: '10px 50px',borderRadius:'12px' }}>
+            borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '25px 65px',borderRadius:'12px' }}>
             {"Combo"}
             </Button>
             <Button id="doan" class="btn btn-light text-danger" 
             variant="primary" onClick={ChangeEffective}
             style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
-            borderColor:'#000000',fontWeight:'bold',color:'#000000',margin: '15px 50px',borderRadius:'12px' }}>
+            borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '15px 50px',borderRadius:'12px' }}>
             {"Đồ ăn"}
             </Button>
             <Button id="thucuong" class="btn btn-light text-danger" 
             variant="primary" onClick={ChangeEffective}
             style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
-            borderColor:'#000000',fontWeight:'bold',color:'#000000',margin: '15px 50px',borderRadius:'12px' }}>
+            borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '15px 50px',borderRadius:'12px' }}>
             {"Thức uống"}
             </Button>
             <Button id="khaivi" class="btn btn-light text-danger" 
             variant="primary" onClick={ChangeEffective}
             style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
-            borderColor:'#000000',fontWeight:'bold',color:'#000000',margin: '15px 50px',borderRadius:'12px' }}>
+            borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '15px 50px',borderRadius:'12px' }}>
             {"Khai vị"}
             </Button>
             <Button id="trangmieng" class="btn btn-light text-danger" 
             variant="primary" onClick={ChangeEffective}
             style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
-            borderColor:'#000000',fontWeight:'bold',color:'#000000',margin: '15px 50px',borderRadius:'12px' }}>
+            borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '15px 50px',borderRadius:'12px' }}>
             {"Tráng miệng"}
             </Button>
         </div>

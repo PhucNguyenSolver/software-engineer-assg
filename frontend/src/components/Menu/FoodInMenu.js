@@ -4,7 +4,7 @@ import {Button} from 'react-bootstrap';
 
 function FoodInMenu({name,price,image}) {
   return (
-    <Card style={{ width: '18rem',display:'inline-block',margin:'15px 7px'  }}>
+    <Card style={{ width: '18rem',display:'inline-block',margin:'15px'  }}>
     <Card.Img variant="top" src={image} />
     <Card.Body>
     <Card.Title style={{ textAlign:'center'}}>{name}</Card.Title>
