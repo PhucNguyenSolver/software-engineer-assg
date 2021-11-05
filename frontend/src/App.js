@@ -19,11 +19,11 @@ import HandlerOrder from "./components/HandlerOrder/HandlerOrder";
 function App() {
 	return (
 		<div className="App container-fluid">
-			<div class="row">
+			{/* <div class="row">
 				<Appbar/>
 			</div>
 			<div class="row">
-				{/* <Router>
+				<Router>
 					<Switch>
 						<Route path="/login" exact component={Login} />
 						<Route path="/cart" exact component={Cart} />
@@ -33,12 +33,13 @@ function App() {
 						<Route path="/food-info" exact component={FoodInfo} />
 						<Route path="/" exact component={Homepage} />
 					</Switch>
-				</Router> */}
+				</Router> 
 				<HandlerOrder />
 			</div>
 			<div class="row">
 				<Footer/>
-			</div>
+			</div> */}
+			<HandlerOrder/>
 		</div>
 	);
 }

@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Col, Modal, Row } from "react-bootstrap";
 
 const orderData = [
     {
@@ -7,6 +8,13 @@ const orderData = [
         "typeOrder": "Online",
         "totalPrice": 150000,
         "status": "Đang xử lý",
+        "customerInfo": {
+            "phoneNumber": "0123456789",
+            "address": "Giga Mall",
+            "ward": "Hiệp Bình Chánh",
+            "district": "Thủ Đức"
+        },
+        "orderInfo": {},
     },
     {
         "orderId": "123abcxyz",
@@ -14,6 +22,13 @@ const orderData = [
         "typeOrder": "Online",
         "totalPrice": 150000,
         "status": "Đang xử lý",
+        "customerInfo": {
+            "phoneNumber": "0123456789",
+            "address": "Giga Mall",
+            "ward": "Hiệp Bình Chánh",
+            "district": "Thủ Đức"
+        },
+        "orderInfo": {},
     },
     {
         "orderId": "123abcxyz",
@@ -21,6 +36,13 @@ const orderData = [
         "typeOrder": "Online",
         "totalPrice": 150000,
         "status": "Đang xử lý",
+        "customerInfo": {
+            "phoneNumber": "0123456789",
+            "address": "Giga Mall",
+            "ward": "Hiệp Bình Chánh",
+            "district": "Thủ Đức"
+        },
+        "orderInfo": {},
     },
     {
         "orderId": "123abcxyz",
@@ -28,6 +50,13 @@ const orderData = [
         "typeOrder": "Online",
         "totalPrice": 150000,
         "status": "Đang xử lý",
+        "customerInfo": {
+            "phoneNumber": "0123456789",
+            "address": "Giga Mall",
+            "ward": "Hiệp Bình Chánh",
+            "district": "Thủ Đức"
+        },
+        "orderInfo": {},
     },
     {
         "orderId": "123abcxyz",
@@ -35,6 +64,13 @@ const orderData = [
         "typeOrder": "Online",
         "totalPrice": 150000,
         "status": "Đang xử lý",
+        "customerInfo": {
+            "phoneNumber": "0123456789",
+            "address": "Giga Mall",
+            "ward": "Hiệp Bình Chánh",
+            "district": "Thủ Đức"
+        },
+        "orderInfo": {},
     },
     {
         "orderId": "123abcxyz",
@@ -42,6 +78,13 @@ const orderData = [
         "typeOrder": "Online",
         "totalPrice": 150000,
         "status": "Đang xử lý",
+        "customerInfo": {
+            "phoneNumber": "0123456789",
+            "address": "Giga Mall",
+            "ward": "Hiệp Bình Chánh",
+            "district": "Thủ Đức"
+        },
+        "orderInfo": {},
     },
     {
         "orderId": "123abcxyz",
@@ -49,6 +92,13 @@ const orderData = [
         "typeOrder": "Online",
         "totalPrice": 150000,
         "status": "Đang xử lý",
+        "customerInfo": {
+            "phoneNumber": "0123456789",
+            "address": "Giga Mall",
+            "ward": "Hiệp Bình Chánh",
+            "district": "Thủ Đức"
+        },
+        "orderInfo": {},
     },
     {
         "orderId": "123abcxyz",
@@ -56,6 +106,13 @@ const orderData = [
         "typeOrder": "Online",
         "totalPrice": 150000,
         "status": "Đang xử lý",
+        "customerInfo": {
+            "phoneNumber": "0123456789",
+            "address": "Giga Mall",
+            "ward": "Hiệp Bình Chánh",
+            "district": "Thủ Đức"
+        },
+        "orderInfo": {},
     },
     {
         "orderId": "123abcxyz",
@@ -63,37 +120,20 @@ const orderData = [
         "typeOrder": "Online",
         "totalPrice": 150000,
         "status": "Đang xử lý",
+        "customerInfo": {
+            "phoneNumber": "0123456789",
+            "address": "Giga Mall",
+            "ward": "Hiệp Bình Chánh",
+            "district": "Thủ Đức"
+        },
+        "orderInfo": {},
     },
-    {
-        "orderId": "123abcxyz",
-        "customerName": "Hoàng Minh Tiến",
-        "typeOrder": "Online",
-        "totalPrice": 150000,
-        "status": "Đang xử lý",
-    },
-    {
-        "orderId": "123abcxyz",
-        "customerName": "Hoàng Minh Tiến",
-        "typeOrder": "Online",
-        "totalPrice": 150000,
-        "status": "Đang xử lý",
-    },
-    {
-        "orderId": "123abcxyz",
-        "customerName": "Hoàng Minh Tiến",
-        "typeOrder": "Online",
-        "totalPrice": 150000,
-    },
-
+    
 ]
-
 
 function OrderInfo(props) {
     const [status, setStatus] = useState("Đang chờ xử lý")
-
-    function popUpOrder() {
-        alert("Here")
-    }
+    const [lgShow, setLgShow] = useState(false);
 
     function handlerAccept() {
         if (status == "Đang chờ xử lý") setStatus("Đang được làm")
@@ -112,19 +152,72 @@ function OrderInfo(props) {
     }
 
     return (
-        <tr>
-            <td onClick={popUpOrder} style={{ "cursor": "pointer" }}>{props.order.orderId}</td>
-            <td>{props.order.customerName}</td>
-            <td>{props.order.typeOrder}</td>
-            <td>{props.order.totalPrice}</td>
-            <td>{status}</td>
-            <td>
-                <button type="button" class="btn btn-sm btn-outline-success" onClick={handlerAccept} id={'accept' + props.idx}>Xử lý</button>
-            </td>
-            <td>
-                <button type="button" class="btn btn-sm btn-outline-danger" onClick={handlerReject} id={'reject' + props.idx}>Xử lý</button>
-            </td>
-        </tr>
+        <>
+            <tr>
+                <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{props.order.orderId}</td>
+                <td>{props.order.customerName}</td>
+                <td>{props.order.typeOrder}</td>
+                <td>{props.order.totalPrice}</td>
+                <td>{status}</td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-outline-success" onClick={handlerAccept} id={'accept' + props.idx}>Xử lý</button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-outline-danger" onClick={handlerReject} id={'reject' + props.idx}>Xử lý</button>
+                </td>
+            </tr>
+            <Modal
+                size="lg"
+                scrollable={true}
+                show={lgShow}
+                onHide={() => setLgShow(false)}
+                aria-labelledby="example-modal-sizes-title-lg"
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title id="example-modal-sizes-title-lg">
+                        Chi tiết đơn hàng
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Row>
+                        <Col>
+                            <h5>Thông tin khách hàng</h5>
+                            <Row>
+                                <Col xl={5}>Họ và tên:</Col>
+                                <Col><p>{props.order.customerName}</p></Col>
+                            </Row>
+                            <Row>
+                                <Col xl={5}>Số điện thoại:</Col>
+                                <Col><p>{props.order.customerInfo.phoneNumber}</p></Col>
+                            </Row>
+                            <Row>
+                                <Col xl={5}>Địa chỉ:</Col>
+                                <Col><p>{props.order.customerInfo.address}</p></Col>
+                            </Row>
+                            <Row>
+                                <Col xl={5}>Phường / Xã:</Col>
+                                <Col><p>{props.order.customerInfo.ward}</p></Col>
+                            </Row>
+                            <Row>
+                                <Col xl={5}>Quận / Huyện:</Col>
+                                <Col><p>{props.order.customerInfo.district}</p></Col>
+                            </Row>
+                        </Col>
+                        <Col>
+                            <h5>Món</h5>
+                            <Row>
+                                <Col>Phương thức thanh toán:</Col>
+                                <Col><p>{props.order.typeOrder}</p></Col>
+                            </Row>
+                            <Row>
+                                <Col>Tổng tiền:</Col>
+                                <Col><p>{props.order.totalPrice}</p></Col>
+                            </Row>
+                        </Col>
+                    </Row>
+                </Modal.Body>
+            </Modal>
+        </>
     )
 }
 
