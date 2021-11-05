@@ -14,11 +14,12 @@ import {
 import Footer from "./components/homepage/Footer";
 import MenuInGen from "./components/MenuInGen";
 import CheckOut from "./components/CheckOut/CheckOut";
+import HandlerOrder from "./components/HandlerOrder/HandlerOrder";
 
 function App() {
 	return (
 		<div className="App container-fluid">
-			<div class="row">
+			{/* <div class="row">
 				<Appbar/>
 			</div>
 			<div class="row">
@@ -36,7 +37,9 @@ function App() {
 			</div>
 			<div class="row">
 				<Footer/>
-			</div>
+			</div> */}
+			<HandlerOrder/>
+			<CheckOut/>
 		</div>
 	);
 }

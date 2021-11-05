@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Col, Modal, Row } from "react-bootstrap";
 
 const orderData = [
     {
@@ -22,78 +23,11 @@ const orderData = [
         "totalPrice": 150000,
         "status": "Đang xử lý",
     },
-    {
-        "orderId": "123abcxyz",
-        "customerName": "Hoàng Minh Tiến",
-        "typeOrder": "Online",
-        "totalPrice": 150000,
-        "status": "Đang xử lý",
-    },
-    {
-        "orderId": "123abcxyz",
-        "customerName": "Hoàng Minh Tiến",
-        "typeOrder": "Online",
-        "totalPrice": 150000,
-        "status": "Đang xử lý",
-    },
-    {
-        "orderId": "123abcxyz",
-        "customerName": "Hoàng Minh Tiến",
-        "typeOrder": "Online",
-        "totalPrice": 150000,
-        "status": "Đang xử lý",
-    },
-    {
-        "orderId": "123abcxyz",
-        "customerName": "Hoàng Minh Tiến",
-        "typeOrder": "Online",
-        "totalPrice": 150000,
-        "status": "Đang xử lý",
-    },
-    {
-        "orderId": "123abcxyz",
-        "customerName": "Hoàng Minh Tiến",
-        "typeOrder": "Online",
-        "totalPrice": 150000,
-        "status": "Đang xử lý",
-    },
-    {
-        "orderId": "123abcxyz",
-        "customerName": "Hoàng Minh Tiến",
-        "typeOrder": "Online",
-        "totalPrice": 150000,
-        "status": "Đang xử lý",
-    },
-    {
-        "orderId": "123abcxyz",
-        "customerName": "Hoàng Minh Tiến",
-        "typeOrder": "Online",
-        "totalPrice": 150000,
-        "status": "Đang xử lý",
-    },
-    {
-        "orderId": "123abcxyz",
-        "customerName": "Hoàng Minh Tiến",
-        "typeOrder": "Online",
-        "totalPrice": 150000,
-        "status": "Đang xử lý",
-    },
-    {
-        "orderId": "123abcxyz",
-        "customerName": "Hoàng Minh Tiến",
-        "typeOrder": "Online",
-        "totalPrice": 150000,
-    },
-
 ]
-
 
 function OrderInfo(props) {
     const [status, setStatus] = useState("Đang chờ xử lý")
-
-    function popUpOrder() {
-        alert("Here")
-    }
+    const [lgShow, setLgShow] = useState(false);
 
     function handlerAccept() {
         if (status == "Đang chờ xử lý") setStatus("Đang được làm")
@@ -107,19 +41,39 @@ function OrderInfo(props) {
     }
 
     return (
-        <tr  >
-            <td onClick={popUpOrder} style={{ "cursor": "pointer" }}>{props.order.orderId}</td>
-            <td>{props.order.customerName}</td>
-            <td>{props.order.typeOrder}</td>
-            <td>{props.order.totalPrice}</td>
-            <td>{status}</td>
-            <td>
-                <button type="button" class="btn btn-sm btn-outline-success" onClick={handlerAccept} id='accept'>Xử lý</button>
-            </td>
-            <td>
-                <button type="button" class="btn btn-sm btn-outline-danger" onClick={handlerReject}>Xử lý</button>
-            </td>
-        </tr>
+        <>
+            <tr>
+                <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{props.order.orderId}</td>
+                <td>{props.order.customerName}</td>
+                <td>{props.order.typeOrder}</td>
+                <td>{props.order.totalPrice}</td>
+                <td>{status}</td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-outline-success" onClick={handlerAccept} id='accept'>Xử lý</button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-outline-danger" onClick={handlerReject}>Xử lý</button>
+                </td>
+            </tr>
+            <Modal
+                size="lg"
+                show={lgShow}
+                onHide={() => setLgShow(false)}
+                aria-labelledby="example-modal-sizes-title-lg"
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title id="example-modal-sizes-title-lg">
+                        Large Modal
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Row>
+                        <Col xl={7}>Thông tin thanh toán</Col>
+                        <Col xl={5}>Đơn hàng</Col>
+                    </Row>
+                </Modal.Body>
+            </Modal>
+        </>
     )
 }
 
