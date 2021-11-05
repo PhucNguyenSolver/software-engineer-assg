@@ -39,7 +39,6 @@ function App() {
 				<Footer/>
 			</div> */}
 			<HandlerOrder/>
-			<CheckOut/>
 		</div>
 	);
 }

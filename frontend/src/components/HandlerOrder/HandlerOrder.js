@@ -8,6 +8,13 @@ const orderData = [
         "typeOrder": "Online",
         "totalPrice": 150000,
         "status": "Đang xử lý",
+        "customerInfo": {
+            "phoneNumber": "0123456789",
+            "address": "Giga Mall",
+            "ward": "Hiệp Bình Chánh",
+            "district": "Thủ Đức"
+        },
+        "orderInfo": {},
     },
     {
         "orderId": "123abcxyz",
@@ -15,6 +22,13 @@ const orderData = [
         "typeOrder": "Online",
         "totalPrice": 150000,
         "status": "Đang xử lý",
+        "customerInfo": {
+            "phoneNumber": "0123456789",
+            "address": "Giga Mall",
+            "ward": "Hiệp Bình Chánh",
+            "district": "Thủ Đức"
+        },
+        "orderInfo": {},
     },
     {
         "orderId": "123abcxyz",
@@ -22,6 +36,13 @@ const orderData = [
         "typeOrder": "Online",
         "totalPrice": 150000,
         "status": "Đang xử lý",
+        "customerInfo": {
+            "phoneNumber": "0123456789",
+            "address": "Giga Mall",
+            "ward": "Hiệp Bình Chánh",
+            "district": "Thủ Đức"
+        },
+        "orderInfo": {},
     },
 ]
 
@@ -57,19 +78,52 @@ function OrderInfo(props) {
             </tr>
             <Modal
                 size="lg"
+                scrollable={true}
                 show={lgShow}
                 onHide={() => setLgShow(false)}
                 aria-labelledby="example-modal-sizes-title-lg"
             >
                 <Modal.Header closeButton>
                     <Modal.Title id="example-modal-sizes-title-lg">
-                        Large Modal
+                        Chi tiết đơn hàng
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Row>
-                        <Col xl={7}>Thông tin thanh toán</Col>
-                        <Col xl={5}>Đơn hàng</Col>
+                        <Col>
+                            <h5>Thông tin khách hàng</h5>
+                            <Row>
+                                <Col xl={5}>Họ và tên:</Col>
+                                <Col><p>{props.order.customerName}</p></Col>
+                            </Row>
+                            <Row>
+                                <Col xl={5}>Số điện thoại:</Col>
+                                <Col><p>{props.order.customerInfo.phoneNumber}</p></Col>
+                            </Row>
+                            <Row>
+                                <Col xl={5}>Địa chỉ:</Col>
+                                <Col><p>{props.order.customerInfo.address}</p></Col>
+                            </Row>
+                            <Row>
+                                <Col xl={5}>Phường / Xã:</Col>
+                                <Col><p>{props.order.customerInfo.ward}</p></Col>
+                            </Row>
+                            <Row>
+                                <Col xl={5}>Quận / Huyện:</Col>
+                                <Col><p>{props.order.customerInfo.district}</p></Col>
+                            </Row>
+                        </Col>
+                        <Col>
+                            <h5>Món</h5>
+                            <Row>
+                                <Col>Phương thức thanh toán:</Col>
+                                <Col><p>{props.order.typeOrder}</p></Col>
+                            </Row>
+                            <Row>
+                                <Col>Tổng tiền:</Col>
+                                <Col><p>{props.order.totalPrice}</p></Col>
+                            </Row>
+                        </Col>
                     </Row>
                 </Modal.Body>
             </Modal>
