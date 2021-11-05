@@ -1,14 +1,20 @@
+import './App.css';
+// import FoodInMenu from './components/FoodInMenu.js'
+// import FoodType from './components/FoodType.js'
+// import NormalFoodType from './components/NormalFoodType.js'
+//import MenuTest from './components/MenuTest.js'
 
-
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Cart from './components/cart/Cart';
+import TaskSearch from './components/Menu/TaskSearch.js'
+//import MenuInGen from './components/MenuInGen.js'
+//import JSONDATA from './MOCK_DATA.json'
 
 function App() {
-	return (
-		<div className="App">
-			<Cart />
-		</div>
-	);
+  return (
+    <div>
+      <TaskSearch />
+    </div>
+  );
+
 }
 
 export default App;
