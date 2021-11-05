@@ -14,6 +14,7 @@ import {
 import Footer from "./components/homepage/Footer";
 import MenuInGen from "./components/MenuInGen";
 import CheckOut from "./components/CheckOut/CheckOut";
+import HandlerOrder from "./components/HandlerOrder/HandlerOrder";
 
 function App() {
 	return (
@@ -22,7 +23,7 @@ function App() {
 				<Appbar/>
 			</div>
 			<div class="row">
-				<Router>
+				{/* <Router>
 					<Switch>
 						<Route path="/login" exact component={Login} />
 						<Route path="/cart" exact component={Cart} />
@@ -32,7 +33,8 @@ function App() {
 						<Route path="/food-info" exact component={FoodInfo} />
 						<Route path="/" exact component={Homepage} />
 					</Switch>
-				</Router>
+				</Router> */}
+				<HandlerOrder />
 			</div>
 			<div class="row">
 				<Footer/>
