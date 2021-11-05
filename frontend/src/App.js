@@ -4,7 +4,7 @@ import './App.css';
 // import NormalFoodType from './components/NormalFoodType.js'
 //import MenuTest from './components/MenuTest.js'
 
-import TaskSearch from './components/TaskSearch.js'
+import TaskSearch from './components/Menu/TaskSearch.js'
 //import MenuInGen from './components/MenuInGen.js'
 //import JSONDATA from './MOCK_DATA.json'
 
