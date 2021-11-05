@@ -12,7 +12,7 @@ import {
     Redirect
 } from "react-router-dom";
 import Footer from "./components/homepage/Footer";
-import MenuInGen from "./components/MenuInGen";
+import MenuInGen from "./components/Menu/MenuInGen";
 import CheckOut from "./components/CheckOut/CheckOut";
 
 function App() {
