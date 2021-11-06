@@ -33,7 +33,8 @@ function App() {
 						<Route path="/food-info" exact component={FoodInfo} />
 						<Route path="/" exact component={Homepage} />
 					</Switch>
-				</Router>
+				</Router> 
+				<HandlerOrder />
 			</div>
 			<div class="row">
 				<Footer/>
