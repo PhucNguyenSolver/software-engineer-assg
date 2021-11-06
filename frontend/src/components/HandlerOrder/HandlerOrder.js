@@ -91,6 +91,7 @@ function OrderInfo(props) {
 
     function handlerReject() {
         document.getElementById('accept' + props.idx).disabled = true
+        document.getElementById('reject' + props.idx).disabled = true
         setStatus("Đã từ chối")
     }
 
