@@ -23,7 +23,7 @@ function App() {
 				<Appbar/>
 			</div>
 			<div class="row">
-				{/* <Router>
+				<Router>
 					<Switch>
 						<Route path="/login" exact component={Login} />
 						<Route path="/cart" exact component={Cart} />
@@ -33,8 +33,8 @@ function App() {
 						<Route path="/food-info" exact component={FoodInfo} />
 						<Route path="/" exact component={Homepage} />
 					</Switch>
-				</Router>  */}
-				<HandlerOrder />
+				</Router> 
+				{/* <HandlerOrder /> */}
 			</div>
 			<div class="row">
 				<Footer/>
