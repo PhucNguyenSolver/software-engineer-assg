@@ -4,6 +4,9 @@ import FoodInMenu from './FoodInMenu.js'
 import JSONDATA from './MOCK_DATA.json'
 
 
+
+
+
 function MenuInGen() {
   return (
       <div>
