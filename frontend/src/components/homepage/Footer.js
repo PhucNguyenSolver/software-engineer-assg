@@ -2,8 +2,8 @@
 export default function Footer() {
     return (
         <footer class="footer mt-5 bg-white">
-            <div className="grid wide footer-content">
-                <div className="row">
+            <div className="grid wide footer-content mt-3">
+                <div className="row container">
                     <div className="col-sm-6">
                         <h5 class="footer-heading">CÔNG TY TNHH THƯƠNG MẠI ABC</h5>
                         <ul class="footer_list" style={{listStyle: 'none', paddingLeft: 0}}>
