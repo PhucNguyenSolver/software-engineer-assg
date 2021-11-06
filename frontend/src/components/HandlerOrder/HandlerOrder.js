@@ -1,12 +1,11 @@
 import { useState } from "react"
-import { Col, Modal, Row } from "react-bootstrap";
+import { Badge, Col, Figure, Modal, Row } from "react-bootstrap";
 
 const orderData = [
     {
         "orderId": "123abcxyz",
-        "customerName": "Hoàng Minh Tiến",
+        "customerName": "Ngô Đức Trí",
         "typeOrder": "Online",
-        "totalPrice": 150000,
         "status": "Đang xử lý",
         "customerInfo": {
             "phoneNumber": "0123456789",
@@ -14,35 +13,64 @@ const orderData = [
             "ward": "Hiệp Bình Chánh",
             "district": "Thủ Đức"
         },
-        "orderInfo": {},
+        "orderInfo": [
+            {
+                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
+                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
+                "options": "Pepsi, cay, nước mắt của Tiến Minh",
+                "quantity": 5,
+                "price": 10000,
+            },
+            {
+                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
+                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
+                "options": "Pepsi, cay",
+                "quantity": 3,
+                "price": 10000,
+            },
+            {
+                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
+                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
+                "options": "Pepsi, cay",
+                "quantity": 1,
+                "price": 10000,
+            },
+        ],
     },
     {
         "orderId": "123abcxyz",
         "customerName": "Hoàng Minh Tiến",
         "typeOrder": "Online",
-        "totalPrice": 150000,
         "status": "Đang xử lý",
         "customerInfo": {
             "phoneNumber": "0123456789",
-            "address": "Giga Mall",
-            "ward": "Hiệp Bình Chánh",
+            "address": "KTX khu B",
+            "ward": "Dĩ An",
             "district": "Thủ Đức"
         },
-        "orderInfo": {},
-    },
-    {
-        "orderId": "123abcxyz",
-        "customerName": "Hoàng Minh Tiến",
-        "typeOrder": "Online",
-        "totalPrice": 150000,
-        "status": "Đang xử lý",
-        "customerInfo": {
-            "phoneNumber": "0123456789",
-            "address": "Giga Mall",
-            "ward": "Hiệp Bình Chánh",
-            "district": "Thủ Đức"
-        },
-        "orderInfo": {},
+        "orderInfo": [
+            {
+                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
+                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
+                "options": "Pepsi, cay",
+                "quantity": 1,
+                "price": 10000,
+            },
+            {
+                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
+                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
+                "options": "Pepsi, cay",
+                "quantity": 3,
+                "price": 10000,
+            },
+            {
+                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
+                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
+                "options": "Pepsi, cay",
+                "quantity": 7,
+                "price": 10000,
+            },
+        ],
     },
 ]
 
@@ -65,10 +93,10 @@ function OrderInfo(props) {
         <>
             <tr>
                 <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{props.order.orderId}</td>
-                <td>{props.order.customerName}</td>
-                <td>{props.order.typeOrder}</td>
-                <td>{props.order.totalPrice}</td>
-                <td>{status}</td>
+                <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{props.order.customerName}</td>
+                <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{props.order.typeOrder}</td>
+                <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{props.order.orderInfo.map((item) => item.price * item.quantity).reduce((acc, cur) => acc + cur, 0)}</td>
+                <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{status}</td>
                 <td>
                     <button type="button" class="btn btn-sm btn-outline-success" onClick={handlerAccept} id='accept'>Xử lý</button>
                 </td>
@@ -112,16 +140,27 @@ function OrderInfo(props) {
                                 <Col xl={5}>Quận / Huyện:</Col>
                                 <Col><p>{props.order.customerInfo.district}</p></Col>
                             </Row>
-                        </Col>
-                        <Col>
-                            <h5>Món</h5>
+                            <h5>Giỏ hàng</h5>
+                            {props.order.orderInfo.map((item) => (
+                                <Row>
+                                    <Col xl={2}><Figure.Image alt="FoodImg" src={item.imgUrl}></Figure.Image></Col>
+                                    <Col xl={7}>
+                                        <Row><h5>{item.name}</h5></Row>
+                                        <Row><p>{item.options}</p></Row>
+                                    </Col>
+                                    <Col xl={2}>
+                                        <p>Số lượng: {item.quantity}</p>
+                                    </Col>
+                                    <Col>
+                                        <Row><Badge variant="primary" pill>{item.price * item.quantity + ' đ'}</Badge></Row>
+                                    </Col>
+                                </Row>
+                            ))}
                             <Row>
-                                <Col>Phương thức thanh toán:</Col>
-                                <Col><p>{props.order.typeOrder}</p></Col>
-                            </Row>
-                            <Row>
-                                <Col>Tổng tiền:</Col>
-                                <Col><p>{props.order.totalPrice}</p></Col>
+                                <Col xl={7}><h4>Tổng tiền:</h4></Col>
+                                <Col>
+                                    <h4><Badge variant="primary" pill>{props.order.orderInfo.map((item) => item.price * item.quantity).reduce((acc, cur) => acc + cur, 0) + 'đ'}</Badge></h4>
+                                </Col>
                             </Row>
                         </Col>
                     </Row>
