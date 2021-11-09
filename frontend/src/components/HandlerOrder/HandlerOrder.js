@@ -127,34 +127,34 @@ function OrderInfo(props) {
                         <Col>
                             <h5>Thông tin khách hàng</h5>
                             <Row>
-                                <Col xl={5}>Họ và tên:</Col>
+                                <Col xl={5} lg={5} md={5} sm={5} xs={5}>Họ và tên:</Col>
                                 <Col><p>{props.order.customerName}</p></Col>
                             </Row>
                             <Row>
-                                <Col xl={5}>Số điện thoại:</Col>
+                                <Col xl={5} lg={5} md={5} sm={5} xs={5}>Số điện thoại:</Col>
                                 <Col><p>{props.order.customerInfo.phoneNumber}</p></Col>
                             </Row>
                             <Row>
-                                <Col xl={5}>Địa chỉ:</Col>
+                                <Col xl={5} lg={5} md={5} sm={5} xs={5}>Địa chỉ:</Col>
                                 <Col><p>{props.order.customerInfo.address}</p></Col>
                             </Row>
                             <Row>
-                                <Col xl={5}>Phường / Xã:</Col>
+                                <Col xl={5} lg={5} md={5} sm={5} xs={5}>Phường / Xã:</Col>
                                 <Col><p>{props.order.customerInfo.ward}</p></Col>
                             </Row>
                             <Row>
-                                <Col xl={5}>Quận / Huyện:</Col>
+                                <Col xl={5} lg={5} md={5} sm={5} xs={5}>Quận / Huyện:</Col>
                                 <Col><p>{props.order.customerInfo.district}</p></Col>
                             </Row>
                             <h5>Giỏ hàng</h5>
                             {props.order.orderInfo.map((item) => (
                                 <Row>
-                                    <Col xl={2}><Figure.Image alt="FoodImg" src={item.imgUrl}></Figure.Image></Col>
-                                    <Col xl={7}>
+                                    <Col xl={2} lg={2} md={2} sm={2} xs={2}><Figure.Image alt="FoodImg" src={item.imgUrl}></Figure.Image></Col>
+                                    <Col xl={7} lg={7} md={10} sm={10} xs={10}>
                                         <Row><h5>{item.name}</h5></Row>
                                         <Row><p>{item.options}</p></Row>
                                     </Col>
-                                    <Col xl={2}>
+                                    <Col xl={2} lg={2} md={10} sm={10} xs={9}>
                                         <p>Số lượng: {item.quantity}</p>
                                     </Col>
                                     <Col>
@@ -163,7 +163,7 @@ function OrderInfo(props) {
                                 </Row>
                             ))}
                             <Row>
-                                <Col xl={7}><h4>Tổng tiền:</h4></Col>
+                                <Col xl={7} lg={7} md={7} sm={7} xs={5}><h4>Tổng tiền:</h4></Col>
                                 <Col>
                                     <h4><Badge variant="primary" pill>{props.order.orderInfo.map((item) => item.price * item.quantity).reduce((acc, cur) => acc + cur, 0) + 'đ'}</Badge></h4>
                                 </Col>
