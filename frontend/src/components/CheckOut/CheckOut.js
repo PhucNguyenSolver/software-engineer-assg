@@ -64,21 +64,38 @@ function Product(props) {
     )
 }
 
+const wardOptionList =
+{
+    'Quận Thủ Đức': ['Bình Chiểu', 'Bình Thọ', 'Linh Chiểu', 'Linh Trung'],
+
+    'Quận Bình Thạnh': ['Phường 6', 'Phường 7', 'Phường 11', 'Phường 22'],
+
+    'Quận 10': ['Phường 12', 'Phường 13', 'Phường 14', 'Phường 15']
+}
+
+
 
 export default function CheckOut() {
 
-    const [name, setName] = useState('')
-    const [phone, setPhone] = useState('')
-    const [address, setAddress] = useState('')
-    const [payType, setpayType] = useState('')
-    const [district, setDistrict] = useState('Lựa chọn')
-    const [ward, setWard] = useState('Lựa chọn')
+    // const [name, setName] = useState('')
+    // const [phone, setPhone] = useState('')
+    // const [address, setAddress] = useState('')
+    // const [payType, setpayType] = useState('')
+    // const [district, setDistrict] = useState('Lựa chọn')
+    const [wardOption, setWardOption] = useState('Lựa chọn')
 
 
+    function handleEmptyInput(e) {
+        let name = document.getElementById('input-name').value
+        let phone = document.getElementById('input-phone').value
+        let address = document.getElementById('input-address').value
+        let district = document.getElementById('district').value
+        let ward = document.getElementById('ward').value
+        let paymentMethod = document.querySelector('input[type="radio"]:checked');
 
-    function handleCheckOut(e) {
-        e.preventDefault();
-        if(name == '' || phone == '' || address == '' || payType == '' || district == 'Lựa chọn' || ward == 'Lựa chọn')
+        console.log(paymentMethod)
+        if (name == '' || phone == '' || address == '' || district == 'Lựa chọn' || ward == 'Lựa chọn' || paymentMethod == null) {
+            e.preventDefault()
             toast.error('Thông tin không hợp lệ', {
                 position: "top-right",
                 autoClose: 5000,
@@ -88,28 +105,16 @@ export default function CheckOut() {
                 draggable: true,
                 progress: undefined,
             });
-        else {
-            CustomerDataOrdered.push({
-                "customerName" : name,
-                "customerPhone" : phone,
-                "customerAddress" : address,
-                "customerPayType" : payType,
-                "customerDistrict" : district,
-                "customerWard" : ward,
-            })
+        }
+    }
 
-            // CustomerDataOrdered = 
-            // {
-            //     "customerName" : name,
-            //     "customerPhone" : phone,
-            //     "customerAddress" : address,
-            //     "customerPayType" : payType,
-            //     "customerDistrict" : district,
-            //     "customerWard" : ward,
-            // }
-        }
-        // console.log(CustomerDataOrdered)
-        }
+
+    function WardOption() {
+        if (wardOption == 'Lựa chọn') return null
+        else return wardOption.map((ward) => {
+            return <option>{ward}</option>
+        })
+    }
 
     return (
         <div className="container" >
@@ -156,34 +161,36 @@ export default function CheckOut() {
                             <div className="row g-3">
                                 <div className="col-12">
                                     <div className="form-floating mb-2">
-                                        <input type="text" className="form-control" id="floatingInput" placeholder="Hoàng Văn A"
-                                            onChange={even => { setName(even.target.value) }} />
-                                        <label for="floatingInput">Họ và tên</label>
+                                        <input type="text" name='customerName' className="form-control"
+                                            id="input-name" placeholder="Hoàng Văn A" />
+                                        <label for="input-name">Họ và tên</label>
                                     </div>
                                 </div>
 
                                 <div className="col-12">
                                     <div className="form-floating mb-2">
-                                        <input type="phone" className="form-control" id="floatingInput" placeholder="01234556789"
-                                            onChange={even => { setPhone(even.target.value) }} />
-                                        <label for="floatingInput">Số điện thoại</label>
+                                        <input type="phone" name='customerNoPhone' className="form-control" id="input-phone" placeholder="01234556789" />
+                                        <label for="input-phone">Số điện thoại</label>
                                     </div>
                                 </div>
 
                                 <div className="col-12">
                                     <div className="form-floating mb-2">
-                                        <input type="address" className="form-control" id="floatingInput" placeholder="40 Vũ Trọng Phụng"
-                                            onChange={even => { setAddress(even.target.value) }} />
-                                        <label for="floatingInput">Địa chỉ</label>
+                                        <input type="address" name='customerAddress' className="form-control" id="input-address" placeholder="40 Vũ Trọng Phụng" />
+                                        <label for="input-address">Địa chỉ</label>
                                     </div>
                                 </div>
 
                                 <div className="col-md">
-                                    <label for="country" className="form-label">Quận/Huyện</label>
-                                    <select className="form-select" id="country" onChange={even => {setDistrict(even.target.value)}}>
+                                    <label for="district" className="form-label">Quận/Huyện</label>
+                                    <select className="form-select" name='customerDistrict' id="district" onChange={even => {
+                                        if (even.target.value == 'Lựa chọn') setWardOption('Lựa chọn')
+                                        else setWardOption(wardOptionList[even.target.value])
+                                    }}>
                                         <option selected>Lựa chọn</option>
-                                        <option >Huyện Nhà Bè</option>
                                         <option >Quận Thủ Đức</option>
+                                        <option >Quận 10</option>
+                                        <option >Quận Bình Thạnh</option>
                                     </select>
                                     <div className="invalid-feedback">
                                         Please select a valid country.
@@ -191,11 +198,10 @@ export default function CheckOut() {
                                 </div>
 
                                 <div className="col-md">
-                                    <label for="state" className="form-label">Phường / Xã</label>
-                                    <select className="form-select" id="state" onChange={even => {setWard(even.target.value)}} >
+                                    <label for="ward" className="form-label">Phường / Xã</label>
+                                    <select className="form-select" name='customerWard' id="ward" >
                                         <option selected>Lựa chọn</option>
-                                        <option >Phường Linh Xuân</option>
-                                        <option>Phường Linh Trung</option>
+                                        <WardOption />
                                     </select>
                                     <div className="invalid-feedback">
                                         Please provide a valid state.
@@ -216,28 +222,26 @@ export default function CheckOut() {
 
                             <div className="my-3">
                                 <div className="form-check">
-                                    <input id="cod" name="paymentMethod" type="radio" className="form-check-input" 
-                                    onClick={() =>setpayType('COD')} />
+                                    <input id="cod" name="paymentMethod" value='cod' type="radio" className="form-check-input" />
                                     <label className="form-check-label" for="cod">Thanh toán khi nhận hàng</label>
                                 </div>
                                 <div className="form-check">
                                     <label className="form-check-label" for="online">Thanh toán Online</label>
-                                    <input id="online" name="paymentMethod" type="radio" className="form-check-input" 
-                                    onClick={() => setpayType('Online')} />
-                                    </div>
+                                    <input id="online" name="paymentMethod" value='online' type="radio" className="form-check-input" />
+                                </div>
                             </div>
 
                             <hr className="my-4" />
 
-                            <button className="w-25 btn btn-lg float-start text-white" type="submit" style={{backgroundColor:"blue"}}>Quay lại</button>
-                            <button className="w-25 btn btn-danger btn-lg float-end text-white" type="submit" onClick={handleCheckOut}>Thanh Toán</button>
+                            <button className="w-25 btn btn-lg float-start text-white" type="submit" style={{ backgroundColor: "blue" }}>Quay lại</button>
+                            <button className="w-25 btn btn-danger btn-lg float-end text-white" type="submit" onClick={handleEmptyInput} >Thanh Toán</button>
                             <ToastContainer />
                         </form>
                     </div>
                 </div>
             </main>
 
-            
+
         </div>
     )
 }
