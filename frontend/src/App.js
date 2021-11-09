@@ -12,27 +12,31 @@ import {
     Redirect
 } from "react-router-dom";
 import Footer from "./components/homepage/Footer";
-import MenuInGen from "./components/Menu/MenuInGen";
+import TaskSearch from "./components/Menu/TaskSearch";
 import CheckOut from "./components/CheckOut/CheckOut";
+import HandlerOrder from "./components/HandlerOrder/HandlerOrder";
+
+
 
 function App() {
 	return (
 		<div className="App container-fluid">
 			<div class="row">
-				<Appbar/>
+				<Appbar />
 			</div>
 			<div class="row">
 				<Router>
 					<Switch>
 						<Route path="/login" exact component={Login} />
 						<Route path="/cart" exact component={Cart} />
-						<Route path="/menu" exact component={MenuInGen} />
+						<Route path="/menu" exact component={TaskSearch} />
 						<Route path="/checkout" exact component={CheckOut} />
 						<Route path="/cart-item-info" exact component={CartInfo} />
 						<Route path="/food-info" exact component={FoodInfo} />
 						<Route path="/" exact component={Homepage} />
 					</Switch>
-				</Router>
+				</Router> 
+				{/* <HandlerOrder /> */}
 			</div>
 			<div class="row">
 				<Footer/>

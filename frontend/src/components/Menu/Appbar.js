@@ -1,7 +1,18 @@
 import {Nav, Navbar, Form, FormControl, Col} from 'react-bootstrap'
 import './Appbar.css'
 
+import React from "react";
+//import MenuInGen from './MenuInGen.js'
+import RenderElement from './RenderElement.js'
+// import FilterBar from './FilterBar.js'
+import JSONDATA from './MOCK_DATA.json'
+import { useState } from 'react';
+import ReactDOM from 'react-dom';
+import FoodTypeList from './FoodTypeList.js'
+import FoodInMenu from './FoodInMenu.js'
+
 export default function Appbar({onChangeFunc}) {
+
     return (
         <Navbar expand="lg" sticky="top" className="color-appbar">
           <Navbar.Brand href='/'>Your logo</Navbar.Brand>
@@ -9,7 +20,9 @@ export default function Appbar({onChangeFunc}) {
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
                 <Nav.Link href='/'><span className="navItem">Trang chủ</span></Nav.Link>
-                <Nav.Link href='/menu'><span className="navItem">Thực đơn</span></Nav.Link>
+                <Nav.Link href='/menu' >
+                <span className="navItem">Thực đơn</span>
+                </Nav.Link>
                 <Nav.Link href='#'><span className="navItem">Đơn hàng</span></Nav.Link>
                 <Nav.Link href='/Footer'><span className="navItem">Giới thiệu</span></Nav.Link>
             </Nav>
@@ -60,5 +73,6 @@ export default function Appbar({onChangeFunc}) {
           </ul> */}
           </ Navbar.Collapse>
         </Navbar>
+        
     )
 }
