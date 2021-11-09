@@ -51,6 +51,9 @@ Method | URL | Description | Return
 -----|--------|-------|----------
 GET |/calendar?month={`int`}&year={`int`} | Lấy lịch tổng quan trong tháng | Một array gồm các object chứa màu và ngày diễn ra của sự kiện
 GET |/calendar?day={`int`}&month={`int`}&year={`int`} | Lấy danh sách các sự kiện trong một ngày | Một array gồm các object chứa id, thời gian, màu, địa điểm, tên sự kiện
+GET |/food? | Lấy tất cả các món ăn trong thực đơn | Một array gồm các object chứa id, tên, giá, hình ảnh của món ăn
+GET |/food?type={`type`} | Lấy tất cả các món ăn trong thực đơn của một loại | Một array gồm các object chứa id, tên, giá, hình ảnh của món ăn trong một loại
+
 
 ### **Parameters**
 
