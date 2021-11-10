@@ -7,7 +7,7 @@ Nhiệm vụ của team frontend là sử dụng các API được cung cấp x�
 
 # **Cài đặt**
 
-Để chạy ứng dụng backend, cần cài đặt môi trường [Node.js và npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) và [MySQL](https://www.mysql.com/downloads/).
+Để chạy ứng dụng backend, cần cài đặt môi trường [Node.js và npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) và [Mongodb Community](https://www.mongodb.com/try/download/community).
 Sau khi cài đặt xong Node.js và npm, cài đặt các package sau:
 
 ```console
