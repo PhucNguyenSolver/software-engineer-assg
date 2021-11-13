@@ -3,7 +3,6 @@ import './Appbar.css'
 
 import React from "react";
 //import MenuInGen from './MenuInGen.js'
-import RenderElement from './RenderElement.js'
 // import FilterBar from './FilterBar.js'
 import JSONDATA from './MOCK_DATA.json'
 import { useState } from 'react';

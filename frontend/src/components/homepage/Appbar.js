@@ -25,7 +25,7 @@ export default function Appbar() {
       // document.getElementById('FilterBarId').style.visibility = 'visible'
       // ReactDOM.render(null,document.getElementById('FilterBarId'))
       filtered = <div style={{marginBottom:'200px',backgroundColor:'#efefef'}} >
-        <MenuInGen arr={JSONDATA}/>
+        <MenuInGen arr={JSONDATA.slice(0,10)}/>
       </div>
       
     }
@@ -52,20 +52,24 @@ export default function Appbar() {
   
     function FilterFunction(){
       setFilterNameInit("Sort by increasing price")
-      setData(data.slice().sort((a,b) => a.price - b.price))
-      ReactDOM.render(<MenuInGen arr={data.slice().sort((a,b) => a.price - b.price)}/>, document.getElementById('MenuFirst'))
+      setData(data.sort((a,b) => a.price - b.price))
+      ReactDOM.render(<div><MenuInGen arr={data.slice(0,10).sort((a,b) => a.price - b.price)}/></div>, document.getElementById('MenuFirst'))
     }
     
     function FilterFunctionDesc(){
       setFilterNameInit('Sort by decreasing price')
-      setData(data.slice().sort((a,b) => -a.price + b.price))
-      ReactDOM.render(<MenuInGen arr={data.slice().sort((a,b) => -a.price + b.price)}/>, document.getElementById('MenuFirst'))
+      setData(data.sort((a,b) => -a.price + b.price))
+      ReactDOM.render(<MenuInGen arr={data.slice(0,10).sort((a,b) => -a.price + b.price)}/>, document.getElementById('MenuFirst'))
+      console.log(JSONDATA)
+      console.log(1)
     }
   
     function NoFilterFunction(){
       setFilterNameInit('No filter here...')
       setData(JSONDATA)
-      ReactDOM.render(<MenuInGen arr={JSONDATA}/>, document.getElementById('MenuFirst'))
+      ReactDOM.render(<MenuInGen arr={JSONDATA.slice(0,10)}/>, document.getElementById('MenuFirst'))
+      console.log(JSONDATA)
+      console.log(1)
     }
     
   
@@ -122,7 +126,6 @@ export default function Appbar() {
               aria-label="Search"
               size="sm"
               onKeyPress={event => {
-                console.log(123)
                 if(event.key == "Enter") 
               {
                 HandleSearch(event.target.value)

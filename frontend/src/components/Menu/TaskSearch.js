@@ -1,5 +1,4 @@
 import React from "react";
-//import MenuInGen from './MenuInGen.js'
 import RenderElement from './RenderElement.js'
 // import FilterBar from './FilterBar.js'
 import JSONDATA from './MOCK_DATA.json'
@@ -10,41 +9,29 @@ import FoodInMenu from './FoodInMenu.js'
 import Appbar from './Appbar.js'
 
 
-// function MenuInGen({arr}) {
-//   return (
-//       <div >
-//       <div style={{width:'100%'}}>
-//           <FoodTypeList />
-//       </div>
-//       <div style={{backgroundColor:'#efefef',height:'750px',width:'100%',marginLeft:'px'}}>
-//           {
-//             arr.map((val) => {
-//             return <FoodInMenu name={val.food_name} price={val.price} image={val.img} />
-//           })
-//           }
-//       </div>
-//       </div>
-//   );
-// }
 
 function MenuInGen({arr}) {
-  function FilterBar() {
-    const [data, setData] = useState(JSONDATA)
-    var [filterNameInit,setFilterNameInit] = useState('No filter here...')
 
+  // it works here
+  const [filterNameInit,setFilterNameInit] = useState('No filter here...'.slice())
+  const [data, setData] = useState(JSONDATA.slice())
+
+  function FilterBar() {
+    
   function FilterFunction(){
     setFilterNameInit("Sort by increasing price")
     setData(data.slice().sort((a,b) => a.price - b.price))
-    ReactDOM.render(<MenuInGen arr={data.slice().sort((a,b) => a.price - b.price)}/>, document.getElementById('MenuFirst'))
+    ReactDOM.render(<MenuInGen arr={data.sort((a,b) => a.price - b.price)}/>, document.getElementById('MenuFirst'))
   }
   
   function FilterFunctionDesc(){
     setFilterNameInit('Sort by decreasing price')
     setData(data.slice().sort((a,b) => -a.price + b.price))
-    ReactDOM.render(<MenuInGen arr={data.slice().sort((a,b) => -a.price + b.price)}/>, document.getElementById('MenuFirst'))
+    ReactDOM.render(<MenuInGen arr={data.sort((a,b) => -a.price + b.price)}/>, document.getElementById('MenuFirst'))
   }
 
   function NoFilterFunction(){
+    console.log(JSONDATA)
     setFilterNameInit('No filter here...')
     setData(JSONDATA)
     ReactDOM.render(<MenuInGen arr={JSONDATA}/>, document.getElementById('MenuFirst'))
@@ -65,6 +52,7 @@ function MenuInGen({arr}) {
 </div>
   );
 }
+
   return (
       <div >
       <div>
@@ -73,12 +61,12 @@ function MenuInGen({arr}) {
       <div style={{width:'100%'}}>
           <FoodTypeList />
       </div>
-      <div style={{backgroundColor:'#efefef',height:'750px',width:'100%',marginLeft:'50px'}}>
+      <div style={{backgroundColor:'#efefef',height:'750px',width:'100%'}}>
           {
-            arr.map((val) => {
-            return <FoodInMenu name={val.food_name} price={val.price} image={val.img} />
-          })
-          }
+             arr.slice(0,10).map((val) => {
+             return <FoodInMenu name={val.food_name} price={val.price} image={val.img} />
+           })
+           }
       </div>
       </div>
   );
@@ -89,26 +77,27 @@ function TaskSearch() {
 
   const [searchTerm,setSearchTerm] = useState('')
   const [data, setData] = useState(JSONDATA)
-  var [filterNameInit,setFilterNameInit] = useState('No filter here...')
+  const [filterNameInit,setFilterNameInit] = useState('No filter here...')
 
   function FilterBar() {
-  
     function FilterFunction(){
       setFilterNameInit("Sort by increasing price")
-      setData(data.slice().sort((a,b) => a.price - b.price))
-      ReactDOM.render(<MenuInGen arr={data.slice().sort((a,b) => a.price - b.price)}/>, document.getElementById('MenuFirst'))
+      setData(data.sort((a,b) => a.price - b.price))
+      ReactDOM.render(<MenuInGen arr={data.sort((a,b) => a.price - b.price)}/>, document.getElementById('MenuFirst'))
     }
     
     function FilterFunctionDesc(){
       setFilterNameInit('Sort by decreasing price')
-      setData(data.slice().sort((a,b) => -a.price + b.price))
-      ReactDOM.render(<MenuInGen arr={data.slice().sort((a,b) => -a.price + b.price)}/>, document.getElementById('MenuFirst'))
+      setData(data.sort((a,b) => -a.price + b.price))
+      ReactDOM.render(<MenuInGen arr={data.sort((a,b) => -a.price + b.price)}/>, document.getElementById('MenuFirst'))
+      
     }
   
     function NoFilterFunction(){
       setFilterNameInit('No filter here...')
       setData(JSONDATA)
       ReactDOM.render(<MenuInGen arr={JSONDATA}/>, document.getElementById('MenuFirst'))
+      
     }
     
   
@@ -127,9 +116,58 @@ function TaskSearch() {
     );
   }
 
+function Page1() {
+  var menu = []
+  for(var i =0;i<10;i++){
+    menu[i] = <FoodInMenu name={data[i].food_name} price={data[i].price} image={data[i].img} />
+  }
+  var Menuoffical = <div>
+    <div>
+        <FilterBar />
+      </div>
+      <div style={{width:'100%'}}>
+          <FoodTypeList />
+      </div>
+      <div>{menu}</div>
+  </div>
+  ReactDOM.render(Menuoffical,document.getElementById('MenuFirst'))
+}
+function Page2() {
+  var menu = []
+  for(var i =10;i<20;i++){
+    menu[i] = <FoodInMenu name={data[i].food_name} price={data[i].price} image={data[i].img} />
+  }
+  var Menuoffical = <div>
+    <div>
+        <FilterBar />
+      </div>
+      <div style={{width:'100%'}}>
+          <FoodTypeList />
+      </div>
+      <div>{menu}</div>
+  </div>
+  ReactDOM.render(Menuoffical,document.getElementById('MenuFirst'))
+}
+function Page3() {
+  var menu = []
+  for(var i =20;i<30;i++){
+    menu[i] = <FoodInMenu name={data[i].food_name} price={data[i].price} image={data[i].img} />
+  }
+  var Menuoffical = <div>
+    <div>
+        <FilterBar />
+      </div>
+      <div style={{width:'100%'}}>
+          <FoodTypeList />
+      </div>
+      <div >{menu.slice(20,30)}</div>
+  </div>
+  ReactDOM.render(Menuoffical,document.getElementById('MenuFirst'))
+}
+
 return (
   <div>
-   <div id="MenuFirst" style={{height:'1100px',backgroundColor:'#efefef'}}>
+   <div id="MenuFirst" style={{height:'1200px',backgroundColor:'#efefef'}}>
     <MenuInGen arr={JSONDATA}/>
   </div> 
 
@@ -141,9 +179,9 @@ return (
         <span aria-hidden="true">&laquo;</span>
       </a>
     </li>
-    <li class="page-item"><a class="page-link" href="#">1</a></li>
-    <li class="page-item"><a class="page-link" href="#">2</a></li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
+    <li class="page-item"><button class="page-link" onClick={Page1}>1</button></li>
+    <li class="page-item"><button class="page-link" onClick={Page2}>2</button></li>
+    <li class="page-item"><button class="page-link" onClick={Page3}>3</button></li>
     <li class="page-item">
       <a class="page-link" href="#" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>
