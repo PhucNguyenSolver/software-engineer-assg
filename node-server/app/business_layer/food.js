@@ -1,4 +1,4 @@
-const db = require('../models')
+const db = require('../data_layer')
 
 const getFoodById = async function(req, res) {
     const foodId = req.params.id

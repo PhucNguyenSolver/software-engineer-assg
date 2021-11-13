@@ -3,7 +3,7 @@ const cors = require("cors");
 
 const foodRouter = require('./app/routers/food.router')
 
-const db = require('./app/models');
+const db = require('./app/data_layer');
 
 const app = express();
 

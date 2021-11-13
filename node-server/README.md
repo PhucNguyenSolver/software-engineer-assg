@@ -41,7 +41,7 @@ Method | URL | Description | Return
 -----|--------|-------|----------
 GET |/food? | Lấy tất cả các món ăn trong thực đơn | Một array gồm các object chứa id, tên, giá, hình ảnh của món ăn
 GET |/food?type={`type`} | Lấy tất cả các món ăn trong thực đơn của một loại | Một array gồm các object chứa id, tên, giá, hình ảnh của món ăn trong một loại
-GET |/food/:{id} | Lấy món ăn cụ thể trong thực đơn bằng string ID | Một object chứa thông tin đầy đủ của món ăn
+GET |/food/:{`id`} | Lấy món ăn cụ thể trong thực đơn bằng string ID | Một object chứa thông tin đầy đủ của món ăn
 
 
 ### **Parameters**

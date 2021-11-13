@@ -10,7 +10,7 @@ const employees = new Schema({
 })
 
 const foods = new Schema({
-    name: SchemaTypes.String, 
+    name: SchemaTypes.String,
     price: SchemaTypes.Number,
     discount: SchemaTypes.String, // 'x%' or number
     imageUrls: [SchemaTypes.String],
@@ -44,6 +44,11 @@ const orders = new Schema({
         discount: SchemaTypes.String, // 'x%' or number
         quantity: SchemaTypes.Number
     }]
+}, {
+    timestamps: {
+        createdAt: true,
+        updatedAt: false
+    }
 })
 
 module.exports = {
