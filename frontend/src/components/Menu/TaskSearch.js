@@ -167,7 +167,7 @@ function Page3() {
 
 return (
   <div>
-   <div id="MenuFirst" style={{height:'1200px',backgroundColor:'#efefef'}}>
+   <div id="MenuFirst" style={{height:'900px',backgroundColor:'#efefef'}}>
     <MenuInGen arr={JSONDATA}/>
   </div> 
 
