@@ -26,7 +26,7 @@ Chạy ứng dụng trên [localhost](http://localhost:8080) port 8080 (có th�
 ```console
 npm start
 ```
-
+Lưu ý: Trước khi chạy phải thêm IP address của máy trong phần Network Access trên Mongodb Cloud
 <br>
 
 # **Cách sử dụng các API lấy dữ liệu cho frontend**
