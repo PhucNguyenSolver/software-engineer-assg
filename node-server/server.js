@@ -15,20 +15,11 @@ app.use(cors(corsOptions));
 app.use('/food', foodRouter);
 app.use(express.json());
 
-db.mongoose
-    .connect(db.url, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    }).then(() => {
-        console.log('Mongo Database connected')
-    }).catch((err) => {
-        console.log('Cannot connect to the Mongo database');
-        process.exit();
-    })
+db.connect();
 
 app.get('/', function (req, res) {
     res.json({
-        msg: "Welcome to Đồ án CNPM"
+        msg: "Welcome to BTL CNPM"
     })
 })
 

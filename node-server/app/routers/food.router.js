@@ -2,6 +2,6 @@ const express = require('express');
 const router = express.Router();
 const foodCtrler = require('../controller/food.controller')
 
-router.get('/', foodCtrler.getFood);
+router.get('/:id', foodCtrler.getFoodById);
 
 module.exports = router;

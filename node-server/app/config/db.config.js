@@ -1,3 +1,6 @@
+const user = 'admin';
+const password = 'CRlQNnlWX3cByBkG';
+
 module.exports = {
-    url: "mongodb://localhost:27017/event_management"
+    uri: `mongodb+srv://${user}:${password}@restaurantpos.mjkgg.mongodb.net/RestaurantPOS?retryWrites=true&w=majority`
 }
