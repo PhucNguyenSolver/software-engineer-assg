@@ -8,16 +8,17 @@ Nhiệm vụ của team frontend là sử dụng các API được cung cấp x�
 # **Cài đặt**
 
 Để chạy ứng dụng backend, cần cài đặt môi trường [Node.js và npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) và [Mongodb Community](https://www.mongodb.com/try/download/community).
-Sau khi cài đặt xong Node.js và npm, cài đặt các package sau:
+Sau khi cài đặt xong Node.js và npm, gõ lệnh:
 
 ```console
-npm install express mongoose cors
+npm install
 ```
 
 Tạo schema có tên là `pos_system`, chỉnh sửa nội dung file *app/config/db.config.js* như sau:
 ```javascript
+// User là tài khoản Database Access trên Mongodb Cloud,
 module.exports = {
-    url: 'mongodb://localhost:27017/event_management'
+    uri: `mongodb+srv://${user}:${password}@restaurantpos.mjkgg.mongodb.net/RestaurantPOS?retryWrites=true&w=majority`
 }
 ```
 Chạy ứng dụng trên [localhost](http://localhost:8080) port 8080 (có thể chỉnh sửa port trong file *server.js*):
@@ -32,36 +33,23 @@ npm start
 
 **Lưu ý**: Với các POST và PUT method, đặt tên dữ liệu đúng định dạng như trong phần _Description_
 
-## ***Đăng nhập và đăng ký:***
-
-### **API**
-
-Method | URL | Description
------|--------|-------
-POST | /auth/login | Gửi tên 'username'/'email', 'password' lên server. Khi đăng nhập thành công, một Json Web Token (JWT) chứa ID của user được tạo vào lưu vào cookie. Nếu user đang có sẵn JWT hợp lệ, bỏ qua phần đăng nhập.
-POST | /auth/signup | Gửi tên 'username'/'email', 'password', 'fname' và 'lname' lên server. Nếu tên tài khoản đã tồn tại, trả về thất bại. Nếu tài khoản được tạo thành công, lưu JWT tương tự như phần đăng nhập.
-
-<br>
-
-## ***Lịch:***
+## ***Đồ ăn:***
 
 ### **API**
 
 Method | URL | Description | Return
 -----|--------|-------|----------
-GET |/calendar?month={`int`}&year={`int`} | Lấy lịch tổng quan trong tháng | Một array gồm các object chứa màu và ngày diễn ra của sự kiện
-GET |/calendar?day={`int`}&month={`int`}&year={`int`} | Lấy danh sách các sự kiện trong một ngày | Một array gồm các object chứa id, thời gian, màu, địa điểm, tên sự kiện
 GET |/food? | Lấy tất cả các món ăn trong thực đơn | Một array gồm các object chứa id, tên, giá, hình ảnh của món ăn
 GET |/food?type={`type`} | Lấy tất cả các món ăn trong thực đơn của một loại | Một array gồm các object chứa id, tên, giá, hình ảnh của món ăn trong một loại
+GET |/food/:{id} | Lấy món ăn cụ thể trong thực đơn bằng string ID | Một object chứa thông tin đầy đủ của món ăn
 
 
 ### **Parameters**
 
 Name | | Description |
 ------|------|----
-month | required | Số tháng từ 1 tới 12 |
-year | required | Số năm
-day | required | Số ngày trong tháng
+type | required | Số tháng từ 1 tới 12 |
+id | required | ID của món ăn |
 
 <br>
 
@@ -69,15 +57,20 @@ day | required | Số ngày trong tháng
 Ví dụ về một JSON response:
 ```javascript
 {
-    id: 12022021,
-    name: 'Họp đồ án CNPM'
-    startTime: '19:00',
-    endTime: '20:00',
-    description: 'Họp định kì hàng tuần, cập nhật tiến độ và phân chia công việc',
-    date: '2021-10-20'
+    _id: "618eb8bfc195fbd6f3d8983d",
+    name: "Cánh gà rán", "price": 25000,
+    discount: "0",
+    imageUrls: [
+        "https://ameovat.com/wp-content/uploads/2016/05/cach-lam-ga-ran.jpg",
+        "https://cdn.tgdd.vn/2020/12/CookProduct/2-1200x676-1.jpg"
+    ],
+    optionIds: ["618eb1edc195fbd6f3cf8195"]
 }
 ```
 Các fields trong một *JSON response*:
-- `userID`: ID của một user
-- `eventID`: ID của một event
+- `_id`: ID của các thực thể (món ăn, tuỳ chọn, đơn hàng ...)
+- `name`: Tên thực thể
+- `price`: Giá cả của món ăn hoặc tuỳ chọn
+- `imageUrls`: Link các hình ảnh liên quan
+- `optionIds`: Danh sách các optionId trong một món ăn
 - ...
