@@ -1,7 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 
-const route = require('./app/routers');
+const foodRouter = require('./app/routers/food.router')
+
 const db = require('./app/data_layer');
 
 const app = express();
@@ -11,12 +12,16 @@ var corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use('/food', foodRouter);
 app.use(express.json());
 
 db.connect();
 
-// Routes init
-route(app);
+app.get('/', function (req, res) {
+    res.json({
+        msg: "Welcome to BTL CNPM"
+    })
+})
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

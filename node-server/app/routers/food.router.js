@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const foodCtrler = require('../business_layer/food')
 
-const foodController = require('../business_layer/food')
-
-router.get('/:id', foodController.getFoodById);
+router.get('/:id', foodCtrler.getFoodById);
 
 module.exports = router;
