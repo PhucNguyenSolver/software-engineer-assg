@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const foodCtrler = require('../business_layer/food')
+const loginCtrler = require('../business_layer/login')
 
 
-router.get('/:id', foodCtrler.getFoodById);
+router.post('/', loginCtrler.checkLogin)
 
 module.exports = router;

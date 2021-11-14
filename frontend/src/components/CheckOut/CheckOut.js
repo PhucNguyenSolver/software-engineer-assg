@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { ToastContainer, toast } from 'react-toastify';
-
+const axios = require('axios');
 
 
 const productData = [
@@ -44,6 +44,8 @@ const productData = [
 ]
 
 
+
+
 const CustomerDataOrdered = []
 // let CustomerDataOrdered 
 
@@ -77,15 +79,10 @@ const wardOptionList =
 
 export default function CheckOut() {
 
-    // const [name, setName] = useState('')
-    // const [phone, setPhone] = useState('')
-    // const [address, setAddress] = useState('')
-    // const [payType, setpayType] = useState('')
-    // const [district, setDistrict] = useState('Lựa chọn')
     const [wardOption, setWardOption] = useState('Lựa chọn')
 
 
-    function handleEmptyInput(e) {
+    function handleCheckOut(e) {
         let name = document.getElementById('input-name').value
         let phone = document.getElementById('input-phone').value
         let address = document.getElementById('input-address').value
@@ -93,9 +90,9 @@ export default function CheckOut() {
         let ward = document.getElementById('ward').value
         let paymentMethod = document.querySelector('input[type="radio"]:checked');
 
-        console.log(paymentMethod)
+        e.preventDefault();
+
         if (name == '' || phone == '' || address == '' || district == 'Lựa chọn' || ward == 'Lựa chọn' || paymentMethod == null) {
-            e.preventDefault()
             toast.error('Thông tin không hợp lệ', {
                 position: "top-right",
                 autoClose: 5000,
@@ -105,7 +102,22 @@ export default function CheckOut() {
                 draggable: true,
                 progress: undefined,
             });
+            return
         }
+        axios.post('http://localhost:8080/order', {
+            "customerInfo": {
+                "name": name,
+                "phone": phone,
+                "address": address,
+                "district": district,
+                "ward": ward,
+                "paymentMethod": paymentMethod.value
+            },
+            "items" : []
+        })
+            .then(response => console.log(response))
+
+        window.location.href = "/"
     }
 
 
@@ -157,7 +169,7 @@ export default function CheckOut() {
                     </div>
                     <div className="col-md-7 col-lg-8">
                         <h4 className="mb-3">Thông Tin Thanh Toán</h4>
-                        <form className="needs-validation" novalidate>
+                        <form className="needs-validation" method='POST' validate onSubmit={handleCheckOut}>
                             <div className="row g-3">
                                 <div className="col-12">
                                     <div className="form-floating mb-2">
@@ -234,7 +246,7 @@ export default function CheckOut() {
                             <hr className="my-4" />
 
                             <button className="w-25 btn btn-lg float-start text-white" type="submit" style={{ backgroundColor: "blue" }}>Quay lại</button>
-                            <button className="w-25 btn btn-danger btn-lg float-end text-white" type="submit" onClick={handleEmptyInput} >Thanh Toán</button>
+                            <button className="w-25 btn btn-danger btn-lg float-end text-white" type="submit" onClick={handleCheckOut} >Thanh Toán</button>
                             <ToastContainer />
                         </form>
                     </div>

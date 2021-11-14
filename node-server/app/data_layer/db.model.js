@@ -1,12 +1,15 @@
 const { Schema, SchemaTypes } = require('mongoose');
 
+
 const employees = new Schema({
-    identityCard: SchemaTypes.String,
-    name: SchemaTypes.String,
-    address: SchemaTypes.String,
-    phone: SchemaTypes.String,
-    avatar: SchemaTypes.String,
-    email: SchemaTypes.String
+    // identityCard: SchemaTypes.String,
+    // name: SchemaTypes.String,
+    // address: SchemaTypes.String,
+    // phone: SchemaTypes.String,
+    // avatar: SchemaTypes.String,
+    // email: SchemaTypes.String
+    account : { type : String },
+    password : { type : String }
 })
 
 const foods = new Schema({

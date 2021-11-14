@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Badge, Col, Figure, Modal, Row } from "react-bootstrap";
 import React from "react";
+const axios = require('axios');
 
 // import './HandlerOrder.css'
 
@@ -352,6 +353,11 @@ const orderData = [
     },
 
 ]
+
+
+// const orderData = axios.get('/order')
+
+
 
 function OrderInfo(props) {
     const [status, setStatus] = useState("Đang chờ xử lý")

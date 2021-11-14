@@ -26,6 +26,7 @@ function App() {
 				<Router>
 					<Switch>
 						<Route path="/login" exact component={Login} />
+						<Route path="/manage-order" exact component={HandlerOrder} />
 						<Route path="/cart" exact component={Cart} />
 						<Route path="/menu" exact component={MenuInGen} />
 						<Route path="/checkout" exact component={CheckOut} />
