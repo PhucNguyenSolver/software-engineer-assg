@@ -1,5 +1,5 @@
 const dbConfig = require('../config/db.config');
-const PosSchema = require('./db.schema');
+const PosSchema = require('./db.model');
 
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
