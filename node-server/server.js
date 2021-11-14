@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 
 const foodRouter = require('./app/routers/food.router')
+const cartRouter = require('./app/routers/cart.router')
 
 const db = require('./app/data_layer');
 
@@ -13,6 +14,7 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 app.use('/food', foodRouter);
+app.use('/cart', cartRouter)
 app.use(express.json());
 
 db.connect();

@@ -1,12 +1,9 @@
 const dbConfig = require('../config/db.config');
-const PosSchema = require('./db.model');
+const PosSchema = require('./db.schema');
 
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
-// db = {}
-// db.connect = mongoose.connect;
-// db.uri = dbConfig.uri;
 class Database {
     #uri;
     constructor(uri) {
