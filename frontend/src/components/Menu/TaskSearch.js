@@ -116,10 +116,11 @@ function TaskSearch() {
     );
   }
 
-function Page1() {
+function Page(index , dataRender) {
   var menu = []
-  for(var i =0;i<10;i++){
-    menu[i] = <FoodInMenu name={data[i].food_name} price={data[i].price} image={data[i].img} />
+  for(var i = (index-1)*10 ; i < 10 + (index-1)*10 ; i++){
+    if(i >= dataRender.length) break;
+    menu[i] = <FoodInMenu name={dataRender[i].food_name} price={dataRender[i].price} image={dataRender[i].img} />
   }
   var Menuoffical = <div>
     <div>
@@ -132,38 +133,38 @@ function Page1() {
   </div>
   ReactDOM.render(Menuoffical,document.getElementById('MenuFirst'))
 }
-function Page2() {
-  var menu = []
-  for(var i =10;i<20;i++){
-    menu[i] = <FoodInMenu name={data[i].food_name} price={data[i].price} image={data[i].img} />
-  }
-  var Menuoffical = <div>
-    <div>
-        <FilterBar />
-      </div>
-      <div style={{width:'100%'}}>
-          <FoodTypeList />
-      </div>
-      <div>{menu}</div>
-  </div>
-  ReactDOM.render(Menuoffical,document.getElementById('MenuFirst'))
-}
-function Page3() {
-  var menu = []
-  for(var i =20;i<30;i++){
-    menu[i] = <FoodInMenu name={data[i].food_name} price={data[i].price} image={data[i].img} />
-  }
-  var Menuoffical = <div>
-    <div>
-        <FilterBar />
-      </div>
-      <div style={{width:'100%'}}>
-          <FoodTypeList />
-      </div>
-      <div >{menu.slice(20,30)}</div>
-  </div>
-  ReactDOM.render(Menuoffical,document.getElementById('MenuFirst'))
-}
+// function Page2() {
+//   var menu = []
+//   for(var i =10;i<20;i++){
+//     menu[i] = <FoodInMenu name={data[i].food_name} price={data[i].price} image={data[i].img} />
+//   }
+//   var Menuoffical = <div>
+//     <div>
+//         <FilterBar />
+//       </div>
+//       <div style={{width:'100%'}}>
+//           <FoodTypeList />
+//       </div>
+//       <div>{menu}</div>
+//   </div>
+//   ReactDOM.render(Menuoffical,document.getElementById('MenuFirst'))
+// }
+// function Page3() {
+//   var menu = []
+//   for(var i =20;i<30;i++){
+//     menu[i] = <FoodInMenu name={data[i].food_name} price={data[i].price} image={data[i].img} />
+//   }
+//   var Menuoffical = <div>
+//     <div>
+//         <FilterBar />
+//       </div>
+//       <div style={{width:'100%'}}>
+//           <FoodTypeList />
+//       </div>
+//       <div >{menu.slice(20,30)}</div>
+//   </div>
+//   ReactDOM.render(Menuoffical,document.getElementById('MenuFirst'))
+// }
 
 return (
   <div>
@@ -171,7 +172,7 @@ return (
     <MenuInGen arr={JSONDATA}/>
   </div> 
 
-  <div style={{height:'50px',backgroundColor:'#efefef'}}>
+  <div id="paginationSearch" style={{height:'50px',backgroundColor:'#efefef'}}>
   <nav aria-label="Page navigation example">
   <ul class="pagination justify-content-center pagination-lg">
     <li class="page-item">
@@ -179,9 +180,12 @@ return (
         <span aria-hidden="true">&laquo;</span>
       </a>
     </li>
-    <li class="page-item"><button class="page-link" onClick={Page1}>1</button></li>
-    <li class="page-item"><button class="page-link" onClick={Page2}>2</button></li>
-    <li class="page-item"><button class="page-link" onClick={Page3}>3</button></li>
+    {
+    Array.from({length: Math.ceil(data.length / 10)}, (_, i) => i + 1).map((index) => 
+    {return <li class="page-item"><button class="page-link" onClick={() => Page(index, data)}>{index}</button></li>})
+    }
+    {/* <li class="page-item"><button class="page-link" onClick={Page2}>2</button></li>
+    <li class="page-item"><button class="page-link" onClick={Page3}>3</button></li> */}
     <li class="page-item">
       <a class="page-link" href="#" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>

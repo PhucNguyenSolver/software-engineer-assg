@@ -18,16 +18,27 @@ import Filter from './Filter';
 export default function Appbar() {
   const [searchTerm,setSearchTerm] = useState('')
   const [data, setData] = useState(JSONDATA)
+  var filtered;
+  var pagingSearch;
+  function Page(index) {
+    var menu = []
+    for(var i = (index-1)*10 ; i < 10 + (index-1)*10 ; i++){
+      if(i >= data.length) break;
+      menu[i] = <FoodInMenu name={data[i].food_name} price={data[i].price} image={data[i].img} />
+    }
+
+    ReactDOM.render(menu,document.getElementById('MenuFirst'))
+  }
 
   function HandleSearch(searchKey) {
-    var filtered;
     if (searchKey == "") {
       // document.getElementById('FilterBarId').style.visibility = 'visible'
       // ReactDOM.render(null,document.getElementById('FilterBarId'))
-      filtered = <div style={{marginBottom:'200px',backgroundColor:'#efefef'}} >
-        <MenuInGen arr={JSONDATA.slice(0,10)}/>
-      </div>
-      
+      // filtered = <div>
+      //   <MenuInGen arr={JSONDATA.slice(0,10)}/>
+      // </div>
+      //  ReactDOM.render(filtered,document.getElementById('MenuFirst'))
+      window.location.href = "/menu"
     }
     else {
       // document.getElementById('FilterBarId').style.visibility = 'hidden'
@@ -40,12 +51,31 @@ export default function Appbar() {
       <RenderElement val={val}/>
       </div>  
       })
-      
-    }
-    ReactDOM.render(filtered,document.getElementById('MenuFirst'))
+    pagingSearch= <nav aria-label="Page navigation example" >
+    <ul class="pagination justify-content-center pagination-lg">
+      <li class="page-item">
+        <a class="page-link" href="#" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      {
+      Array.from({length: Math.ceil(filtered.length / 10)}, (_, i) => i + 1).map((index) => 
+      {return <li class="page-item"><button class="page-link" onClick={() => Page(index)}>{index}</button></li>})
+      }
+      <li class="page-item">
+        <a class="page-link" href="#" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+    document.getElementById('paginationSearch').style.display = 'none'
+    ReactDOM.render(filtered.slice(0,10),document.getElementById('MenuFirst'))  
+    ReactDOM.render(pagingSearch,document.getElementById('pagingCheck'))
   }
 
   function MenuInGen({arr}) {
+    
     function FilterBar() {
       const [data, setData] = useState(JSONDATA)
       var [filterNameInit,setFilterNameInit] = useState('No filter here...')
@@ -60,19 +90,16 @@ export default function Appbar() {
       setFilterNameInit('Sort by decreasing price')
       setData(data.sort((a,b) => -a.price + b.price))
       ReactDOM.render(<MenuInGen arr={data.slice(0,10).sort((a,b) => -a.price + b.price)}/>, document.getElementById('MenuFirst'))
-      console.log(JSONDATA)
-      console.log(1)
+      
     }
-  
-    function NoFilterFunction(){
+ 
+      function NoFilterFunction(){
       setFilterNameInit('No filter here...')
       setData(JSONDATA)
       ReactDOM.render(<MenuInGen arr={JSONDATA.slice(0,10)}/>, document.getElementById('MenuFirst'))
-      console.log(JSONDATA)
-      console.log(1)
+      
     }
     
-  
     return (
       <div class="dropdown" style={{position:'absolute', right:'62px',top:'90px'}}>
     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
@@ -105,8 +132,9 @@ export default function Appbar() {
         </div>
     );
   }
-
+  }
     return (
+      <div>
         <Navbar expand="lg" sticky="top" className="color-appbar">
           <Navbar.Brand href='/'>Your logo</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -126,7 +154,8 @@ export default function Appbar() {
               aria-label="Search"
               size="sm"
               onKeyPress={event => {
-                if(event.key == "Enter") 
+            
+              if(event.key == "Enter") 
               {
                 HandleSearch(event.target.value)
                 event.preventDefault()
@@ -171,5 +200,12 @@ export default function Appbar() {
           </ul> */}
           </ Navbar.Collapse>
         </Navbar>
+
+        <div id = "pagingCheck" style={{position:'absolute',bottom:'-30%',marginLeft:'40%',marginRight:'auto'}}>
+
+        </div>
+        </div>
     )
-}
+        
+  }
+        
