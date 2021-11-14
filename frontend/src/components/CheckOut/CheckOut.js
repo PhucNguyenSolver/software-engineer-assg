@@ -44,7 +44,9 @@ const productData = [
 ]
 
 
-const CustomerDataOrdered = []
+let dataSending = {
+    idOrder : '',
+} 
 // let CustomerDataOrdered 
 
 function Product(props) {
@@ -85,7 +87,7 @@ export default function CheckOut() {
     const [wardOption, setWardOption] = useState('Lựa chọn')
 
 
-    function handleEmptyInput(e) {
+    function handleCheckOut(e) {
         let name = document.getElementById('input-name').value
         let phone = document.getElementById('input-phone').value
         let address = document.getElementById('input-address').value
@@ -93,7 +95,8 @@ export default function CheckOut() {
         let ward = document.getElementById('ward').value
         let paymentMethod = document.querySelector('input[type="radio"]:checked');
 
-        console.log(paymentMethod)
+        console.log(paymentMethod.value)
+        e.preventDefault()
         if (name == '' || phone == '' || address == '' || district == 'Lựa chọn' || ward == 'Lựa chọn' || paymentMethod == null) {
             e.preventDefault()
             toast.error('Thông tin không hợp lệ', {
@@ -106,6 +109,15 @@ export default function CheckOut() {
                 progress: undefined,
             });
         }
+        else {
+            dataSending.name = name
+            dataSending.phone = phone
+            dataSending.address = address
+            dataSending.district = district
+            dataSending.ward = ward
+            dataSending.payMethod = paymentMethod.value
+        }
+        console.log(dataSending)
     }
 
 
@@ -234,7 +246,7 @@ export default function CheckOut() {
                             <hr className="my-4" />
 
                             <button className="w-25 btn btn-lg float-start text-white" type="submit" style={{ backgroundColor: "blue" }}>Quay lại</button>
-                            <button className="w-25 btn btn-danger btn-lg float-end text-white" type="submit" onClick={handleEmptyInput} >Thanh Toán</button>
+                            <button className="w-25 btn btn-danger btn-lg float-end text-white" type="submit" onClick={handleCheckOut} >Thanh Toán</button>
                             <ToastContainer />
                         </form>
                     </div>
