@@ -2,8 +2,7 @@ const express = require("express")
 const cors = require("cors")
 
 const db = require('./app/data_layer')
-const foodRouter = require('./app/routers/food.router')
-const cartRouter = require('./app/routers/cart.router')
+const router = require('./app/routers')
 
 const app = express()
 
@@ -15,8 +14,8 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors(corsOptions))
 
-app.use('/food', foodRouter)
-app.use('/cart', cartRouter)
+app.use('/food', router.food)
+app.use('/cart', router.cart)
 
 db.connect()
 

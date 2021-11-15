@@ -44,7 +44,6 @@ GET |/food?type={`type`} | Lấy tất cả các món ăn trong thực đơn c�
 GET |/food/:{`id`} | Lấy món ăn cụ thể trong thực đơn bằng string ID | Một object chứa thông tin đầy đủ của món ăn
 GET |/foods | Lấy danh sách tất cả các món ăn | Một array các object thông tin món ăn. Object chứa ....
 
-
 ### **Parameters**
 
 Name | | Description |
@@ -52,26 +51,40 @@ Name | | Description |
 type | required | Số tháng từ 1 tới 12 |
 id | required | ID của món ăn |
 
-<br>
+## ***Giỏ hàng***
 
-# **JSON Response Data**
-Ví dụ về một JSON response:
+### **API**
+
+Method | URL | Description | Return
+-----|--------|-------|----------
+GET |/cart?list={`listItemIds`} | Gửi danh sách id các món ăn trong giỏ hàng | Một array gồm các object chứa đầy đủ thông tin các item trong giỏ hàng, với các tuỳ chọn liên quan.
+
+### **Parameters**
+
+Name | | Description |
+------|------|----
+list | required | Danh sách ObjectId của các món trong giỏ hàng |
+
+### **JSON Response Data Sample**
+- GET /cart?list={`listItemIds`}
 ```javascript
-{
-    _id: "618eb8bfc195fbd6f3d8983d",
-    name: "Cánh gà rán", "price": 25000,
-    discount: "0",
-    imageUrls: [
+[{
+    "_id": "618eb8bfc195fbd6f3d8983d",
+    "name": "Cánh gà rán",
+    "price": 25000,
+    "discount": "0",
+    "imageUrls": [
         "https://ameovat.com/wp-content/uploads/2016/05/cach-lam-ga-ran.jpg",
         "https://cdn.tgdd.vn/2020/12/CookProduct/2-1200x676-1.jpg"
     ],
-    optionIds: ["618eb1edc195fbd6f3cf8195"]
-}
+    "options": [{
+        "_id": "618eb1edc195fbd6f3cf8195",
+        "name": "Độ cay",
+        "isMultiSelect": false,
+        "items": [{
+            "name": "Cực cay",
+            "price": 0
+        }]
+    }]
+}]
 ```
-Các fields trong một *JSON response*:
-- `_id`: ID của các thực thể (món ăn, tuỳ chọn, đơn hàng ...)
-- `name`: Tên thực thể
-- `price`: Giá cả của món ăn hoặc tuỳ chọn
-- `imageUrls`: Link các hình ảnh liên quan
-- `optionIds`: Danh sách các optionId trong một món ăn
-- ...
