@@ -35,7 +35,7 @@ export function OrderOptionModal({food, quantity, setAdditionalPrice, totalPrice
                                             <OrderOptionItem orderOptionItem={orderOption} callbacks={[(newAnswer) => {
                                                 let orderOptionPrice = 0;
                                                 food.orderOptions.forEach( orderOption => {
-                                                    orderOptionPrice += orderOption.price.reduce((r,a,i) => {return r + a * orderOption.answer[i]},0);
+                                                    orderOptionPrice += orderOption.price.reduce((r,a,i) => {return r + a * newAnswer[i]},0);
                                                 })
                                                 setAdditionalPrice(orderOptionPrice);
                                             }]}/>

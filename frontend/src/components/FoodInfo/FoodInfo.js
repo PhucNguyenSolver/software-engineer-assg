@@ -62,6 +62,7 @@ export default function FoodInfo() {
     });
 
     useEffect(() => {
+        console.log("Log here " + additionalPrice);
         let basePrice = food.unitPrice * quantity;
         let newTotalPrice = basePrice + additionalPrice;
         if(newTotalPrice != totalPrice) {
