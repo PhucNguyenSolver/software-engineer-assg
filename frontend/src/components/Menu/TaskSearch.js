@@ -13,28 +13,28 @@ import Appbar from './Appbar.js'
 function MenuInGen({arr}) {
 
   // it works here
-  const [filterNameInit,setFilterNameInit] = useState('No filter here...'.slice())
-  const [data, setData] = useState(JSONDATA.slice())
+  const temp = JSONDATA.slice()
+  const [filterNameInit,setFilterNameInit] = useState('No filter here...')
+  const [data, setData] = useState(temp)
 
   function FilterBar() {
     
   function FilterFunction(){
-    setFilterNameInit("Sort by increasing price")
+    setFilterNameInit('Sort by increasing price')
     setData(data.slice().sort((a,b) => a.price - b.price))
     ReactDOM.render(<MenuInGen arr={data.sort((a,b) => a.price - b.price)}/>, document.getElementById('MenuFirst'))
   }
   
   function FilterFunctionDesc(){
-    setFilterNameInit('Sort by decreasing price')
+   setFilterNameInit('Sort by decreasing price')
     setData(data.slice().sort((a,b) => -a.price + b.price))
     ReactDOM.render(<MenuInGen arr={data.sort((a,b) => -a.price + b.price)}/>, document.getElementById('MenuFirst'))
   }
 
   function NoFilterFunction(){
-    console.log(JSONDATA)
-    setFilterNameInit('No filter here...')
-    setData(JSONDATA)
-    ReactDOM.render(<MenuInGen arr={JSONDATA}/>, document.getElementById('MenuFirst'))
+   setFilterNameInit('No filter here...')
+    setData(JSONDATA.slice())
+    ReactDOM.render(<MenuInGen arr={JSONDATA.slice()}/>, document.getElementById('MenuFirst'))
   }
   
 
@@ -61,7 +61,7 @@ function MenuInGen({arr}) {
       <div style={{width:'100%'}}>
           <FoodTypeList />
       </div>
-      <div style={{backgroundColor:'#efefef',height:'750px',width:'100%'}}>
+      <div style={{backgroundColor:'#efefef',height:'800px',width:'100%'}}>
           {
              arr.slice(0,10).map((val) => {
              return <FoodInMenu name={val.food_name} price={val.price} image={val.img} />
@@ -74,30 +74,28 @@ function MenuInGen({arr}) {
 
 
 function TaskSearch() { 
-
-  const [searchTerm,setSearchTerm] = useState('')
-  const [data, setData] = useState(JSONDATA)
-  const [filterNameInit,setFilterNameInit] = useState('No filter here...')
+  const temp = JSONDATA.slice()
+  const [filterNameInit,setFilterNameInit] = useState('No filter here...'.slice())
+  const [data, setData] = useState(temp)
 
   function FilterBar() {
     function FilterFunction(){
-      setFilterNameInit("Sort by increasing price")
-      setData(data.sort((a,b) => a.price - b.price))
+      setFilterNameInit('Sort by increasing price')
+      setData(data.slice().sort((a,b) => a.price - b.price))
       ReactDOM.render(<MenuInGen arr={data.sort((a,b) => a.price - b.price)}/>, document.getElementById('MenuFirst'))
     }
     
     function FilterFunctionDesc(){
       setFilterNameInit('Sort by decreasing price')
-      setData(data.sort((a,b) => -a.price + b.price))
+      setData(data.slice().sort((a,b) => -a.price + b.price))
       ReactDOM.render(<MenuInGen arr={data.sort((a,b) => -a.price + b.price)}/>, document.getElementById('MenuFirst'))
       
     }
   
     function NoFilterFunction(){
       setFilterNameInit('No filter here...')
-      setData(JSONDATA)
-      ReactDOM.render(<MenuInGen arr={JSONDATA}/>, document.getElementById('MenuFirst'))
-      
+      setData(JSONDATA.slice())
+      ReactDOM.render(<MenuInGen arr={JSONDATA.slice()}/>, document.getElementById('MenuFirst'))
     }
     
   
@@ -116,11 +114,11 @@ function TaskSearch() {
     );
   }
 
-function Page(index , dataRender) {
+function Page(index) {
   var menu = []
   for(var i = (index-1)*10 ; i < 10 + (index-1)*10 ; i++){
-    if(i >= dataRender.length) break;
-    menu[i] = <FoodInMenu name={dataRender[i].food_name} price={dataRender[i].price} image={dataRender[i].img} />
+    if(i >= data.length) break;
+    menu[i] = <FoodInMenu name={data[i].food_name} price={data[i].price} image={data[i].img} />
   }
   var Menuoffical = <div>
     <div>
@@ -133,47 +131,14 @@ function Page(index , dataRender) {
   </div>
   ReactDOM.render(Menuoffical,document.getElementById('MenuFirst'))
 }
-// function Page2() {
-//   var menu = []
-//   for(var i =10;i<20;i++){
-//     menu[i] = <FoodInMenu name={data[i].food_name} price={data[i].price} image={data[i].img} />
-//   }
-//   var Menuoffical = <div>
-//     <div>
-//         <FilterBar />
-//       </div>
-//       <div style={{width:'100%'}}>
-//           <FoodTypeList />
-//       </div>
-//       <div>{menu}</div>
-//   </div>
-//   ReactDOM.render(Menuoffical,document.getElementById('MenuFirst'))
-// }
-// function Page3() {
-//   var menu = []
-//   for(var i =20;i<30;i++){
-//     menu[i] = <FoodInMenu name={data[i].food_name} price={data[i].price} image={data[i].img} />
-//   }
-//   var Menuoffical = <div>
-//     <div>
-//         <FilterBar />
-//       </div>
-//       <div style={{width:'100%'}}>
-//           <FoodTypeList />
-//       </div>
-//       <div >{menu.slice(20,30)}</div>
-//   </div>
-//   ReactDOM.render(Menuoffical,document.getElementById('MenuFirst'))
-// }
-
 return (
   <div>
-   <div id="MenuFirst" style={{height:'900px',backgroundColor:'#efefef'}}>
+   <div id="MenuFirst" style={{height:'1100px',backgroundColor:'#efefef'}}>
     <MenuInGen arr={JSONDATA}/>
   </div> 
 
-  <div id="paginationSearch" style={{height:'50px',backgroundColor:'#efefef'}}>
-  <nav aria-label="Page navigation example">
+  <div id="PaginationSearch" style={{height:'50px',backgroundColor:'#efefef'}}>
+  <nav  aria-label="Page navigation example">
   <ul class="pagination justify-content-center pagination-lg">
     <li class="page-item">
       <a class="page-link" href="#" aria-label="Previous">

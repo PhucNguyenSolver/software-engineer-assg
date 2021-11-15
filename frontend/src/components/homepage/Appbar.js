@@ -12,7 +12,7 @@ import ReactDOM from 'react-dom';
 import FoodTypeList from '../Menu/FoodTypeList'
 import FoodInMenu from '../Menu/FoodInMenu'
 import Filter from './Filter';
-
+import TaskSearch from '../Menu/TaskSearch';
 
 
 export default function Appbar() {
@@ -26,28 +26,21 @@ export default function Appbar() {
       if(i >= data.length) break;
       menu[i] = <FoodInMenu name={data[i].food_name} price={data[i].price} image={data[i].img} />
     }
-
+    
     ReactDOM.render(menu,document.getElementById('MenuFirst'))
   }
 
   function HandleSearch(searchKey) {
-    if (searchKey == "") {
-      // document.getElementById('FilterBarId').style.visibility = 'visible'
-      // ReactDOM.render(null,document.getElementById('FilterBarId'))
-      // filtered = <div>
-      //   <MenuInGen arr={JSONDATA.slice(0,10)}/>
-      // </div>
-      //  ReactDOM.render(filtered,document.getElementById('MenuFirst'))
+    if (searchKey === "") {
       window.location.href = "/menu"
     }
     else {
-      // document.getElementById('FilterBarId').style.visibility = 'hidden'
     filtered = JSONDATA.filter((val)=>{
       if (val.food_name.toLowerCase().includes(searchKey.toLowerCase())){
           return val
       }
       }).map((val,key) => {        
-      return <div class="mb-5" key ={key} style={{display:'inline-block'}}>
+      return <div key ={key} style={{display:'inline-block',marginBottom:'7%'}}>
       <RenderElement val={val}/>
       </div>  
       })
@@ -69,36 +62,39 @@ export default function Appbar() {
       </li>
     </ul>
   </nav>
-    document.getElementById('paginationSearch').style.display = 'none'
+    var t = document.getElementById('PaginationSearch')
+    if(t) {
+      t.style.display = 'none'
+    }
     ReactDOM.render(filtered.slice(0,10),document.getElementById('MenuFirst'))  
     ReactDOM.render(pagingSearch,document.getElementById('pagingCheck'))
   }
 
   function MenuInGen({arr}) {
     
-    function FilterBar() {
-      const [data, setData] = useState(JSONDATA)
-      var [filterNameInit,setFilterNameInit] = useState('No filter here...')
-  
-    function FilterFunction(){
-      setFilterNameInit("Sort by increasing price")
-      setData(data.sort((a,b) => a.price - b.price))
-      ReactDOM.render(<div><MenuInGen arr={data.slice(0,10).sort((a,b) => a.price - b.price)}/></div>, document.getElementById('MenuFirst'))
-    }
+  const temp = JSONDATA.slice()
+  const [filterNameInit,setFilterNameInit] = useState('No filter here...'.slice())
+  const [data, setData] = useState(temp)
+
+  function FilterBar() {
     
-    function FilterFunctionDesc(){
-      setFilterNameInit('Sort by decreasing price')
-      setData(data.sort((a,b) => -a.price + b.price))
-      ReactDOM.render(<MenuInGen arr={data.slice(0,10).sort((a,b) => -a.price + b.price)}/>, document.getElementById('MenuFirst'))
-      
-    }
- 
-      function NoFilterFunction(){
-      setFilterNameInit('No filter here...')
-      setData(JSONDATA)
-      ReactDOM.render(<MenuInGen arr={JSONDATA.slice(0,10)}/>, document.getElementById('MenuFirst'))
-      
-    }
+  function FilterFunction(){
+    setFilterNameInit('Sort by increasing price')
+    setData(data.slice().sort((a,b) => a.price - b.price))
+    ReactDOM.render(<MenuInGen arr={data.sort((a,b) => a.price - b.price)}/>, document.getElementById('MenuFirst'))
+  }
+  
+  function FilterFunctionDesc(){
+   setFilterNameInit('Sort by decreasing price')
+    setData(data.slice().sort((a,b) => -a.price + b.price))
+    ReactDOM.render(<MenuInGen arr={data.sort((a,b) => -a.price + b.price)}/>, document.getElementById('MenuFirst'))
+  }
+
+  function NoFilterFunction(){
+   setFilterNameInit('No filter here...')
+    setData(JSONDATA.slice())
+    ReactDOM.render(<MenuInGen arr={JSONDATA.slice()}/>, document.getElementById('MenuFirst'))
+  }
     
     return (
       <div class="dropdown" style={{position:'absolute', right:'62px',top:'90px'}}>
@@ -122,7 +118,7 @@ export default function Appbar() {
         <div style={{width:'100%'}}>
             <FoodTypeList />
         </div>
-        <div style={{backgroundColor:'#efefef',height:'750px',width:'100%',marginLeft:'50px'}}>
+        <div style={{backgroundColor:'#efefef',height:'800px',width:'100%',marginLeft:'50px'}}>
             {
               arr.map((val) => {
               return <FoodInMenu name={val.food_name} price={val.price} image={val.img} />
@@ -154,14 +150,13 @@ export default function Appbar() {
               aria-label="Search"
               size="sm"
               onKeyPress={event => {
-            
               if(event.key == "Enter") 
               {
                 HandleSearch(event.target.value)
                 event.preventDefault()
               }
               setSearchTerm(event.target.value)
-                }}
+              }}
             />
             </Col>
           </Form>
