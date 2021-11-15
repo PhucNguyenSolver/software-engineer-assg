@@ -9,23 +9,8 @@ import FoodTypeList from './FoodTypeList.js'
 import FoodInMenu from './FoodInMenu.js'
 import Appbar from './Appbar.js'
 
-
-// function MenuInGen({arr}) {
-//   return (
-//       <div >
-//       <div style={{width:'100%'}}>
-//           <FoodTypeList />
-//       </div>
-//       <div style={{backgroundColor:'#efefef',height:'750px',width:'100%',marginLeft:'px'}}>
-//           {
-//             arr.map((val) => {
-//             return <FoodInMenu name={val.food_name} price={val.price} image={val.img} />
-//           })
-//           }
-//       </div>
-//       </div>
-//   );
-// }
+const axios = require('axios')
+const foodData = axios.get('localhost:8080/foods')
 
 function MenuInGen({arr}) {
   function FilterBar() {
