@@ -40,6 +40,7 @@ const orders = new Schema({
         address: SchemaTypes.String,
         phone: SchemaTypes.String
     },
+    status : String,
     shipFee: SchemaTypes.Number,
     items: [{
         foodId: SchemaTypes.ObjectId,
