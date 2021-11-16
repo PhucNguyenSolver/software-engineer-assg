@@ -3,30 +3,55 @@ import './Appbar.css'
 
 
 import React from "react";
-//import MenuInGen from './MenuInGen.js'
 import RenderElement from '../Menu/RenderElement'
-// import FilterBar from './FilterBar.js'
 import JSONDATA from '../Menu/MOCK_DATA'
 import { useState } from 'react';
 import ReactDOM from 'react-dom';
 import FoodTypeList from '../Menu/FoodTypeList'
 import FoodInMenu from '../Menu/FoodInMenu'
-import Filter from './Filter';
-import TaskSearch from '../Menu/TaskSearch';
 
+// Combo: 12, Foody: 13, Drink: 15, Appetizer: 14, Dessert: 16
 
 export default function Appbar() {
   const [searchTerm,setSearchTerm] = useState('')
   const [data, setData] = useState(JSONDATA)
   var filtered;
   var pagingSearch;
-  function Page(index) {
+  var pageNumber = 1
+  function ChangePage(index){
+    if(index > Math.ceil(filtered.length / 10) || index < 1) return;
+    pageNumber = index
     var menu = []
     for(var i = (index-1)*10 ; i < 10 + (index-1)*10 ; i++){
-      if(i >= data.length) break;
+      if(i >= filtered.length) {
+        if(i%10 <=5) {
+          document.getElementById('pagingCheck').style.bottom = '30%'
+          document.getElementById('MenuFirst').style.height = '500px'
+          break;
+        }
+      }
       menu[i] = <FoodInMenu name={data[i].food_name} price={data[i].price} image={data[i].img} />
+      document.getElementById('pagingCheck').style.bottom = '-30%'
+      document.getElementById('MenuFirst').style.height = '900px'
     }
-    
+    ReactDOM.render(menu,document.getElementById('MenuFirst'))
+  }
+  function Page(index) {
+    pageNumber = index
+    var menu = []
+    for(var i = (index-1)*10 ; i < 10 + (index-1)*10 ; i++){
+      if(i >= filtered.length) {
+        if(i%10 <=5) {
+          document.getElementById('pagingCheck').style.bottom = '30%'
+          document.getElementById('MenuFirst').style.height = '500px'
+          break;
+        }
+      }
+      menu[i] = <FoodInMenu name={data[i].food_name} price={data[i].price} image={data[i].img} />
+      document.getElementById('pagingCheck').style.bottom = '-30%'
+      document.getElementById('MenuFirst').style.height = '900px'
+    }
+     
     ReactDOM.render(menu,document.getElementById('MenuFirst'))
   }
 
@@ -40,26 +65,26 @@ export default function Appbar() {
           return val
       }
       }).map((val,key) => {        
-      return <div key ={key} style={{display:'inline-block',marginBottom:'7%'}}>
+      return <div key ={key} style={{display:'inline-block',marginBottom:'2.3%',marginTop:'3%'}}>
       <RenderElement val={val}/>
       </div>  
       })
     pagingSearch= <nav aria-label="Page navigation example" >
     <ul class="pagination justify-content-center pagination-lg">
-      <li class="page-item">
-        <a class="page-link" href="#" aria-label="Previous">
-          <span aria-hidden="true">&laquo;</span>
-        </a>
-      </li>
+    <li class="page-item">
+    <button class="page-link" aria-label="Previous" onClick={() => ChangePage(pageNumber-1)}>
+        <span aria-hidden="true">&laquo;</span>
+      </button>
+    </li>
       {
       Array.from({length: Math.ceil(filtered.length / 10)}, (_, i) => i + 1).map((index) => 
       {return <li class="page-item"><button class="page-link" onClick={() => Page(index)}>{index}</button></li>})
       }
       <li class="page-item">
-        <a class="page-link" href="#" aria-label="Next">
-          <span aria-hidden="true">&raquo;</span>
-        </a>
-      </li>
+      <button class="page-link" aria-label="Next" onClick={() => ChangePage(pageNumber+1)}>
+        <span aria-hidden="true">&raquo;</span>
+      </button>
+    </li>
     </ul>
   </nav>
     var t = document.getElementById('PaginationSearch')
@@ -118,7 +143,7 @@ export default function Appbar() {
         <div style={{width:'100%'}}>
             <FoodTypeList />
         </div>
-        <div style={{backgroundColor:'#efefef',height:'800px',width:'100%',marginLeft:'50px'}}>
+        <div id="ElementInMenu" style={{backgroundColor:'#efefef',height:'800px',width:'100%',marginLeft:'50px'}}>
             {
               arr.map((val) => {
               return <FoodInMenu name={val.food_name} price={val.price} image={val.img} />
