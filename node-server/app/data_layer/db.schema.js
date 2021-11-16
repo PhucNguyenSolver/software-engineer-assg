@@ -37,11 +37,16 @@ const orders = new Schema({
     customerInfo: {
         name: SchemaTypes.String,
         address: SchemaTypes.String,
-        phone: SchemaTypes.String
+        phone: SchemaTypes.String,
+        district : SchemaTypes.String,
+        ward : SchemaTypes.String,
+        typeOrder : SchemaTypes.String, 
     },
-    shipFee: SchemaTypes.Number,
-    status : SchemaTypes.String,
+    // shipFee: SchemaTypes.Number,
+    totalPrice: SchemaTypes.Number,
+    status : { type : SchemaTypes.String, default : 'Đang chờ xử lý'},
     items: [{
+        option: SchemaTypes.String,
         foodId: SchemaTypes.ObjectId,
         price: SchemaTypes.Number,
         discount: SchemaTypes.String, // 'x%' or number

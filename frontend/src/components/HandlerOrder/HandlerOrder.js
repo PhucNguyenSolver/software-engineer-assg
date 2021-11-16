@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react"
+import React, { Fragment, useEffect, useState } from "react"
 import { Badge, Col, Figure, Modal, Row } from "react-bootstrap";
 import ReactDOM from "react-dom";
 import './ProcessBar.css'
@@ -539,126 +539,133 @@ let orderData = [
 
 const axios = require('axios')
 
-let data
 
-axios.get('http://localhost:8080/order/manage-order')
-    .then(res => {
-        data = res.data
-        console.log(data)
-    })
-    .catch(err => console.log(err))
+// axios.get('http://localhost:8080/order/manage-order')
+//     .then(res => {
+//         let dataReceived = res.data
+//         // dataReceived.filter(() => true).forEach(item => console.log(item))
+//         // này check thôi
+//     })
+//     .catch(err => console.log(err))
+
+
 
 export default function HandlerOrder() {
 
+    const [data, setData] = useState([])
 
-    const [data, setData] = useState(orderData)
+    useEffect(() => {
+        axios.get('http://localhost:8080/order/manage-order')
+            .then(res => {
+                setData(res.data)
+            })
+    },[]) 
 
+    function ProcessBar() {
 
-function ProcessBar() {
+        const [onDisplayNumber, setOnDisplayNumber] = useState(1)
 
-    const [onDisplayNumber, setOnDisplayNumber] = useState(1)
+        function displayOrder(currStatus, number) {
+            setOnDisplayNumber(number)
 
-    function displayOrder(currStatus, number) {
-        setOnDisplayNumber(number)
+            const newData = data.filter((order) => {
+                return order.status == currStatus
+            })
 
-        const newData = data.filter((order) => {
-            return order.status == currStatus
-        })
+            ReactDOM.render(<Fragment>{newData.map((order, index) => {
+                return <OrderInfo order={order} idx={index + 1} />
+            })}</Fragment>, document.getElementById('list-order'))
+        }
 
-        ReactDOM.render(<Fragment>{newData.map((order, index) => {
-            return <OrderInfo order={order} idx={index + 1} />
-        })}</Fragment>, document.getElementById('list-order'))
-    }
-
-    return (
-        <div className="main_container">
-            <div class="container padding-bottom-3x mb-1">
-                <div class="card mb-3">
-                    <div class="p-4 text-center text-white text-lg rounded-top" style={{ backgroundColor: 'black' }}>
-                        <span class="text-uppercase">Management Order</span>
-                    </div>
-                    <div class="d-flex flex-wrap flex-sm-nowrap justify-content-between py-3 px-2 bg-secondary">
-                    </div>
-                    <div class="card-body">
-                        <div class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x">
-                            <div class={onDisplayNumber >= 1 ? 'step completed' : 'step'} >
-                                <div class="step-icon-wrap">
-                                    <div class="step-icon" onClick={() => displayOrder('Đang chờ xử lý', 1)} style={{ cursor: 'pointer' }}><i class="pe-7s-cart"></i></div>
+        return (
+            <div className="main_container">
+                <div class="container padding-bottom-3x mb-1">
+                    <div class="card mb-3">
+                        <div class="p-4 text-center text-white text-lg rounded-top" style={{ backgroundColor: 'black' }}>
+                            <span class="text-uppercase">Management Order</span>
+                        </div>
+                        <div class="d-flex flex-wrap flex-sm-nowrap justify-content-between py-3 px-2 bg-secondary">
+                        </div>
+                        <div class="card-body">
+                            <div class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x">
+                                <div class={onDisplayNumber >= 1 ? 'step completed' : 'step'} >
+                                    <div class="step-icon-wrap">
+                                        <div class="step-icon" onClick={() => displayOrder('Đang chờ xử lý', 1)} style={{ cursor: 'pointer' }}><i class="pe-7s-cart"></i></div>
+                                    </div>
+                                    <h4 class="step-title">Đang chờ xử lý</h4>
                                 </div>
-                                <h4 class="step-title">Đang chờ xử lý</h4>
-                            </div>
-                            <div class={onDisplayNumber >= 2 ? 'step completed' : 'step'} >
-                                <div class="step-icon-wrap">
-                                    <div class="step-icon" onClick={() => displayOrder('Đang được làm', 2)} style={{ cursor: 'pointer' }}><i class="pe-7s-config"></i></div>
+                                <div class={onDisplayNumber >= 2 ? 'step completed' : 'step'} >
+                                    <div class="step-icon-wrap">
+                                        <div class="step-icon" onClick={() => displayOrder('Đang được làm', 2)} style={{ cursor: 'pointer' }}><i class="pe-7s-config"></i></div>
+                                    </div>
+                                    <h4 class="step-title">Đang được làm </h4>
                                 </div>
-                                <h4 class="step-title">Đang được làm </h4>
-                            </div>
-                            <div class={onDisplayNumber >= 3 ? 'step completed' : 'step'} >
-                                <div class="step-icon-wrap">
-                                    <div class="step-icon" onClick={() => displayOrder('Đang giao hàng', 3)} style={{ cursor: 'pointer' }}><i class="pe-7s-car"></i></div>
+                                <div class={onDisplayNumber >= 3 ? 'step completed' : 'step'} >
+                                    <div class="step-icon-wrap">
+                                        <div class="step-icon" onClick={() => displayOrder('Đang giao hàng', 3)} style={{ cursor: 'pointer' }}><i class="pe-7s-car"></i></div>
+                                    </div>
+                                    <h4 class="step-title">Đang giao hàng</h4>
                                 </div>
-                                <h4 class="step-title">Đang giao hàng</h4>
-                            </div>
-                            <div class={onDisplayNumber == 4 ? 'step completed' : 'step'}>
-                                <div class="step-icon-wrap">
-                                    <div class="step-icon" onClick={() => displayOrder('Đã thanh toán', 4)} style={{ cursor: 'pointer' }}><i class="pe-7s-credit"></i></div>
+                                <div class={onDisplayNumber == 4 ? 'step completed' : 'step'}>
+                                    <div class="step-icon-wrap">
+                                        <div class="step-icon" onClick={() => displayOrder('Đã thanh toán', 4)} style={{ cursor: 'pointer' }}><i class="pe-7s-credit"></i></div>
+                                    </div>
+                                    <h4 class="step-title">Đã thanh toán</h4>
                                 </div>
-                                <h4 class="step-title">Đã thanh toán</h4>
                             </div>
                         </div>
                     </div>
+                    <div class="d-flex flex-wrap flex-md-nowrap justify-content-center justify-content-sm-between align-items-center">
+                        <div class="text-left text-sm-right"><a class="btn btn-secondary btn-rounded btn-sm" href="#">Từ chối tất cả</a></div>
+                        <div class="text-left text-sm-right"><a class="btn btn-primary btn-rounded btn-sm" href="#">Chấp nhận tất cả</a></div>
+                    </div>
                 </div>
-                <div class="d-flex flex-wrap flex-md-nowrap justify-content-center justify-content-sm-between align-items-center">
-                    <div class="text-left text-sm-right"><a class="btn btn-secondary btn-rounded btn-sm" href="#">Từ chối tất cả</a></div>
-                    <div class="text-left text-sm-right"><a class="btn btn-primary btn-rounded btn-sm" href="#">Chấp nhận tất cả</a></div>
-                </div>
+
             </div>
-
-        </div>
-    );
-}
-
-
-function OrderInfo(props) {
-    const [lgShow, setLgShow] = useState(false);
-
-    function handlerAccept() {
-        // axios.post("http://localhost:8080/order/manage-order", {
-        //     "orderId": props.order.orderId,
-        //     "action": "increase"
-        // })
-        // .then()
-
-        // data = []
-        
-        const newData = data.filter(order => order.orderId != props.order.orderId);
-        console.log(newData)
-        console.log(props.order.orderId)
-        // setData(newData)
+        );
     }
 
-    function handlerReject(idCurr) {
-        // axios.post("http://localhost:8080/order/manage-order", {
-        //     "orderId": props.order.orderId,
-        //     "action": "decrease"
-        // })
-    }
 
-    return (
-        <>
-            <tr>
-                <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{props.order.orderId}</td>
-                <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{props.order.customerName}</td>
-                <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{props.order.typeOrder}</td>
-                <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{props.order.orderInfo.map((item) => item.price * item.quantity).reduce((acc, cur) => acc + cur, 0)}</td>
-                <td>
-                    <button type="button" class="btn btn-sm btn-outline-primary" onClick={() => handlerAccept()} id={'accept' + props.idx}>Xử lý</button>
-                </td>
-                <td>
-                    <button type="button" class="btn btn-sm btn-outline-secondary" onClick={() => handlerReject()} id={'reject' + props.idx}>Xử lý</button>
-                </td>
-            </tr>
-            <Modal
+    function OrderInfo(props) {
+        const [lgShow, setLgShow] = useState(false);
+
+        function handlerAccept() {
+            // axios.post("http://localhost:8080/order/manage-order", {
+            //     "orderId": props.order.orderId,
+            //     "action": "increase"
+            // })
+            // .then()
+
+            // data = []
+
+            const newData = data.filter(order => order.orderId != props.order.orderId);
+            // newData.forEach(item => console.log(item))
+            // setData(newData)
+        }
+
+        function handlerReject(idCurr) {
+            // axios.post("http://localhost:8080/order/manage-order", {
+            //     "orderId": props.order.orderId,
+            //     "action": "decrease"
+            // })
+        }
+
+
+        return (
+            <>
+                <tr>
+                    <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{props.order._id}</td>
+                    <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{props.order.customerInfo.name}</td>
+                    <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{props.order.typeOrder}</td>
+                    <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{props.order.items.map((item) => item.price * item.quantity).reduce((acc, cur) => acc + cur, 0)}</td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-outline-primary" onClick={() => handlerAccept()} id={'accept' + props.idx}>Xử lý</button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onClick={() => handlerReject()} id={'reject' + props.idx}>Xử lý</button>
+                    </td>
+                </tr>
+                {/* <Modal
                 size="lg"
                 scrollable={true}
                 show={lgShow}
@@ -719,10 +726,20 @@ function OrderInfo(props) {
                         </Col>
                     </Row>
                 </Modal.Body>
-            </Modal>
-        </>
-    )
-}
+            </Modal> */}
+            </>
+        )
+    }
+
+    function DisplayDefault() {
+        // return dataReceived.filter((order) => {
+        //     return order.status == 'Đang chờ xử lý'
+        // }).map((order, index) => {
+        //     return <OrderInfo order={order} idx={index + 1} />
+        // })
+        console.log(data)
+        return <div></div>
+    }
 
     return (
         <div class="container">
@@ -741,11 +758,7 @@ function OrderInfo(props) {
                             </tr>
                         </thead>
                         <tbody id='list-order'>
-                            {data.filter((order) => {
-                                return order.status == 'Đang chờ xử lý'
-                            }).map((order, index) => {
-                                return <OrderInfo order={order} idx={index + 1} />
-                            })}
+                            <DisplayDefault />
                         </tbody>
                     </table>
                 </div>

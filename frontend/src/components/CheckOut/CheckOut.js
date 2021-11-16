@@ -85,6 +85,8 @@ export default function CheckOut() {
 
     const location = useLocation().state;
 
+    let shipFee = 50000
+
 
     function handleCheckOut(e) {
         let name = document.getElementById('input-name').value
@@ -93,6 +95,9 @@ export default function CheckOut() {
         let district = document.getElementById('district').value
         let ward = document.getElementById('ward').value
         let paymentMethod = document.querySelector('input[type="radio"]:checked');
+        let totalPrice = location.reduce((acc, product) => {
+            return acc + product.price * product.quantity
+        }, 0) + shipFee
 
         e.preventDefault();
 
@@ -115,9 +120,10 @@ export default function CheckOut() {
                 "address": address,
                 "district": district,
                 "ward": ward,
-                "paymentMethod": paymentMethod.value
+                "paymentMethod": paymentMethod.value === 'cod' ? 'Trực tiếp' : 'Online'
             },
-            "items" : location
+            "totalPrice" : totalPrice,
+            "items": location
         })
             .then(response => console.log(response))
 
@@ -149,18 +155,24 @@ export default function CheckOut() {
                             {location.map((product) => {
                                 return <Product product={product} />
                             })}
-                            <li className="list-group-item d-flex justify-content-between bg-light">
+                            {/* <li className="list-group-item d-flex justify-content-between bg-light">
                                 <div className="text-success">
                                     <h6 className="my-0">Mã Khuyến Mãi</h6>
                                     <small>Sinh nhật Tiến Minh</small>
                                 </div>
-                                <span className="text-success">−50000</span>
+                                <span className="text-success">{discountCode}</span>
+                            </li> */}
+                            <li className="list-group-item d-flex justify-content-between bg-light">
+                                <div className="text-primary">
+                                    <h6 className="my-0">Phí chuyển hàng</h6>
+                                </div>
+                                <span className="text-primary">{shipFee}</span>
                             </li>
                             <li className="list-group-item d-flex justify-content-between">
                                 <span>Tổng Tiền (VND)</span>
                                 <strong>{location.reduce((acc, product) => {
                                     return acc + product.price * product.quantity
-                                }, 0) - 50000}</strong>
+                                }, 0) + shipFee}</strong>
                             </li>
                         </ul>
 
