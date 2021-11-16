@@ -14,17 +14,18 @@ class Database {
     Employees = mongoose.model('Employees', PosSchema.employees)
     Orders = mongoose.model('Orders', PosSchema.orders)
     Options = mongoose.model('Options', PosSchema.options);
-
-    connect = () => mongoose.connect(this.#uri, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    }).then(() => {
-        console.log('Mongo Database connected');
-    }).catch((err) => {
-        console.log('Cannot connect to the Mongo database');
-        console.log(err)
-        process.exit();
-    })
+    connect = () => {
+        mongoose.connect(this.#uri, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        }).then(() => {
+            console.log('Mongo Database connected');
+        }).catch((err) => {
+            console.log('Cannot connect to the Mongo database');
+            console.log(err)
+            process.exit();
+        })
+    }
 }
 
 module.exports = new Database(dbConfig.uri);
