@@ -1,4 +1,6 @@
 import styled from "styled-components"
+import { useHistory } from "react-router-dom";
+
 
 const Container = styled.div`
   width: 100%;
@@ -126,22 +128,26 @@ function TotalPrice(props) {
 
 export default function CartTotalPrice(props) {
 	const total = {
-		amount: function() {
+		amount: function () {
 			let totalAmount = 0;
-			props.cartItems.forEach(function(item) {
-				if(item.active) totalAmount += item.price * item.quantity;
+			props.cartItems.forEach(function (item) {
+				if (item.active) totalAmount += item.price * item.quantity;
 			})
 			return totalAmount;
 		},
 		discount: 3000
 	}
-	
+
+	const history = useHistory();
+
 	return (
 		<div className='col-lg-3 col-md-12'>
 			<ContactInfo {...contactData} />
-			<TotalPrice {...total}/>
-			<PayButton onClick={() => window.location.href="/checkout"}>Đặt hàng ({
-				props.cartItems.filter(value => value.active === true).length
+			<TotalPrice {...total} />
+			<PayButton onClick={() =>
+				history.push('/checkout',props.cartItems.filter(value => value.active === true))
+			}>Đặt hàng ({
+					props.cartItems.filter(value => value.active === true).length
 				})</PayButton>
 		</div>
 	)

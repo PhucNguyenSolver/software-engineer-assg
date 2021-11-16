@@ -3,7 +3,7 @@ import { Badge, Col, Figure, Modal, Row } from "react-bootstrap";
 import ReactDOM from "react-dom";
 import './ProcessBar.css'
 
-const orderData = [
+let orderData = [
     {
         "orderId": "123abcxyz1",
         "customerName": "Ngô Đức Trí",
@@ -534,15 +534,34 @@ const orderData = [
 
 
 
+// ReactDOM.render(logOutIcon,document.getElementById('logout'))
+
+
+const axios = require('axios')
+
+let data
+
+axios.get('http://localhost:8080/order/manage-order')
+    .then(res => {
+        data = res.data
+        console.log(data)
+    })
+    .catch(err => console.log(err))
+
+export default function HandlerOrder() {
+
+
+    const [data, setData] = useState(orderData)
+
 
 function ProcessBar() {
 
     const [onDisplayNumber, setOnDisplayNumber] = useState(1)
 
-    function displayOrder(currStatus,number) {
+    function displayOrder(currStatus, number) {
         setOnDisplayNumber(number)
-        
-        const newData = orderData.filter((order) => {
+
+        const newData = data.filter((order) => {
             return order.status == currStatus
         })
 
@@ -555,7 +574,7 @@ function ProcessBar() {
         <div className="main_container">
             <div class="container padding-bottom-3x mb-1">
                 <div class="card mb-3">
-                    <div class="p-4 text-center text-white text-lg rounded-top" style={{backgroundColor:'black'}}>
+                    <div class="p-4 text-center text-white text-lg rounded-top" style={{ backgroundColor: 'black' }}>
                         <span class="text-uppercase">Management Order</span>
                     </div>
                     <div class="d-flex flex-wrap flex-sm-nowrap justify-content-between py-3 px-2 bg-secondary">
@@ -564,25 +583,25 @@ function ProcessBar() {
                         <div class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x">
                             <div class={onDisplayNumber >= 1 ? 'step completed' : 'step'} >
                                 <div class="step-icon-wrap">
-                                    <div class="step-icon" onClick={() => displayOrder('Đang chờ xử lý',1)} style={{ cursor: 'pointer' }}><i class="pe-7s-cart"></i></div>
+                                    <div class="step-icon" onClick={() => displayOrder('Đang chờ xử lý', 1)} style={{ cursor: 'pointer' }}><i class="pe-7s-cart"></i></div>
                                 </div>
                                 <h4 class="step-title">Đang chờ xử lý</h4>
                             </div>
                             <div class={onDisplayNumber >= 2 ? 'step completed' : 'step'} >
                                 <div class="step-icon-wrap">
-                                    <div class="step-icon" onClick={() => displayOrder('Đang được làm',2)} style={{ cursor: 'pointer' }}><i class="pe-7s-config"></i></div>
+                                    <div class="step-icon" onClick={() => displayOrder('Đang được làm', 2)} style={{ cursor: 'pointer' }}><i class="pe-7s-config"></i></div>
                                 </div>
                                 <h4 class="step-title">Đang được làm </h4>
                             </div>
                             <div class={onDisplayNumber >= 3 ? 'step completed' : 'step'} >
                                 <div class="step-icon-wrap">
-                                    <div class="step-icon" onClick={() => displayOrder('Đang giao hàng',3)} style={{ cursor: 'pointer' }}><i class="pe-7s-car"></i></div>
+                                    <div class="step-icon" onClick={() => displayOrder('Đang giao hàng', 3)} style={{ cursor: 'pointer' }}><i class="pe-7s-car"></i></div>
                                 </div>
                                 <h4 class="step-title">Đang giao hàng</h4>
                             </div>
                             <div class={onDisplayNumber == 4 ? 'step completed' : 'step'}>
                                 <div class="step-icon-wrap">
-                                    <div class="step-icon" onClick={() => displayOrder('Đã thanh toán',4)} style={{ cursor: 'pointer' }}><i class="pe-7s-credit"></i></div>
+                                    <div class="step-icon" onClick={() => displayOrder('Đã thanh toán', 4)} style={{ cursor: 'pointer' }}><i class="pe-7s-credit"></i></div>
                                 </div>
                                 <h4 class="step-title">Đã thanh toán</h4>
                             </div>
@@ -603,29 +622,25 @@ function ProcessBar() {
 function OrderInfo(props) {
     const [lgShow, setLgShow] = useState(false);
 
-    function handlerAccept(idCurr) {
-        // console.log(idCurr)
-        // orderData.find(order => {
-        //     if (order.orderId = idCurr) {
-        //         if (order.status == 'Đang chờ xử lý') order.status = 'Đang được làm'
-        //         else if (order.status == 'Đang được làm') order.status = 'Đang giao hàng'
-        //         else if (order.status == 'Đang giao hàng') order.status = 'Đã thanh toán'
-        //     }
+    function handlerAccept() {
+        // axios.post("http://localhost:8080/order/manage-order", {
+        //     "orderId": props.order.orderId,
+        //     "action": "increase"
         // })
-        // if (idCurr == "Đang giao hàng") {
-        //     document.getElementById('accept' + props.idx).disabled = true
-        //     document.getElementById('reject' + props.idx).disabled = true
+        // .then()
 
-        // }
+        // data = []
+        
+        const newData = data.filter(order => order.orderId != props.order.orderId);
+        console.log(newData)
+        console.log(props.order.orderId)
+        // setData(newData)
     }
 
     function handlerReject(idCurr) {
-        // document.getElementById('accept' + props.idx).disabled = true
-        // document.getElementById('reject' + props.idx).disabled = true
-        // orderData.find(order => {
-        //     if (order.orderId = idCurr) {
-        //         order.status = "Đã từ chối"
-        //     }
+        // axios.post("http://localhost:8080/order/manage-order", {
+        //     "orderId": props.order.orderId,
+        //     "action": "decrease"
         // })
     }
 
@@ -709,7 +724,6 @@ function OrderInfo(props) {
     )
 }
 
-export default function HandlerOrder() {
     return (
         <div class="container">
             <ProcessBar />
@@ -727,7 +741,7 @@ export default function HandlerOrder() {
                             </tr>
                         </thead>
                         <tbody id='list-order'>
-                            {orderData.filter((order) => {
+                            {data.filter((order) => {
                                 return order.status == 'Đang chờ xử lý'
                             }).map((order, index) => {
                                 return <OrderInfo order={order} idx={index + 1} />

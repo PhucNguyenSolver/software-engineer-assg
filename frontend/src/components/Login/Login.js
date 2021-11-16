@@ -6,7 +6,6 @@ const axios = require('axios')
 
 
 
-
 export default function Login() {
     const [account, setAccount] = useState('')
     const [pw, setPw] = useState('')
@@ -21,7 +20,10 @@ export default function Login() {
             "password": pw
         })
             .then((response) => {
-                if (response.data == 'Accept') window.location.href = "/manage-order"
+                if (response.data == 'Accept') {
+                    localStorage.setItem('isAuthenticated', true)
+                    window.location.href = "/manage-order"
+                }
                 else {
                     toast.error('Mật khẩu hoặc tài khoản không đúng', {
                         position: "top-right",

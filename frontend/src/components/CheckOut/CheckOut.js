@@ -1,5 +1,7 @@
 import { useState } from "react"
 import { ToastContainer, toast } from 'react-toastify';
+import { useLocation } from "react-router-dom";
+
 const axios = require('axios');
 
 
@@ -53,7 +55,7 @@ function Product(props) {
     return (
         <li className="list-group-item d-flex justify-content-between lh-sm">
             <div className='col-2'>
-                <img src={props.product.image} style={{ marginTop: 4, width: '100%' }} />
+                <img src={props.product.imgUrl} style={{ marginTop: 4, width: '100%' }} />
             </div>
             <div className='col-6'>
                 <h6 className="my-0">{props.product.name}</h6>
@@ -80,6 +82,8 @@ const wardOptionList =
 export default function CheckOut() {
 
     const [wardOption, setWardOption] = useState('Lựa chọn')
+
+    const location = useLocation().state;
 
 
     function handleCheckOut(e) {
@@ -113,7 +117,7 @@ export default function CheckOut() {
                 "ward": ward,
                 "paymentMethod": paymentMethod.value
             },
-            "items" : []
+            "items" : location
         })
             .then(response => console.log(response))
 
@@ -139,10 +143,10 @@ export default function CheckOut() {
                     <div className="col-md-5 col-lg-4 order-md-last">
                         <h4 className="d-flex justify-content-between align-items-center mb-3">
                             <span className="text-danger">Đơn Hàng</span>
-                            <span className="badge bg-danger rounded-pill">{productData.length}</span>
+                            <span className="badge bg-danger rounded-pill">{location.length}</span>
                         </h4>
                         <ul className="list-group mb-3">
-                            {productData.map((product) => {
+                            {location.map((product) => {
                                 return <Product product={product} />
                             })}
                             <li className="list-group-item d-flex justify-content-between bg-light">
@@ -154,7 +158,7 @@ export default function CheckOut() {
                             </li>
                             <li className="list-group-item d-flex justify-content-between">
                                 <span>Tổng Tiền (VND)</span>
-                                <strong>{productData.reduce((acc, product) => {
+                                <strong>{location.reduce((acc, product) => {
                                     return acc + product.price * product.quantity
                                 }, 0) - 50000}</strong>
                             </li>
@@ -245,7 +249,11 @@ export default function CheckOut() {
 
                             <hr className="my-4" />
 
-                            <button className="w-25 btn btn-lg float-start text-white" type="submit" style={{ backgroundColor: "blue" }}>Quay lại</button>
+                            <button className="w-25 btn btn-lg float-start text-white" style={{ backgroundColor: "blue" }} onClick={(e) => {
+                                e.preventDefault();
+                                window.location.href = '/cart'
+                            }
+                            }>Quay lại</button>
                             <button className="w-25 btn btn-danger btn-lg float-end text-white" type="submit" onClick={handleCheckOut} >Thanh Toán</button>
                             <ToastContainer />
                         </form>

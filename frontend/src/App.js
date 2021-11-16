@@ -15,6 +15,7 @@ import Footer from "./components/homepage/Footer";
 import MenuInGen from "./components/Menu/MenuInGen";
 import CheckOut from "./components/CheckOut/CheckOut";
 import HandlerOrder from "./components/HandlerOrder/HandlerOrder";
+import ProtectedRoute from "./components/Login/ProtectedRoute";
 
 function App() {
 	return (
@@ -26,7 +27,8 @@ function App() {
 				<Router>
 					<Switch>
 						<Route path="/login" exact component={Login} />
-						<Route path="/manage-order" exact component={HandlerOrder} />
+						<ProtectedRoute exact path='/manage-order' exact component={HandlerOrder} />
+						{/* <Route path="/manage-order" exact component={HandlerOrder} /> */}
 						<Route path="/cart" exact component={Cart} />
 						<Route path="/menu" exact component={MenuInGen} />
 						<Route path="/checkout" exact component={CheckOut} />

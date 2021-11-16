@@ -6,6 +6,12 @@ const saveOrder = function(req, res) {
     console.log(req.body)
 }
 
+const getAllOrder = async function(req, res){
+    const orderList = await db.Orders.find().exec();
+    res.send(orderList)
+}
+
 module.exports = {
-    saveOrder
+    saveOrder,
+    getAllOrder
 }
