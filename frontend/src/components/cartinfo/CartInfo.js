@@ -2,7 +2,7 @@ import TotalPayment from "./TotalPayment"
 import { QuantitySelector } from "../FoodInfo/QuantitySelector"
 import { Container, Col, Row, Figure } from 'react-bootstrap'
 import { OrderOptionItem } from "../FoodInfo/OrderOptionItem"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 
 const order = {
     id: 1234,
@@ -36,12 +36,12 @@ const order = {
         }
     ]
 }
-function calOrderOptionPrice(order) {
-    let orderOptionPrice = 0;
-    order.orderOptions.forEach( orderOption => {
-        orderOptionPrice += orderOption.price.reduce((r,a,i) => {return r + a * orderOption.answer[i]},0);
-    })
-}
+// function calOrderOptionPrice(order) {
+//     let orderOptionPrice = 0;
+//     order.orderOptions.forEach( orderOption => {
+//         orderOptionPrice += orderOption.price.reduce((r,a,i) => {return r + a * orderOption.answer[i]},0);
+//     })
+// }
 
 export default function CartInfo() {
     const [quantity, setQuantity] = useState(order.quantity);

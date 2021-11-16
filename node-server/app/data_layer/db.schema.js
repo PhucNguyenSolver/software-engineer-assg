@@ -1,4 +1,4 @@
-const { Schema, SchemaTypes } = require('mongoose');
+const { Schema, SchemaTypes, SchemaType } = require('mongoose');
 
 const employees = new Schema({
     identityCard: SchemaTypes.String,
@@ -38,6 +38,10 @@ const orders = new Schema({
         phone: SchemaTypes.String
     },
     shipFee: SchemaTypes.Number,
+    status: {
+        step: SchemaTypes.Number,
+        description: SchemaTypes.String
+    },
     items: [{
         foodId: SchemaTypes.ObjectId,
         price: SchemaTypes.Number,

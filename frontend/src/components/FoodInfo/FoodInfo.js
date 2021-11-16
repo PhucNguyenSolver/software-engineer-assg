@@ -1,7 +1,7 @@
 import { FoodDescription } from "./FoodDescription";
 import { ImagesSlide } from "./ImagesSlide";
 import { useState, useEffect } from "react";
-import { OrderOptionItem } from "./OrderOptionItem";
+// import { OrderOptionItem } from "./OrderOptionItem";
 import { OrderOptionModal } from "./OrderOptionModal";
 import {ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -64,10 +64,10 @@ export default function FoodInfo() {
     useEffect(() => {
         let basePrice = food.unitPrice * quantity;
         let newTotalPrice = basePrice + additionalPrice;
-        if(newTotalPrice != totalPrice) {
+        if(newTotalPrice !== totalPrice) {
             setTotalPrice(newTotalPrice);
         }
-    });
+    }, [totalPrice, quantity, additionalPrice]);
 
     function onSubmit() {
         toast.success('Thêm vào giỏ hàng thành công', {

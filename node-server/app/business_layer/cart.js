@@ -1,16 +1,6 @@
 const db = require('../data_layer')
 const ObjectId = require('mongoose').Types.ObjectId;
 
-const x = [{
-    id: 1,
-    imgUrl: './chicken.png',
-    name: 'Đùi gà rán',
-    sideDish: 'Tuỳ chọn: Thêm gà :), thêm nhiều gà =)), thêm nhiều nhiều gà ^^',
-    price: 49000,
-    quantity: 1,
-    active: false
-}]
-
 const getCartItems = async function (req, res) {
     let preItemIds = JSON.parse(req.query.list)
     // Some id may not have type ObjectId of Mongo, hence must filter valid id value

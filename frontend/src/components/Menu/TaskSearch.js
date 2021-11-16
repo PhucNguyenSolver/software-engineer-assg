@@ -1,13 +1,13 @@
 import React from "react";
 //import MenuInGen from './MenuInGen.js'
-import RenderElement from './RenderElement.js'
+// import RenderElement from './RenderElement.js'
 // import FilterBar from './FilterBar.js'
 import JSONDATA from './MOCK_DATA.json'
 import { useState } from 'react';
 import ReactDOM from 'react-dom';
 import FoodTypeList from './FoodTypeList.js'
 import FoodInMenu from './FoodInMenu.js'
-import Appbar from './Appbar.js'
+// import Appbar from './Appbar.js'
 
 
 // function MenuInGen({arr}) {

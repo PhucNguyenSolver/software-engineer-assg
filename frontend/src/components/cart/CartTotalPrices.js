@@ -80,44 +80,48 @@ const PayButton = styled.button`
 	margin: 15px 0px;
   cursor: pointer;
 	font-weight: 700;
-`
+`;
 
-const contactData = {
-	name: 'Nguyễn Phúc Vinh',
-	phone: '0373 395 726',
-	addr: `Ticklab, 92/10, đường Vành Đai ĐH Quốc Gia TP.HCM, khu phố Tân Lập,
-	 	Phường Linh Trung, Quận Thủ Đức, Hồ Chí Minh`
-};
+// const contactData = {
+// 	name: 'Nguyễn Phúc Vinh',
+// 	phone: '0373 395 726',
+// 	addr: `Ticklab, 92/10, đường Vành Đai ĐH Quốc Gia TP.HCM, khu phố Tân Lập,
+// 	 	Phường Linh Trung, Quận Thủ Đức, Hồ Chí Minh`
+// };
 
-function ContactInfo(props) {
+function ContactInfo() {
+	const contactData = {}
+	contactData.name = window.localStorage.getItem('customerName');
+	contactData.phone = window.localStorage.getItem('customerPhone');
+	contactData.addr = window.localStorage.getItem('customerAddr');
 	return <Contact>
 		<Contact.Header>
 			<span style={{ fontWeight: '600', fontSize: '16px' }}>Giao tới</span>
 			<ChangeContact>Thay đổi</ChangeContact>
 		</Contact.Header>
 		<Contact.SecondLine>
-			<div>{props.name}</div>
-			<div>{props.phone}</div>
+			<div>{contactData.name}</div>
+			<div>{contactData.phone}</div>
 		</Contact.SecondLine>
-		<p>{props.addr}</p>
+		<p>{contactData.addr}</p>
 	</Contact>
 }
 function TotalPrice(props) {
 	return <Total>
 		<Total.Calculation>
 			<div className='cal'>
-				<span>Tạm tính</span>
+				<span>Giá gốc</span>
 				<span>{props.amount()}đ</span>
 			</div>
 			<div className='cal'>
 				<span>Giảm giá</span>
-				<span>- {props.discount}đ</span>
+				<span>- {props.discount()}đ</span>
 			</div>
 		</Total.Calculation>
 		<Total.TotalPrice>
 			<div>Tổng cộng</div>
 			<div style={{ display: 'flex', flexFlow: 'column', alignItems: 'end' }}>
-				<div className='total-pay'>{props.amount() - props.discount}đ</div>
+				<div className='total-pay'>{props.amount() - props.discount()}đ</div>
 				<div className='description'>(Đã bao gồm VAT nếu có)</div>
 			</div>
 		</Total.TotalPrice>
@@ -133,12 +137,29 @@ export default function CartTotalPrice(props) {
 			})
 			return totalAmount;
 		},
-		discount: 3000
+		discount: function() {
+			let discountAmount = 0;
+			props.cartItems.forEach(item => {
+				if(item.active) {
+					let value = item.discount;
+					if(value[value.length - 1] === '%') {
+						console.log(value)
+						value = parseFloat(value.substr(0, value.length - 1)) / 100 
+							* item.price * item.quantity;
+					} else {
+						value = parseInt(value) * item.quantity
+					}
+					discountAmount += value
+				}
+			})
+			//console.log(discountAmount)
+			return discountAmount
+		}
 	}
 	
 	return (
 		<div className='col-lg-3 col-md-12'>
-			<ContactInfo {...contactData} />
+			<ContactInfo />
 			<TotalPrice {...total}/>
 			<PayButton onClick={() => window.location.href="/checkout"}>Đặt hàng ({
 				props.cartItems.filter(value => value.active === true).length
