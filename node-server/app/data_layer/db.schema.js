@@ -43,10 +43,9 @@ const orders = new Schema({
         typeOrder : SchemaTypes.String, 
     },
     // shipFee: SchemaTypes.Number,
-    totalPrice: SchemaTypes.Number,
     status : { type : SchemaTypes.String, default : 'Đang chờ xử lý'},
     items: [{
-        option: SchemaTypes.String,
+        options: SchemaTypes.String,
         foodId: SchemaTypes.ObjectId,
         price: SchemaTypes.Number,
         discount: SchemaTypes.String, // 'x%' or number
