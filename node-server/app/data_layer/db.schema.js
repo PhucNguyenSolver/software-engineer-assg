@@ -1,4 +1,4 @@
-const { Schema, SchemaTypes, SchemaType } = require('mongoose');
+const { Schema, SchemaTypes } = require('mongoose');
 
 const employees = new Schema({
     identityCard: SchemaTypes.String,
@@ -15,7 +15,8 @@ const foods = new Schema({
     discount: SchemaTypes.String, // 'x%' or number
     imageUrls: [SchemaTypes.String],
     description: SchemaTypes.String,
-    optionIds: [SchemaTypes.ObjectId]
+    optionIds: [SchemaTypes.ObjectId],
+    type: SchemaTypes.String
 })
 
 const options = new Schema({
@@ -46,8 +47,12 @@ const orders = new Schema({
         foodId: SchemaTypes.ObjectId,
         price: SchemaTypes.Number,
         discount: SchemaTypes.String, // 'x%' or number
-        quantity: SchemaTypes.Number
-    }]
+        quantity: SchemaTypes.Number,
+        options: {
+            name: SchemaTypes.String,
+            price: SchemaTypes.Number
+        }
+    }],
 }, {
     timestamps: {
         createdAt: true,
