@@ -143,6 +143,8 @@ export default function Appbar() {
     ReactDOM.render(<MenuInGen arr={arrAll.slice()}/>, document.getElementById('MenuFirst'))
   }
     
+
+
     return (
       <div class="dropdown" style={{position:'absolute', right:'62px',top:'90px'}}>
     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
@@ -157,6 +159,8 @@ export default function Appbar() {
   </div>
     );
   }
+
+  
     return (
       <div >
         <div>
@@ -176,6 +180,40 @@ export default function Appbar() {
     );
   }
   }
+
+  const LogInIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="30" fill="#000000" class="bi bi-person-circle" viewBox="0 0 16 16">
+      <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+      <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+    </svg>
+  )
+
+  const LogOutIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="30" fill="#000000" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+      <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
+      <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
+    </svg>
+  )
+
+  function DisplayLog() {
+    if (localStorage.getItem("isAuthenticated")) { 
+      return (
+      <Nav.Link onClick={() => {
+        localStorage.removeItem("isAuthenticated")
+      }} href='/login'>
+        <LogOutIcon />
+      </Nav.Link>
+      )
+    }
+    else { 
+      return (
+      <Nav.Link href='/login'>
+        <LogInIcon />
+      </Nav.Link>
+      )
+    } 
+  }
+
     return (
       <div>
         <Navbar expand="lg" sticky="top" className="color-appbar">
@@ -185,7 +223,7 @@ export default function Appbar() {
             <Nav className="me-auto">
                 <Nav.Link href='/'><span className="navItem">Trang chủ</span></Nav.Link>
                 <Nav.Link href='/menu'><span className="navItem">Thực đơn</span></Nav.Link>
-                <Nav.Link href='#'><span className="navItem">Đơn hàng</span></Nav.Link>
+                <Nav.Link href='/manage-order'><span className="navItem">Đơn hàng</span></Nav.Link>
                 <Nav.Link href='/Footer'><span className="navItem">Giới thiệu</span></Nav.Link>
             </Nav>
           <Form className="d-flex">
@@ -215,13 +253,7 @@ export default function Appbar() {
               <sup><span class="badge rounded-pill bg-danger">10</span></sup>
               <span class="visually-hidden">Giỏ hàng</span>
             </Nav.Link>
-            <Nav.Link href='#'>
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="30" fill="#000000" class="bi bi-person-circle" viewBox="0 0 16 16">
-                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-              </svg>
-              <span class="visually-hidden">Thông tin cá nhân</span>
-            </Nav.Link>
+            <DisplayLog />
           </Nav>
           {/* <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
             <li class="nav-item col-6 col-md-auto">

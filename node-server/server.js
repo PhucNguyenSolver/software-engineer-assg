@@ -4,6 +4,8 @@ var paypal = require('paypal-rest-sdk');
 
 const db = require('./app/data_layer')
 const router = require('./app/routers')
+const orderRoute = require('./app/routers/order.router')
+const loginRoute = require('./app/routers/login.router')
 
 const app = express();
 
@@ -17,6 +19,8 @@ app.use(express.json());
 app.use('/food', router.food)
 app.use('/cart', router.cart)
 app.use('/homepage', router.homepage)
+app.use('/order', orderRoute)
+app.use('/login', loginRoute)
 
 db.connect();
 

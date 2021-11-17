@@ -1,3 +1,4 @@
+import { useHistory } from "react-router";
 import styled from "styled-components"
 
 const Container = styled.div`
@@ -90,6 +91,7 @@ const PayButton = styled.button`
 // };
 
 function ContactInfo() {
+
 	const contactData = {}
 	contactData.name = window.localStorage.getItem('customerName');
 	contactData.phone = window.localStorage.getItem('customerPhone');
@@ -129,6 +131,7 @@ function TotalPrice(props) {
 }
 
 export default function CartTotalPrice(props) {
+	const history = useHistory();
 	const total = {
 		amount: function() {
 			let totalAmount = 0;
@@ -157,12 +160,15 @@ export default function CartTotalPrice(props) {
 		}
 	}
 	
+	
 	return (
 		<div className='col-lg-3 col-md-12'>
 			<ContactInfo />
 			<TotalPrice {...total}/>
-			<PayButton onClick={() => window.location.href="/checkout"}>Đặt hàng ({
-				props.cartItems.filter(value => value.active === true).length
+			<PayButton onClick={() =>
+				history.push('/checkout',props.cartItems.filter(value => value.active === true))
+			}>Đặt hàng ({
+					props.cartItems.filter(value => value.active === true).length
 				})</PayButton>
 		</div>
 	)

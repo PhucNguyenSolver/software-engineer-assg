@@ -12,7 +12,8 @@ import {
 import Footer from "./components/homepage/Footer";
 import TaskSearch from "./components/Menu/TaskSearch";
 import CheckOut from "./components/CheckOut/CheckOut";
-// import HandlerOrder from "./components/HandlerOrder/HandlerOrder";
+import HandlerOrder from "./components/HandlerOrder/HandlerOrder";
+import ProtectedRoute from "./components/Login/ProtectedRoute";
 
 
 
@@ -25,6 +26,7 @@ function App() {
 			<div class="row">
 				<Router>
 					<Switch>
+						<ProtectedRoute exact path='/manage-order' exact component={HandlerOrder} />
 						<Route path="/login" exact component={Login} />
 						<Route path="/cart" exact component={Cart} />
 						<Route path="/menu" exact component={TaskSearch} />

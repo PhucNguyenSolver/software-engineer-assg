@@ -5,6 +5,14 @@ import { useState, useEffect } from 'react';
 import {Button} from 'react-bootstrap';
 import FoodInMenu from './FoodInMenu.js'
 
+const axios = require('axios')
+
+axios.get('http://localhost:8080')
+  .then(res => console.log(res.data))
+  .catch(err => console.log(err))
+
+
+
 
 
 
@@ -92,7 +100,6 @@ import FoodInMenu from './FoodInMenu.js'
 // }
 
 
-const axios = require('axios')
 var arr = []
 var JSONDATA = []
 var Init = [

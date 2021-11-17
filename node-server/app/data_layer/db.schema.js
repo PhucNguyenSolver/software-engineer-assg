@@ -1,12 +1,8 @@
 const { Schema, SchemaTypes } = require('mongoose');
 
 const employees = new Schema({
-    identityCard: SchemaTypes.String,
-    name: SchemaTypes.String,
-    address: SchemaTypes.String,
-    phone: SchemaTypes.String,
-    avatar: SchemaTypes.String,
-    email: SchemaTypes.String
+    account : { type : String },
+    password : { type : String }
 })
 
 const foods = new Schema({
@@ -36,23 +32,20 @@ const orders = new Schema({
     customerInfo: {
         name: SchemaTypes.String,
         address: SchemaTypes.String,
-        phone: SchemaTypes.String
+        phone: SchemaTypes.String,
+        district : SchemaTypes.String,
+        ward : SchemaTypes.String,
+        typeOrder : SchemaTypes.String, 
     },
-    shipFee: SchemaTypes.Number,
-    status: {
-        step: SchemaTypes.Number,
-        description: SchemaTypes.String
-    },
+    // shipFee: SchemaTypes.Number,
+    status : { type : SchemaTypes.String, default : 'Đang chờ xử lý'},
     items: [{
+        options: SchemaTypes.String,
         foodId: SchemaTypes.ObjectId,
         price: SchemaTypes.Number,
         discount: SchemaTypes.String, // 'x%' or number
-        quantity: SchemaTypes.Number,
-        options: {
-            name: SchemaTypes.String,
-            price: SchemaTypes.Number
-        }
-    }],
+        quantity: SchemaTypes.Number
+    }]
 }, {
     timestamps: {
         createdAt: true,
