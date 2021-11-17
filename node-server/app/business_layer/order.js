@@ -17,10 +17,6 @@ const modifyStt = async function(req, res){
     res.send('Update success')
 }
 
-const getImgUrlByFoodId = async function(req, res) {
-    const food = await db.Foods.findOne({ _id: req.params.id }, 'name imageUrls').exec();
-    res.send(food);
-}
 const acceptAll = async function(req, res){
     db.Orders.updateMany({ status: req.body.statusCurr }, { status: req.body.statusUpdate }).exec();
     // res.send(null)
@@ -35,7 +31,6 @@ module.exports = {
     saveOrder,
     getOrderbyStatus,
     modifyStt,
-    getImgUrlByFoodId,
     acceptAll,
     rejectAll
 }
