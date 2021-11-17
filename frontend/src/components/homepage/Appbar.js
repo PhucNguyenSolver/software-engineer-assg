@@ -52,7 +52,7 @@ export default function Appbar() {
         }
       }
       menu[i] = <FoodInMenu name={data[i].food_name} price={data[i].price} image={data[i].img} />
-      document.getElementById('pagingCheck').style.bottom = '-30%'
+      document.getElementById('pagingCheck').style.bottom = '-34%'
       document.getElementById('MenuFirst').style.height = '900px'
     }
     ReactDOM.render(menu,document.getElementById('MenuFirst'))
@@ -69,7 +69,7 @@ export default function Appbar() {
         }
       }
       menu[i] = <FoodInMenu name={data[i].food_name} price={data[i].price} image={data[i].img} />
-      document.getElementById('pagingCheck').style.bottom = '-30%'
+      document.getElementById('pagingCheck').style.bottom = '-34%'
       document.getElementById('MenuFirst').style.height = '900px'
     }
      
@@ -242,7 +242,7 @@ export default function Appbar() {
           </ Navbar.Collapse>
         </Navbar>
 
-        <div id = "pagingCheck" style={{position:'absolute',bottom:'-30%',marginLeft:'40%',marginRight:'auto'}}>
+        <div id = "pagingCheck" style={{position:'absolute',bottom:'-34%',marginLeft:'40%',marginRight:'auto'}}>
 
         </div>
         </div>
