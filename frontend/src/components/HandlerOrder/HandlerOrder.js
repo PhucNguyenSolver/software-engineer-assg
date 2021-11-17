@@ -1,553 +1,12 @@
-import React, { Fragment, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react";
+import ProcessBar from "./ProcessBar";
 import { Badge, Col, Figure, Modal, Row } from "react-bootstrap";
-import ReactDOM from "react-dom";
-import './ProcessBar.css'
-
-let orderData = [
-    {
-        "orderId": "123abcxyz1",
-        "customerName": "Ngô Đức Trí",
-        "typeOrder": "Online",
-        "status": "Đang chờ xử lý",
-        "customerInfo": {
-            "phoneNumber": "0123456789",
-            "address": "Giga Mall",
-            "ward": "Hiệp Bình Chánh",
-            "district": "Thủ Đức"
-        },
-        "orderInfo": [
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay, nước mắt của Tiến Minh",
-                "quantity": 5,
-                "price": 10000,
-            },
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 3,
-                "price": 10000,
-            },
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 1,
-                "price": 10000,
-            },
-        ],
-    },
-    {
-        "orderId": "123abcxyz2",
-        "customerName": "Hoàng Minh Tiến",
-        "typeOrder": "Online",
-        "status": "Đang được làm",
-        "customerInfo": {
-            "phoneNumber": "0123456789",
-            "address": "KTX khu B",
-            "ward": "Dĩ An",
-            "district": "Thủ Đức"
-        },
-        "orderInfo": [
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 1,
-                "price": 10000,
-            },
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 3,
-                "price": 10000,
-            },
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 7,
-                "price": 10000,
-            },
-        ],
-    },
-    {
-        "orderId": "123abcxyz3",
-        "customerName": "Hoàng Minh Tiến",
-        "typeOrder": "Online",
-        "status": "Đang giao hàng",
-        "customerInfo": {
-            "phoneNumber": "0123456789",
-            "address": "KTX khu B",
-            "ward": "Dĩ An",
-            "district": "Thủ Đức"
-        },
-        "orderInfo": [
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 1,
-                "price": 10000,
-            },
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 3,
-                "price": 10000,
-            },
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 7,
-                "price": 10000,
-            },
-        ],
-    },
-    {
-        "orderId": "123abcxyz4",
-        "customerName": "Hoàng Minh Tiến",
-        "typeOrder": "Online",
-        "status": "Đã thanh toán",
-        "customerInfo": {
-            "phoneNumber": "0123456789",
-            "address": "KTX khu B",
-            "ward": "Dĩ An",
-            "district": "Thủ Đức"
-        },
-        "orderInfo": [
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 1,
-                "price": 10000,
-            },
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 3,
-                "price": 10000,
-            },
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 7,
-                "price": 10000,
-            },
-        ],
-    },
-    {
-        "orderId": "123abcxyz5",
-        "customerName": "Hoàng Minh Tiến",
-        "typeOrder": "Online",
-        "status": "Đang chờ xử lý",
-        "customerInfo": {
-            "phoneNumber": "0123456789",
-            "address": "KTX khu B",
-            "ward": "Dĩ An",
-            "district": "Thủ Đức"
-        },
-        "orderInfo": [
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 1,
-                "price": 10000,
-            },
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 3,
-                "price": 10000,
-            },
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 7,
-                "price": 10000,
-            },
-        ],
-    },
-    {
-        "orderId": "123abcxyz6",
-        "customerName": "Hoàng Minh Tiến",
-        "typeOrder": "Online",
-        "status": "Đã thanh toán",
-        "customerInfo": {
-            "phoneNumber": "0123456789",
-            "address": "KTX khu B",
-            "ward": "Dĩ An",
-            "district": "Thủ Đức"
-        },
-        "orderInfo": [
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 1,
-                "price": 10000,
-            },
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 3,
-                "price": 10000,
-            },
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 7,
-                "price": 10000,
-            },
-        ],
-    },
-    {
-        "orderId": "123abcxyz7",
-        "customerName": "Hoàng Minh Tiến",
-        "typeOrder": "Online",
-        "status": "Đang được làm",
-        "customerInfo": {
-            "phoneNumber": "0123456789",
-            "address": "KTX khu B",
-            "ward": "Dĩ An",
-            "district": "Thủ Đức"
-        },
-        "orderInfo": [
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 1,
-                "price": 10000,
-            },
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 3,
-                "price": 10000,
-            },
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 7,
-                "price": 10000,
-            },
-        ],
-    },
-    {
-        "orderId": "123abcxyz8",
-        "customerName": "Hoàng Minh Tiến",
-        "typeOrder": "Online",
-        "status": "Đang chờ xử lý",
-        "customerInfo": {
-            "phoneNumber": "0123456789",
-            "address": "KTX khu B",
-            "ward": "Dĩ An",
-            "district": "Thủ Đức"
-        },
-        "orderInfo": [
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 1,
-                "price": 10000,
-            },
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 3,
-                "price": 10000,
-            },
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 7,
-                "price": 10000,
-            },
-        ],
-    },
-    {
-        "orderId": "123abcxyz9",
-        "customerName": "Hoàng Minh Tiến",
-        "typeOrder": "Online",
-        "status": "Đang giao hàng",
-        "customerInfo": {
-            "phoneNumber": "0123456789",
-            "address": "KTX khu B",
-            "ward": "Dĩ An",
-            "district": "Thủ Đức"
-        },
-        "orderInfo": [
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 1,
-                "price": 10000,
-            },
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 3,
-                "price": 10000,
-            },
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 7,
-                "price": 10000,
-            },
-        ],
-    },
-    {
-        "orderId": "123abcxyz10",
-        "customerName": "Hoàng Minh Tiến",
-        "typeOrder": "Online",
-        "status": "Đã thanh toán",
-        "customerInfo": {
-            "phoneNumber": "0123456789",
-            "address": "KTX khu B",
-            "ward": "Dĩ An",
-            "district": "Thủ Đức"
-        },
-        "orderInfo": [
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 1,
-                "price": 10000,
-            },
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 3,
-                "price": 10000,
-            },
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 7,
-                "price": 10000,
-            },
-        ],
-    },
-    {
-        "orderId": "123abcxyz11",
-        "customerName": "Hoàng Minh Tiến",
-        "typeOrder": "Online",
-        "status": "Đang chờ xử lý",
-        "customerInfo": {
-            "phoneNumber": "0123456789",
-            "address": "KTX khu B",
-            "ward": "Dĩ An",
-            "district": "Thủ Đức"
-        },
-        "orderInfo": [
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 1,
-                "price": 10000,
-            },
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 3,
-                "price": 10000,
-            },
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 7,
-                "price": 10000,
-            },
-        ],
-    },
-    {
-        "orderId": "123abcxyz12",
-        "customerName": "Tiến Minh",
-        "typeOrder": "Online",
-        "status": "Đang được làm",
-        "customerInfo": {
-            "phoneNumber": "0123456789",
-            "address": "KTX khu B",
-            "ward": "Dĩ An",
-            "district": "Thủ Đức"
-        },
-        "orderInfo": [
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 1,
-                "price": 10000,
-            },
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 3,
-                "price": 10000,
-            },
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 7,
-                "price": 10000,
-            },
-        ],
-    },
-    {
-        "orderId": "123abcxyz13",
-        "customerName": "Hoàng Minh Tiến",
-        "typeOrder": "Online",
-        "status": "Đang chờ xử lý",
-        "customerInfo": {
-            "phoneNumber": "0123456789",
-            "address": "KTX khu B",
-            "ward": "Dĩ An",
-            "district": "Thủ Đức"
-        },
-        "orderInfo": [
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 1,
-                "price": 10000,
-            },
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 3,
-                "price": 10000,
-            },
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 7,
-                "price": 10000,
-            },
-        ],
-    },
-    {
-        "orderId": "123abcxyz14",
-        "customerName": "Hoàng Minh Tiến",
-        "typeOrder": "Online",
-        "status": "Đang chờ xử lý",
-        "customerInfo": {
-            "phoneNumber": "0123456789",
-            "address": "KTX khu B",
-            "ward": "Dĩ An",
-            "district": "Thủ Đức"
-        },
-        "orderInfo": [
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 1,
-                "price": 10000,
-            },
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 3,
-                "price": 10000,
-            },
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 7,
-                "price": 10000,
-            },
-        ],
-    },
-    {
-        "orderId": "123abcxyz15",
-        "customerName": "Hoàng Minh Tiến",
-        "typeOrder": "Online",
-        "status": "Đang từ chối",
-        "customerInfo": {
-            "phoneNumber": "0123456789",
-            "address": "KTX khu B",
-            "ward": "Dĩ An",
-            "district": "Thủ Đức"
-        },
-        "orderInfo": [
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 1,
-                "price": 10000,
-            },
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 3,
-                "price": 10000,
-            },
-            {
-                "imgUrl": "https://vuacua.vn/storage/media/p269c1CWENCt0RgJKYqFAlsJknm8XiIGdjpYgqks.jpeg",
-                "name": "Lòng xào xả ớt sao bằng lòng dạ Tiến Minh",
-                "options": "Pepsi, cay",
-                "quantity": 7,
-                "price": 10000,
-            },
-        ],
-    },
-
-]
-
-
 
 // ReactDOM.render(logOutIcon,document.getElementById('logout'))
 
 
 const axios = require('axios')
 
-
-
-// axios.get('http://localhost:8080/order/manage-order')
-//     .then(res => {
-//         let dataReceived = res.data
-//         // dataReceived.filter(() => true).forEach(item => console.log(item))
-//         // này check thôi
-//     })
-//     .catch(err => console.log(err))
 
 
 
@@ -571,13 +30,6 @@ export default function HandlerOrder() {
         function displayOrder(currStatus, number) {
             setOnDisplayNumber(number)
 
-            // const newData = data.filter((order) => {
-            //     return order.status == currStatus
-            // })
-
-            // ReactDOM.render(<Fragment>{newData.map((order, index) => {
-            //     return <OrderInfo order={order} idx={index + 1} />
-            // })}</Fragment>, document.getElementById('list-order'))
             axios.get(`http://localhost:8080/order/manage-order/${currStatus}`)
                 .then(res => {
                     console.log(res.data)
@@ -634,28 +86,24 @@ export default function HandlerOrder() {
     }
 
 
-    function OrderInfo(props) {
+    function OrderInfo({order , idx}) {
         const [lgShow, setLgShow] = useState(false);
 
         function handlerAccept() {
             let sttOrder = 'Đang chờ xử lý'
 
-            if (props.order.status == 'Đang chờ xử lý') sttOrder = 'Đang được làm'
-            else if (props.order.status == 'Đang được làm') sttOrder = 'Đang giao hàng'
-            else if (props.order.status == 'Đang giao hàng') sttOrder = 'Đã thanh toán'
-            else if (props.order.status == 'Đã thanh toán') sttOrder = 'Done'
-
-            console.log(sttOrder)
-
-            console.log(props.order._id)
+            if (order.status == 'Đang chờ xử lý') sttOrder = 'Đang được làm'
+            else if (order.status == 'Đang được làm') sttOrder = 'Đang giao hàng'
+            else if (order.status == 'Đang giao hàng') sttOrder = 'Đã thanh toán'
+            else if (order.status == 'Đã thanh toán') sttOrder = 'Done'
 
 
             axios.post("http://localhost:8080/order/manage-order", {
-                "orderId": props.order._id,
+                "orderId": order._id,
                 "sttOrder": sttOrder
             })
                 .then(() => {
-                    axios.get(`http://localhost:8080/order/manage-order/${props.order.status}`)
+                    axios.get(`http://localhost:8080/order/manage-order/${order.status}`)
                         .then(res => {
                             console.log(res.data)
                             setData(res.data)
@@ -666,11 +114,11 @@ export default function HandlerOrder() {
 
         function handlerReject() {
             axios.post("http://localhost:8080/order/manage-order", {
-                "orderId": props.order.orderId,
+                "orderId": order.orderId,
                 "sttOrder": 'Đã từ chối'
             })
                 .then(() => {
-                    axios.get(`http://localhost:8080/order/manage-order/${props.order.status}`)
+                    axios.get(`http://localhost:8080/order/manage-order/${order.status}`)
                         .then(res => {
                             console.log(res.data)
                             setData(res.data)
@@ -682,79 +130,79 @@ export default function HandlerOrder() {
         return (
             <>
                 <tr>
-                    <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{props.order._id}</td>
-                    <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{props.order.customerInfo.name}</td>
-                    <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{props.order.customerInfo.typeOrder}</td>
-                    <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{props.order.items.map((item) => item.price * item.quantity).reduce((acc, cur) => acc + cur, 0)}</td>
+                    <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{order._id}</td>
+                    <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{order.customerInfo.name}</td>
+                    <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{order.customerInfo.typeOrder}</td>
+                    <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{Intl.NumberFormat().format(order.items.map((item) => item.price * item.quantity).reduce((acc, cur) => acc + cur, 0)) + ' đ'}</td>
                     <td>
-                        <button type="button" class="btn btn-sm btn-outline-primary" onClick={() => handlerAccept()} id={'accept' + props.idx}>Xử lý</button>
+                        <button type="button" class="btn btn-sm btn-outline-primary" onClick={() => handlerAccept()} id={'accept' + idx}>Xử lý</button>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-sm btn-outline-secondary" onClick={() => handlerReject()} id={'reject' + props.idx}>Xử lý</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onClick={() => handlerReject()} id={'reject' + idx}>Xử lý</button>
                     </td>
                 </tr>
-                {/* <Modal
-                size="lg"
-                scrollable={true}
-                show={lgShow}
-                onHide={() => setLgShow(false)}
-                aria-labelledby="example-modal-sizes-title-lg"
-            >
-                <Modal.Header closeButton>
-                    <Modal.Title id="example-modal-sizes-title-lg">
-                        Chi tiết đơn hàng
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Row>
-                        <Col>
-                            <h5>Thông tin khách hàng</h5>
-                            <Row>
-                                <Col xl={5} lg={5} md={5} sm={5} xs={5}>Họ và tên:</Col>
-                                <Col><p>{props.order.customerName}</p></Col>
-                            </Row>
-                            <Row>
-                                <Col xl={5} lg={5} md={5} sm={5} xs={5}>Số điện thoại:</Col>
-                                <Col><p>{props.order.customerInfo.phoneNumber}</p></Col>
-                            </Row>
-                            <Row>
-                                <Col xl={5} lg={5} md={5} sm={5} xs={5}>Địa chỉ:</Col>
-                                <Col><p>{props.order.customerInfo.address}</p></Col>
-                            </Row>
-                            <Row>
-                                <Col xl={5} lg={5} md={5} sm={5} xs={5}>Phường / Xã:</Col>
-                                <Col><p>{props.order.customerInfo.ward}</p></Col>
-                            </Row>
-                            <Row>
-                                <Col xl={5} lg={5} md={5} sm={5} xs={5}>Quận / Huyện:</Col>
-                                <Col><p>{props.order.customerInfo.district}</p></Col>
-                            </Row>
-                            <h5>Giỏ hàng</h5>
-                            {props.order.orderInfo.map((item) => (
+                <Modal
+                    size="lg"
+                    scrollable={true}
+                    show={lgShow}
+                    onHide={() => setLgShow(false)}
+                    aria-labelledby="example-modal-sizes-title-lg"
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title id="example-modal-sizes-title-lg">
+                            Chi tiết đơn hàng
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Row>
+                            <Col>
+                                <h5>Thông tin khách hàng</h5>
                                 <Row>
-                                    <Col xl={2} lg={2} md={2} sm={2} xs={2}><Figure.Image alt="FoodImg" src={item.imgUrl}></Figure.Image></Col>
-                                    <Col xl={7} lg={7} md={10} sm={10} xs={10}>
-                                        <Row><h5>{item.name}</h5></Row>
-                                        <Row><p>{item.options}</p></Row>
-                                    </Col>
-                                    <Col xl={2} lg={2} md={10} sm={10} xs={9}>
-                                        <p>Số lượng: {item.quantity}</p>
-                                    </Col>
+                                    <Col xl={5} lg={5} md={5} sm={5} xs={5}>Họ và tên:</Col>
+                                    <Col><p>{order.name}</p></Col>
+                                </Row>
+                                <Row>
+                                    <Col xl={5} lg={5} md={5} sm={5} xs={5}>Số điện thoại:</Col>
+                                    <Col><p>{order.customerInfo.phone}</p></Col>
+                                </Row>
+                                <Row>
+                                    <Col xl={5} lg={5} md={5} sm={5} xs={5}>Địa chỉ:</Col>
+                                    <Col><p>{order.customerInfo.address}</p></Col>
+                                </Row>
+                                <Row>
+                                    <Col xl={5} lg={5} md={5} sm={5} xs={5}>Phường / Xã:</Col>
+                                    <Col><p>{order.customerInfo.ward}</p></Col>
+                                </Row>
+                                <Row>
+                                    <Col xl={5} lg={5} md={5} sm={5} xs={5}>Quận / Huyện:</Col>
+                                    <Col><p>{order.customerInfo.district}</p></Col>
+                                </Row>
+                                <h5>Giỏ hàng</h5>
+                                {order.items.map(item => (
+                                    <Row>
+                                        <Col xl={2} lg={2} md={2} sm={2} xs={2}><Figure.Image alt="FoodImg" src={item.imgUrl}></Figure.Image></Col>
+                                        <Col xl={7} lg={7} md={10} sm={10} xs={10}>
+                                            <Row><h5>{item.name}</h5></Row>
+                                            <Row><p>{item.options}</p></Row>
+                                        </Col>
+                                        <Col xl={2} lg={2} md={10} sm={10} xs={9}>
+                                            <p>Số lượng: {item.quantity}</p>
+                                        </Col>
+                                        <Col>
+                                            <Row><Badge variant="primary" pill>{Intl.NumberFormat().format(item.price * item.quantity) + ' đ'}</Badge></Row>
+                                        </Col>
+                                    </Row>
+                                ))}
+                                <Row>
+                                    <Col xl={7} lg={7} md={7} sm={7} xs={5}><h4>Tổng tiền:</h4></Col>
                                     <Col>
-                                        <Row><Badge variant="primary" pill>{item.price * item.quantity + ' đ'}</Badge></Row>
+                                        <h4><Badge variant="primary" pill>{Intl.NumberFormat().format(order.items.map(item => item.price * item.quantity).reduce((acc, cur) => acc + cur, 0)) + ' đ'}</Badge></h4>
                                     </Col>
                                 </Row>
-                            ))}
-                            <Row>
-                                <Col xl={7} lg={7} md={7} sm={7} xs={5}><h4>Tổng tiền:</h4></Col>
-                                <Col>
-                                    <h4><Badge variant="primary" pill>{props.order.orderInfo.map((item) => item.price * item.quantity).reduce((acc, cur) => acc + cur, 0) + 'đ'}</Badge></h4>
-                                </Col>
-                            </Row>
-                        </Col>
-                    </Row>
-                </Modal.Body>
-            </Modal> */}
+                            </Col>
+                        </Row>
+                    </Modal.Body>
+                </Modal>
             </>
         )
     }
@@ -762,7 +210,7 @@ export default function HandlerOrder() {
 
     return (
         <div class="container">
-            <ProcessBar />
+            <ProcessBar data={data} />
             <div class="container mt-5 ">
                 <div class="table-responsive">
                     <table class="table table-striped table-sm">
