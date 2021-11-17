@@ -8,14 +8,14 @@ import FoodTypeList from './FoodTypeList.js'
 import FoodInMenu from './FoodInMenu.js'
 import Appbar from './Appbar.js'
 
-<<<<<<< HEAD
-
-=======
 const axios = require('axios')
-const foodData = axios.get('localhost:8080/foods')
->>>>>>> dev
+axios.get('localhost:8080/food')
+.then( (res) => {
+  console.log(res.data)
+})
 
 function TaskSearch() { 
+
   const tmp = JSONDATA.slice()
   const [temp, setTemp] = useState(tmp)
   const [filterNameInit,setFilterNameInit] = useState('No filter here...')
