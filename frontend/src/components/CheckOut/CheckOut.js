@@ -61,8 +61,8 @@ function Product(props) {
                 <h6 className="my-0">{props.product.name}</h6>
                 <small className="text-muted">Số lượng : {props.product.quantity}</small>
             </div>
-            <div className='col-3'>
-                <span className="text-muted">{props.product.price * props.product.quantity}đ</span>
+            <div className='float-end'>
+                <span className="text-muted">{new Intl.NumberFormat().format(props.product.price * props.product.quantity)}</span>
             </div>
         </li>
     )
@@ -166,13 +166,13 @@ export default function CheckOut() {
                                 <div className="text-primary">
                                     <h6 className="my-0">Phí chuyển hàng</h6>
                                 </div>
-                                <span className="text-primary">{shipFee}</span>
+                                <span className="text-primary">{new Intl.NumberFormat().format(shipFee)}</span>
                             </li>
                             <li className="list-group-item d-flex justify-content-between">
                                 <span>Tổng Tiền (VND)</span>
-                                <strong>{location.reduce((acc, product) => {
+                                <strong>{new Intl.NumberFormat().format(location.reduce((acc, product) => {
                                     return acc + product.price * product.quantity
-                                }, 0) + shipFee}</strong>
+                                }, 0) + shipFee)}</strong>
                             </li>
                         </ul>
 

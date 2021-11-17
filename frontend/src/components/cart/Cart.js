@@ -19,7 +19,7 @@ const CartInner = styled.div``
 
 const cartItem = [{
     id: 1,
-    imgUrl: './chicken.png',
+    imgUrl: 'https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg',
     name: 'Đùi gà rán',
     sideDish: 'Tuỳ chọn: Thêm gà :), thêm nhiều gà =)), thêm nhiều nhiều gà ^^',
     price: 49000,
@@ -27,7 +27,7 @@ const cartItem = [{
     active: false
 }, {
     id: 2,
-    imgUrl: './chicken.png',
+    imgUrl: 'https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg',
     name: 'Cánh gà rán',
     sideDish: 'Tuỳ chọn: Thêm gà :), thêm nhiều gà =)), thêm nhiều nhiều gà ^^',
     price: 39000,
@@ -35,7 +35,7 @@ const cartItem = [{
     active: false
 }, {
     id: 3,
-    imgUrl: './chicken.png',
+    imgUrl: 'https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg',
     name: 'Góc tư gà rán',
     sideDish: 'Tuỳ chọn: Thêm gà :), thêm nhiều gà =)), thêm nhiều nhiều gà ^^',
     price: 49000,
@@ -43,7 +43,7 @@ const cartItem = [{
     active: false
 }, {
     id: 4,
-    imgUrl: './chicken.png',
+    imgUrl: 'https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg',
     name: 'Ức gà rán',
     sideDish: 'Tuỳ chọn: Thêm gà :), thêm nhiều gà =)), thêm nhiều nhiều gà ^^',
     price: 39000,
@@ -51,7 +51,7 @@ const cartItem = [{
     active: false
 }, {
     id: 5,
-    imgUrl: './chicken.png',
+    imgUrl: 'https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg',
     name: 'Tổng hợp gà rán',
     sideDish: 'Tuỳ chọn: Thêm gà :), thêm nhiều gà =)), thêm nhiều nhiều gà ^^',
     price: 69000,
@@ -59,7 +59,7 @@ const cartItem = [{
     active: false
 }, {
     id: 6,
-    imgUrl: './chicken.png',
+    imgUrl: 'https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg',
     name: 'Đầu gà rán',
     sideDish: 'Tuỳ chọn: Thêm gà :), thêm nhiều gà =)), thêm nhiều nhiều gà ^^',
     price: 51000,
@@ -67,7 +67,7 @@ const cartItem = [{
     active: false
 }, {
     id: 7,
-    imgUrl: './chicken.png',
+    imgUrl: 'https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg',
     name: 'Lông gà rán',
     sideDish: 'Tuỳ chọn: Thêm gà :), thêm nhiều gà =)), thêm nhiều nhiều gà ^^',
     price: 5000,
