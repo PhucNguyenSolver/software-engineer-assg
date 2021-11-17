@@ -9,6 +9,14 @@ import FoodTypeList from './FoodTypeList.js'
 import FoodInMenu from './FoodInMenu.js'
 import Appbar from './Appbar.js'
 
+const axios = require('axios')
+
+axios.get('http://localhost:8080')
+  .then(res => console.log(res.data))
+  .catch(err => console.log(err))
+
+
+
 
 // function MenuInGen({arr}) {
 //   return (
@@ -87,6 +95,7 @@ function MenuInGen({arr}) {
 
 function TaskSearch() { 
 
+  console.log('hahahahahahahahaha')
   const [searchTerm,setSearchTerm] = useState('')
   const [data, setData] = useState(JSONDATA)
   var [filterNameInit,setFilterNameInit] = useState('No filter here...')

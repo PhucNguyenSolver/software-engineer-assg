@@ -6,6 +6,14 @@ const getFoodById = async function(req, res) {
     res.status(200).send(food);
 }
 
+const getAllFood = async function(req, res) {
+    const food = await db.Foods.find().exec();
+    console.log(food)
+    console.log('Hello')
+    res.status(200).send(food);
+}
+
 module.exports = {
-    getFoodById
+    getFoodById,
+    getAllFood
 }

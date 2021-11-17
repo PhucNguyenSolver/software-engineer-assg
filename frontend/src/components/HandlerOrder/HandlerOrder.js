@@ -540,6 +540,7 @@ let orderData = [
 const axios = require('axios')
 
 
+
 // axios.get('http://localhost:8080/order/manage-order')
 //     .then(res => {
 //         let dataReceived = res.data
@@ -552,29 +553,36 @@ const axios = require('axios')
 
 export default function HandlerOrder() {
 
+    // const [dataReceived, setDataReceived] = useState([])
+
     const [data, setData] = useState([])
 
     useEffect(() => {
-        axios.get('http://localhost:8080/order/manage-order')
+        axios.get(`http://localhost:8080/order/manage-order/Đang chờ xử lý`)
             .then(res => {
                 setData(res.data)
             })
-    },[]) 
+    }, [])
 
+    const [onDisplayNumber, setOnDisplayNumber] = useState(1)
     function ProcessBar() {
 
-        const [onDisplayNumber, setOnDisplayNumber] = useState(1)
 
         function displayOrder(currStatus, number) {
             setOnDisplayNumber(number)
 
-            const newData = data.filter((order) => {
-                return order.status == currStatus
-            })
+            // const newData = data.filter((order) => {
+            //     return order.status == currStatus
+            // })
 
-            ReactDOM.render(<Fragment>{newData.map((order, index) => {
-                return <OrderInfo order={order} idx={index + 1} />
-            })}</Fragment>, document.getElementById('list-order'))
+            // ReactDOM.render(<Fragment>{newData.map((order, index) => {
+            //     return <OrderInfo order={order} idx={index + 1} />
+            // })}</Fragment>, document.getElementById('list-order'))
+            axios.get(`http://localhost:8080/order/manage-order/${currStatus}`)
+                .then(res => {
+                    console.log(res.data)
+                    setData(res.data)
+                })
         }
 
         return (
@@ -630,24 +638,44 @@ export default function HandlerOrder() {
         const [lgShow, setLgShow] = useState(false);
 
         function handlerAccept() {
-            // axios.post("http://localhost:8080/order/manage-order", {
-            //     "orderId": props.order.orderId,
-            //     "action": "increase"
-            // })
-            // .then()
+            let sttOrder = 'Đang chờ xử lý'
 
-            // data = []
+            if (props.order.status == 'Đang chờ xử lý') sttOrder = 'Đang được làm'
+            else if (props.order.status == 'Đang được làm') sttOrder = 'Đang giao hàng'
+            else if (props.order.status == 'Đang giao hàng') sttOrder = 'Đã thanh toán'
+            else if (props.order.status == 'Đã thanh toán') sttOrder = 'Done'
 
-            const newData = data.filter(order => order.orderId != props.order.orderId);
-            // newData.forEach(item => console.log(item))
-            // setData(newData)
+            console.log(sttOrder)
+
+            console.log(props.order._id)
+
+
+            axios.post("http://localhost:8080/order/manage-order", {
+                "orderId": props.order._id,
+                "sttOrder": sttOrder
+            })
+                .then(() => {
+                    axios.get(`http://localhost:8080/order/manage-order/${props.order.status}`)
+                        .then(res => {
+                            console.log(res.data)
+                            setData(res.data)
+                        })
+                })
+
         }
 
-        function handlerReject(idCurr) {
-            // axios.post("http://localhost:8080/order/manage-order", {
-            //     "orderId": props.order.orderId,
-            //     "action": "decrease"
-            // })
+        function handlerReject() {
+            axios.post("http://localhost:8080/order/manage-order", {
+                "orderId": props.order.orderId,
+                "sttOrder": 'Đã từ chối'
+            })
+                .then(() => {
+                    axios.get(`http://localhost:8080/order/manage-order/${props.order.status}`)
+                        .then(res => {
+                            console.log(res.data)
+                            setData(res.data)
+                        })
+                })
         }
 
 
@@ -656,7 +684,7 @@ export default function HandlerOrder() {
                 <tr>
                     <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{props.order._id}</td>
                     <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{props.order.customerInfo.name}</td>
-                    <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{props.order.typeOrder}</td>
+                    <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{props.order.customerInfo.typeOrder}</td>
                     <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{props.order.items.map((item) => item.price * item.quantity).reduce((acc, cur) => acc + cur, 0)}</td>
                     <td>
                         <button type="button" class="btn btn-sm btn-outline-primary" onClick={() => handlerAccept()} id={'accept' + props.idx}>Xử lý</button>
@@ -731,15 +759,6 @@ export default function HandlerOrder() {
         )
     }
 
-    function DisplayDefault() {
-        // return dataReceived.filter((order) => {
-        //     return order.status == 'Đang chờ xử lý'
-        // }).map((order, index) => {
-        //     return <OrderInfo order={order} idx={index + 1} />
-        // })
-        console.log(data)
-        return <div></div>
-    }
 
     return (
         <div class="container">
@@ -758,7 +777,9 @@ export default function HandlerOrder() {
                             </tr>
                         </thead>
                         <tbody id='list-order'>
-                            <DisplayDefault />
+                            {data.map((order, index) => {
+                                return <OrderInfo order={order} idx={index + 1} />
+                            })}
                         </tbody>
                     </table>
                 </div>

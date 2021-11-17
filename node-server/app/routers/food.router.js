@@ -5,4 +5,6 @@ const foodCtrler = require('../business_layer/food')
 
 router.get('/:id', foodCtrler.getFoodById);
 
+router.get('/', foodCtrler.getAllFood);
+
 module.exports = router;

@@ -41,7 +41,7 @@ export default function Login() {
     return (
         <div>
             <div className="container-md container-xs container-xl text-center" style={{ width: "30%", minWidth: "350px", paddingTop: "200px", paddingBottom: "200px"}} >
-                <form>
+                <form method='POST'>
                     <p className="display-5 mb-5 fw-normal text-center ">Log in</p>
                     <div className="form-floating mb-2">
                         <input type="account" className="form-control" id="floatingInput" placeholder="name@example.com"
