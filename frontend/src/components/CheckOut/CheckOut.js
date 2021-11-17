@@ -86,6 +86,7 @@ export default function CheckOut() {
     const DEFAULT_LOCATE = 'Lựa chọn';
     const [district, setDistrict] = useState(DEFAULT_LOCATE)
     const [ward, setWard] = useState(DEFAULT_LOCATE)
+    const [wardOption, setWardOption] = useState([])
 
     const [shipFee, setShipFee] = useState(null);
     const [shipTime, setShipTime] = useState();
@@ -93,6 +94,7 @@ export default function CheckOut() {
     
     useEffect(() => {
       async function fetchData() {
+
         if (district === DEFAULT_LOCATE || ward === DEFAULT_LOCATE) {
           setShipFee(null);
         } else {
@@ -104,7 +106,6 @@ export default function CheckOut() {
       }
       fetchData();
     }, [district, ward]);
-    const [wardOption, setWardOption] = useState('Lựa chọn')
     const handleDistrictChange = (event) => {
       setDistrict(event.target.value);
     }
@@ -163,10 +164,8 @@ export default function CheckOut() {
 
 
     function WardOption() {
-        if (wardOption === 'Lựa chọn') return null
-        else return wardOption.map(ward => 
-            <option key={ward}>{ward}</option>
-        )
+        if (wardOption === 'Lựa chọn') return <div></div>
+        else return wardOption.map(ward => <option key={ward} value={ward}>{ward}</option>)
     }
 
     return (
@@ -259,20 +258,15 @@ export default function CheckOut() {
                                         <option >Quận 10</option>
                                         <option >Quận Bình Thạnh</option>
                                     </select>
-                                    <div className="invalid-feedback">
-                                        Please select a valid country.
-                                    </div>
                                 </div>
 
-                                <div className="col-md">
+                                <div className="col-md" >
                                     <label for="ward" className="form-label">Phường / Xã</label>
-                                    <select className="form-select" name='customerWard' id="ward" onChange={handleWardChange}>
-                                        <option selected>Lựa chọn</option>
-                                        <WardOption />
+                                    <select className="form-select" name='customerWard' id="ward" onChange={event => handleWardChange(event)} >
+                                        <option >Lựa chọn</option>
+                                        {/* <WardOption /> */}
+                                        {wardOption.map(ward => <option key={ward} value={ward}>{ward}</option>)}
                                     </select>
-                                    <div className="invalid-feedback">
-                                        Please provide a valid state.
-                                    </div>
                                 </div>
                             </div>
 
