@@ -15,15 +15,6 @@ export default function HandlerOrder() {
             .catch(err => console.log(err));
     },[])
 
-    function DisplayDefault() {
-        // return dataReceived.filter((order) => {
-        //     return order.status == 'Đang chờ xử lý'
-        // }).map((order, index) => {
-        //     return <OrderInfo order={order} idx={index + 1} />
-        // })
-        return <div></div>
-    }
-
     return (
         <div class="container">
             <ProcessBar data={data}/>
@@ -41,7 +32,6 @@ export default function HandlerOrder() {
                             </tr>
                         </thead>
                         <tbody id='list-order'>
-                            <DisplayDefault />
                         </tbody>
                     </table>
                 </div>
