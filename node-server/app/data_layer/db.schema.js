@@ -51,10 +51,15 @@ const orders = new Schema({
     }
 })
 
+const banner = newSchema({
+    imageUrls: [SchemaTypes.String]
+})
+
 module.exports = {
     employees,
     options,
     orders,
     categories,
-    foods
+    foods,
+    banner
 }
