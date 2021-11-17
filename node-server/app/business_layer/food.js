@@ -24,9 +24,11 @@ const getFoodDetailById = async function (req, res) {
         option.options = option.items.map((item) => {
             return item.name;
         })
+        
         option.price = option.items.map((item) => {
             return item.price;
         })
+
         option.answer = option.items.map((item, idx) => {return false});
         if(!option.isMultiSelect) {
             option.answer[0] = true;

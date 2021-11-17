@@ -79,9 +79,9 @@ function OrderInfo(props) {
     const [lgShow, setLgShow] = useState(false);
 
     function handlerAccept() {
-        if (status == "Đang chờ xử lý") setStatus("Đang được làm")
-        else if (status == "Đang được làm") setStatus("Đang giao hàng")
-        else if (status == "Đang giao hàng") {
+        if (status === "Đang chờ xử lý") setStatus("Đang được làm")
+        else if (status === "Đang được làm") setStatus("Đang giao hàng")
+        else if (status === "Đang giao hàng") {
             setStatus("Đã thanh toán")
             document.getElementById('accept' + props.idx).disabled = true
             document.getElementById('reject' + props.idx).disabled = true

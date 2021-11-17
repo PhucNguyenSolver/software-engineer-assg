@@ -38,12 +38,12 @@ const DEFAULT = {
         }
     ]
 }
-function calOrderOptionPrice(order) {
-    let orderOptionPrice = 0;
-    order.orderOptions.forEach( orderOption => {
-        orderOptionPrice += orderOption.price.reduce((r,a,i) => {return r + a * orderOption.answer[i]},0);
-    })
-}
+// function calOrderOptionPrice(order) {
+//     let orderOptionPrice = 0;
+//     order.orderOptions.forEach( orderOption => {
+//         orderOptionPrice += orderOption.price.reduce((r,a,i) => {return r + a * orderOption.answer[i]},0);
+//     })
+// }
 
 export default function CartInfo() {
     const {id: CART_ITEM_OFFSET} = useParams();

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 // import foodImage from "./img/ga_ran.png"
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 // import FoodList from "./FoodList";
 
-function addToCart(id) { // TODO: make this a callback with foodId
-  console.log("Add to cart: " + id);
-}
+// function addToCart(id) { // TODO: make this a callback with foodId
+//   console.log("Add to cart: " + id);
+// }
 
 function numberWithCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

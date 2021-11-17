@@ -15,7 +15,8 @@ const foods = new Schema({
     discount: SchemaTypes.String, // 'x%' or number
     imageUrls: [SchemaTypes.String],
     description: SchemaTypes.String,
-    optionIds: [SchemaTypes.ObjectId]
+    optionIds: [SchemaTypes.ObjectId],
+    type: SchemaTypes.String
 })
 
 const options = new Schema({
@@ -38,12 +39,20 @@ const orders = new Schema({
         phone: SchemaTypes.String
     },
     shipFee: SchemaTypes.Number,
+    status: {
+        step: SchemaTypes.Number,
+        description: SchemaTypes.String
+    },
     items: [{
         foodId: SchemaTypes.ObjectId,
         price: SchemaTypes.Number,
         discount: SchemaTypes.String, // 'x%' or number
-        quantity: SchemaTypes.Number
-    }]
+        quantity: SchemaTypes.Number,
+        options: {
+            name: SchemaTypes.String,
+            price: SchemaTypes.Number
+        }
+    }],
 }, {
     timestamps: {
         createdAt: true,
@@ -51,7 +60,7 @@ const orders = new Schema({
     }
 })
 
-const banner = newSchema({
+const banner = new Schema({
     imageUrls: [SchemaTypes.String]
 })
 

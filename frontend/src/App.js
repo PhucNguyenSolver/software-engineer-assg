@@ -7,14 +7,12 @@ import Login from "./components/Login/Login";
 import {
     BrowserRouter as Router,
     Switch,
-    Route,
-    Link,
-    Redirect
+    Route
 } from "react-router-dom";
 import Footer from "./components/homepage/Footer";
 import TaskSearch from "./components/Menu/TaskSearch";
 import CheckOut from "./components/CheckOut/CheckOut";
-import HandlerOrder from "./components/HandlerOrder/HandlerOrder";
+// import HandlerOrder from "./components/HandlerOrder/HandlerOrder";
 
 
 

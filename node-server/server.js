@@ -2,8 +2,8 @@ const express = require("express");
 const cors = require("cors");
 var paypal = require('paypal-rest-sdk');
 
-const route = require('./app/routers');
-const db = require('./app/data_layer');
+const db = require('./app/data_layer')
+const router = require('./app/routers')
 
 const app = express();
 
@@ -12,15 +12,13 @@ var corsOptions = {
 };
 
 app.use(cors(corsOptions));
-// app.use(cors());
-
 app.use(express.json());
 
+app.use('/food', router.food)
+app.use('/cart', router.cart)
+app.use('/homepage', router.homepage)
 
 db.connect();
-
-// Routes init
-route(app);
 
 app.post('/pay', (req, res) => {
     const create_payment_json = {

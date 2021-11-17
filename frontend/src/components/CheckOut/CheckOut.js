@@ -51,7 +51,7 @@ function Product(props) {
     return (
         <li className="list-group-item d-flex justify-content-between lh-sm">
             <div className='col-2'>
-                <img src={props.product.image} style={{ marginTop: 4, width: '100%' }} />
+                <img src={props.product.image} style={{ marginTop: 4, width: '100%' }} alt='img'/>
             </div>
             <div className='col-6'>
                 <h6 className="my-0">{props.product.name}</h6>
@@ -78,7 +78,7 @@ export default function CheckOut() {
 
     function handleCheckOut(e) {
         e.preventDefault();
-        if(name == '' || phone == '' || address == '' || payType == '' || district == 'Lựa chọn' || ward == 'Lựa chọn')
+        if(name === '' || phone === '' || address === '' || payType === '' || district === 'Lựa chọn' || ward === 'Lựa chọn')
             toast.error('Thông tin không hợp lệ', {
                 position: "top-right",
                 autoClose: 5000,

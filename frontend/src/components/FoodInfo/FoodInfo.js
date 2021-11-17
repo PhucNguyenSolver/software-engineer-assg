@@ -1,7 +1,7 @@
 import { FoodDescription } from "./FoodDescription";
 import { ImagesSlide } from "./ImagesSlide";
 import { useState, useEffect } from "react";
-import { OrderOptionItem } from "./OrderOptionItem";
+// import { OrderOptionItem } from "./OrderOptionItem";
 import { OrderOptionModal } from "./OrderOptionModal";
 import {ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -66,7 +66,7 @@ export default function FoodInfo() {
                 setTotalPrice(newTotalPrice);
             }
         }
-    });
+    }, [totalPrice, quantity, additionalPrice]);
 
     
 

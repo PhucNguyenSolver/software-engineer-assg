@@ -29,7 +29,7 @@ export function QuantitySelector({initQuantity = 1, quantity, setQuantity, callb
     }
 
     function quantityFieldOutFoucus() {
-        if(quantity == 0) {
+        if(quantity === 0) {
             updateQuantity(1);
         }
     }
@@ -51,7 +51,7 @@ export function QuantitySelector({initQuantity = 1, quantity, setQuantity, callb
         else if(quantity > UPPER_BOUND) {
             setQuantity(UPPER_BOUND);
         }
-    });
+    }, [quantity]);
 
     return(
         <div class="row d-flex align-items-center justify-content-center">
@@ -63,7 +63,7 @@ export function QuantitySelector({initQuantity = 1, quantity, setQuantity, callb
                 </button>
             </div>
             <div class="col p-0">
-                <input type="text" class="form-control shadow-none input-focus p-1 text-center" value={quantity == 0 ? "" : quantity} 
+                <input type="text" class="form-control shadow-none input-focus p-1 text-center" value={quantity === 0 ? "" : quantity} 
                     onBlur={quantityFieldOutFoucus}
                     onChange={quantityFieldOnChange}/>
             </div>

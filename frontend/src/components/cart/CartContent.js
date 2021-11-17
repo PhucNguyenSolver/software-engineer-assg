@@ -56,14 +56,26 @@ Item.Name = styled.span`
 Item.SideDish = styled.p`
   font-size: 13px;
   color: gray;
+  margin-bottom: 5px;
 `;
-Item.SinglePrice = styled.span`
-  font-weight: 600;
+Item.SinglePrice = styled.div`
+  display: flex;
+  flex-flow: column;
+  span {
+    font-weight: 600;
+  }
+  .old {
+    text-decoration: line-through;
+  }
+  .new {
+    color: red;
+  }
 `;
 Item.Amount = styled.span`
   font-weight: 600;
   color: red;
 `;
+
 // For number counting button
 const InputGroup = styled.div`
   input {
@@ -109,26 +121,56 @@ function prettyNumber(x) {
 
 /* Component tăng giảm số lượng */
 function ItemQuantity(props) {
-  const handleValue = function (data) {
+  const cartStorage = JSON.parse(window.localStorage.getItem('cart'))
+
+  const decQuantity = (id) => {
+    props.decQuantity(id)
+    cartStorage.find(value => {
+      if(value.id !== id) return false;
+
+      if(value.quantity > 1) value.quantity = props.quantity - 1;
+      window.localStorage.setItem('cart', JSON.stringify(cartStorage))
+      return true;
+    })
+  }
+  const incQuantity = (id) => {
+    props.incQuantity(id)
+    cartStorage.find(value => {
+      if(value.id !== id) return false;
+
+      value.quantity = props.quantity + 1;
+      window.localStorage.setItem('cart', JSON.stringify(cartStorage))
+      return true;
+    })
+  }
+
+  const handleValue = function (id, data) {
     let nextValue;
     if (data === '') nextValue = 1;
     else nextValue = parseInt(data);
-    props.updateQuantity(props.id, nextValue);
+    props.updateQuantity(id, nextValue);
+    cartStorage.find(value => {
+      if(value.id !== id) return false;
+
+      value.quantity = nextValue;
+      window.localStorage.setItem('cart', JSON.stringify(cartStorage))
+      return true;
+    })
   }
 
   return (
-    <InputGroup className='col-md-4 col-8'>
+    <InputGroup className='col-md-4 col-4'>
       <div className='input-group'>
         <div className='input-group-prepend'>
-          <button onClick={() => props.decQuantity(props.id)}
+          <button onClick={() => decQuantity(props.id)}
             className='btn btn-primary shadow-none'>
             {'-'}
           </button>
         </div>
         <input type='number' min={1}
-          onChange={e => handleValue(e.target.value)} value={props.quantity} />
+          onChange={e => handleValue(props.id ,e.target.value)} value={props.quantity} />
         <div className='input-group-append'>
-          <button onClick={() => props.incQuantity(props.id)}
+          <button onClick={() => incQuantity(props.id)}
             className='btn btn-primary shadow-none'>
             {'+'}
           </button>
@@ -147,14 +189,26 @@ function CartHeader(props) {
         {`Tất cả (${props.checkedNumber} sản phẩm)`}
       </label>
       <span className='col-md-2'>Đơn giá</span>
-      <span className='col-md-4'>Số lượng</span>
-      <span className='col-md-3'>Thành tiền</span>
-      <TrashIcon onClick={props.deleteActiveItems} className='col-md-05 col-2' />
+      <span className='col-md-2'>Số lượng</span>
+      <span className='col-md-2'>Thành tiền</span>
+      <TrashIcon onClick={props.deleteActiveItems} className='col-md-1 col-2' />
     </Header>
   )
 }
 
 function OrderItem(props) {
+
+  const discount = function() {
+    let value = props.discount;
+    if(value[value.length - 1] === '%') {
+      value = parseFloat(value.substr(0, value.length - 1)) / 100 
+        * props.price;
+    } else {
+      value = parseInt(value)
+    }
+    return props.price - value;
+  }
+
   return <Item className='row align-items-center justify-content-between'>
     <Item.FirstGrid className='col-md-5 col-12 d-flex align-items-center'>
       <input type='checkbox'
@@ -167,18 +221,25 @@ function OrderItem(props) {
           <Link class="text-black" to="/cart-item-info">{props.name}</Link>
         </Item.Name>
         <Item.SideDish>{props.sideDish}</Item.SideDish>
+
+        {props.discount !== '0' && 
+          <span className='badge rounded-pill bg-danger'>
+            -{props.discount}
+          </span>}
+          
       </Item.Description>
     </Item.FirstGrid>
 
     <Item.SinglePrice className='col-md-2 col-1'>
-      {prettyNumber(props.price)}
+      <span className={`${props.discount !== '0' ? 'old' : ''}`}>{prettyNumber(props.price)}</span>
+      {props.discount !== '0' && <span className='new'>{prettyNumber(discount())}</span>}
     </Item.SinglePrice>
 
     <ItemQuantity id={props.id} {...props.handleQuantity}
       quantity={props.quantity} />
 
-    <Item.Amount className='col-md-3 col-1'>
-      {prettyNumber(props.price * props.quantity)}đ
+    <Item.Amount className='col-md-2 col-1'>
+      {prettyNumber(discount() * props.quantity)}đ
     </Item.Amount >
     <TrashIcon onClick={() => props.deleteItem(props.id)} className='col-md-05 col-1'/>
   </Item>

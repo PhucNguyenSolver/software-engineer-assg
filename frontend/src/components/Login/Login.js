@@ -11,7 +11,7 @@ const userAccountData = [
 ]
 
 
-let accountDataSend = []
+// let accountDataSend = []
 
 
 
@@ -24,7 +24,7 @@ export default function Login() {
     function handleSubmit(e) {
         e.preventDefault();
         for (let userAccount of userAccountData) {
-            if (userAccount.account == account && userAccount.password == pw) {
+            if (userAccount.account === account && userAccount.password === pw) {
                 // accountDataSend = accountDataSend.concat({
                 //     "account": account,
                 //     "password": pw
