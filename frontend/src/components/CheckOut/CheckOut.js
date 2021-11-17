@@ -1,6 +1,6 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { ToastContainer, toast } from 'react-toastify';
-
+import { calculateShipFee, FROM } from "../../Map";   
 
 
 const productData = [
@@ -67,13 +67,25 @@ function Product(props) {
 
 export default function CheckOut() {
 
+    const DEFAULT_LOCATE = 'Lựa chọn';
     const [name, setName] = useState('')
     const [phone, setPhone] = useState('')
     const [address, setAddress] = useState('')
     const [payType, setpayType] = useState('')
-    const [district, setDistrict] = useState('Lựa chọn')
-    const [ward, setWard] = useState('Lựa chọn')
+    const [district, setDistrict] = useState(DEFAULT_LOCATE)
+    const [ward, setWard] = useState(DEFAULT_LOCATE)
 
+
+    const [shipFee, setShipFee] = useState(null);
+    useEffect(async() => {
+      if (district === DEFAULT_LOCATE || ward === DEFAULT_LOCATE) {
+        setShipFee(null);
+      } else {
+        const to = ward + ', ' + district + ' Tp HCM';
+        const fee = await calculateShipFee(FROM, to);
+        setShipFee(fee);
+      }
+    }, [district, ward]);
 
 
     function handleCheckOut(e) {
@@ -135,11 +147,18 @@ export default function CheckOut() {
                                 </div>
                                 <span className="text-success">−50000</span>
                             </li>
+                            {(shipFee !== null) && 
+                            <li className="list-group-item d-flex justify-content-between bg-light">
+                                <div className="text-success">
+                                    <h6 className="my-0">Phí vận chuyển</h6>
+                                </div>
+                                <span className="text-success">+{Number(shipFee)}</span>
+                            </li>}
                             <li className="list-group-item d-flex justify-content-between">
                                 <span>Tổng Tiền (VND)</span>
                                 <strong>{productData.reduce((acc, product) => {
                                     return acc + product.price * product.quantity
-                                }, 0) - 50000}</strong>
+                                }, 0) - 50000 + Number(shipFee)}</strong>
                             </li>
                         </ul>
 
