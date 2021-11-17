@@ -222,7 +222,7 @@ export default function HandlerOrder() {
                                 <h5>Thông tin khách hàng</h5>
                                 <Row>
                                     <Col xl={5} lg={5} md={5} sm={5} xs={5}>Họ và tên:</Col>
-                                    <Col><p>{order.name}</p></Col>
+                                    <Col><p>{order.customerInfo.name}</p></Col>
                                 </Row>
                                 <Row>
                                     <Col xl={5} lg={5} md={5} sm={5} xs={5}>Số điện thoại:</Col>
