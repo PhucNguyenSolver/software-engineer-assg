@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import ProcessBar from "./ProcessBar";
+// import ProcessBar from "./ProcessBar";
+import './ProcessBar.css'
 import { Badge, Col, Figure, Modal, Row } from "react-bootstrap";
 
 // ReactDOM.render(logOutIcon,document.getElementById('logout'))
@@ -32,9 +33,46 @@ export default function HandlerOrder() {
 
             axios.get(`http://localhost:8080/order/manage-order/${currStatus}`)
                 .then(res => {
-                    console.log(res.data)
                     setData(res.data)
                 })
+        }
+
+        function handlerAcceptAll() {
+            let statusCurr = 'Đang chờ xử lý'
+            let statusUpdate = 'Đang được làm'
+
+            if (onDisplayNumber == 2) {
+                statusCurr = 'Đang được làm'
+                statusUpdate = 'Đang giao hàng'
+            }
+            else if (onDisplayNumber == 3) {
+                statusCurr = 'Đang giao hàng'
+                statusUpdate = 'Đã thanh toán'
+            }
+            else if (onDisplayNumber == 4) {
+                statusCurr = 'Đã thanh toán'
+                statusUpdate = 'Done'
+            }
+            axios.post("http://localhost:8080/order/manage-order/accept", {
+                "statusCurr": statusCurr,
+                "statusUpdate": statusUpdate
+            })
+                .then(setData([]))
+
+        }
+
+
+        function handlerRejectAll() {
+            let status = 'Đang chờ xử lý'
+
+            if (onDisplayNumber == 2) status = 'Đang được làm'
+            else if (onDisplayNumber == 3) status = 'Đang giao hàng'
+            else if (onDisplayNumber == 4) status = 'Đã thanh toán'
+
+            axios.post("http://localhost:8080/order/manage-order/reject", {
+                "status": status
+            })
+                .then(setData([]))
         }
 
         return (
@@ -76,8 +114,8 @@ export default function HandlerOrder() {
                         </div>
                     </div>
                     <div class="d-flex flex-wrap flex-md-nowrap justify-content-center justify-content-sm-between align-items-center">
-                        <div class="text-left text-sm-right"><a class="btn btn-secondary btn-rounded btn-sm" href="#">Từ chối tất cả</a></div>
-                        <div class="text-left text-sm-right"><a class="btn btn-primary btn-rounded btn-sm" href="#">Chấp nhận tất cả</a></div>
+                        <div class="text-left text-sm-right"><a class="btn btn-secondary btn-rounded btn-sm" onClick={() => handlerRejectAll()}>Từ chối tất cả</a></div>
+                        <div class="text-left text-sm-right"><a class="btn btn-primary btn-rounded btn-sm" onClick={() => handlerAcceptAll()}>Chấp nhận tất cả</a></div>
                     </div>
                 </div>
 
@@ -86,7 +124,7 @@ export default function HandlerOrder() {
     }
 
 
-    function OrderInfo({order , idx}) {
+    function OrderInfo({ order, idx }) {
         const [lgShow, setLgShow] = useState(false);
 
         function handlerAccept() {
@@ -105,7 +143,6 @@ export default function HandlerOrder() {
                 .then(() => {
                     axios.get(`http://localhost:8080/order/manage-order/${order.status}`)
                         .then(res => {
-                            console.log(res.data)
                             setData(res.data)
                         })
                 })
@@ -120,7 +157,6 @@ export default function HandlerOrder() {
                 .then(() => {
                     axios.get(`http://localhost:8080/order/manage-order/${order.status}`)
                         .then(res => {
-                            console.log(res.data)
                             setData(res.data)
                         })
                 })
