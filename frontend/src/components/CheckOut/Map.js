@@ -11,31 +11,72 @@ function Log(msg) {
   console.log(JSON.stringify(msg));
 }
 
+/**
+ * 
+ *  Customize these functions
+ */
+const minutesToFee = (minutes) => {
+  let fee = 3000 + minutes * 700;
+  if (fee < 5000)
+    fee = 0;
+  else if (fee > 300000)
+    fee = 300000;
+  return round(fee);
+}
+
+const kilometersToFee = (km) => {
+  let fee = 3000 + km * 1400;
+  if (fee < 5000)
+    fee = 0;
+  else if (fee > 300000)
+    fee = 300000;
+  return round(fee);  
+}
+
+function round(number) {
+  const unit = 250;
+  return Math.ceil(number / unit) * unit;
+}
+
 export const calculateShipFee = async (from, to) => {
-  let routes = [];
+  let res = {to: null, shipFee: null, distance: null, duration: null};
+  let fromLocation, toLocation;
   try {
-    const fromLocation = await textToLocation(from);
+    fromLocation = await textToLocation(from);
     Log(fromLocation);
-    const toLocation = await textToLocation(to);
+    toLocation = await textToLocation(to);
     Log(toLocation);
-    routes = await locationsToRoutes(fromLocation, toLocation);
-    Log(routes);
-  } catch(error) {
+  } catch(error) { // Cannot find location
     Log(error);
-    return NaN;
+    res.shipFee = NaN;
+    return res;
   }
   
+  let routes = [];
+  try {
+    routes = await locationsToRoutes(fromLocation, toLocation);
+  } catch(error) { // error when calling the API
+    Log(error);
+    res.shipFee = NaN;
+    return res;
+  }
+
   let minutes = 0;
   if (routes.length > 0) {
     minutes = routes[0].duration / 60;
     Log(minutes);
-  } else { // TODO: use location distance instead
-    return NaN;
+    res.duration = minutes;
+    res.shipFee = minutesToFee(minutes);
+    return res;
+  } else { // no suitable route
+    let km = getDistanceFromLatLonInKm(
+      fromLocation.lat, fromLocation.lon, toLocation.lat, toLocation.lon
+    );
+    Log(km);
+    res.distance = km;
+    res.shipFee = kilometersToFee(km);
+    return res;
   }
-
-  const shipFee = minutesToFee(minutes);
-  Log({shipFee: shipFee});
-  return shipFee;
 }
 
 export default function Map() {
@@ -59,7 +100,10 @@ export default function Map() {
   );
 }
 
-
+/**
+ * 
+ *  Util functions
+ */
 const textToLocation = async (addressText) => {
   const raw = JSON.stringify(addressText);
   const url = `${API_ROOT}/geocoding/v5/mapbox.places/${raw}.json?access_token=${TOKEN}`;
@@ -95,33 +139,20 @@ const locationsToRoutes = async (locatiA, locatiB) => {
   })
 }
 
-const minutesToFee = (minutes) => {
-  let fee = 3000 + minutes * 700;
-  if (fee < 5000)
-    fee = 0;
-  else if (fee > 300000)
-    fee = 300000;
-  return Math.ceil(fee / 50) * 50;
+function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
+  const R = 6371; // Radius of the earth in km
+  const dLat = deg2rad(lat2-lat1);  // deg2rad below
+  const dLon = deg2rad(lon2-lon1); 
+  const a = 
+    Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+    Math.sin(dLon/2) * Math.sin(dLon/2)
+    ; 
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+  const d = R * c; // Distance in km
+  return d;
 }
 
-// const kilometersToFee = (km) => {
-//   let fee = 3000 + 
-// }
-
-// function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
-//   var R = 6371; // Radius of the earth in km
-//   var dLat = deg2rad(lat2-lat1);  // deg2rad below
-//   var dLon = deg2rad(lon2-lon1); 
-//   var a = 
-//     Math.sin(dLat/2) * Math.sin(dLat/2) +
-//     Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
-//     Math.sin(dLon/2) * Math.sin(dLon/2)
-//     ; 
-//   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-//   var d = R * c; // Distance in km
-//   return d;
-// }
-
-// function deg2rad(deg) {
-//   return deg * (Math.PI/180);
-// }
+function deg2rad(deg) {
+  return deg * (Math.PI/180);
+}

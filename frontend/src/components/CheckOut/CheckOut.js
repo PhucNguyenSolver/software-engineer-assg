@@ -5,6 +5,12 @@ import { useLocation } from "react-router-dom";
 
 const axios = require('axios');
 
+const contactData = {
+	name: 'Nguyễn Phúc Vinh',
+	phone: '0373 395 726',
+	addr: `Ticklab, 92/10, đường Vành Đai ĐH Quốc Gia TP.HCM, khu phố Tân Lập,
+	 	Phường Linh Trung, Quận Thủ Đức, Hồ Chí Minh`
+};
 
 // const productData = [
 //     {
@@ -82,14 +88,18 @@ export default function CheckOut() {
     const [ward, setWard] = useState(DEFAULT_LOCATE)
 
     const [shipFee, setShipFee] = useState(null);
+    const [shipTime, setShipTime] = useState();
+    const [shipAddress, setShipAddress] = useState('Ticklab, 92/10, đường Vành Đai ĐH Quốc Gia TP.HCM, khu phố Tân Lập, Phường Linh Trung, Quận Thủ Đức, Hồ Chí Minh');
+    
     useEffect(() => {
       async function fetchData() {
         if (district === DEFAULT_LOCATE || ward === DEFAULT_LOCATE) {
           setShipFee(null);
         } else {
-          const to = ward + ', ' + district + ' Tp HCM';
-          const fee = await calculateShipFee(FROM, to);
-          setShipFee(fee);
+          const to = ward + ', ' + district + ' TP HCM';
+          const {shipFee, duration} = await calculateShipFee(FROM, to);
+          setShipFee(shipFee);
+          setShipTime(duration);
         }
       }
       fetchData();
@@ -154,9 +164,9 @@ export default function CheckOut() {
 
     function WardOption() {
         if (wardOption === 'Lựa chọn') return null
-        else return wardOption.map((ward) => {
-            return <option>{ward}</option>
-        })
+        else return wardOption.map(ward => 
+            <option key={ward}>{ward}</option>
+        )
     }
 
     return (
@@ -183,7 +193,13 @@ export default function CheckOut() {
                                 </div>
                                 <span className="text-success">{discountCode}</span>
                             </li> */}
-                            {(shipFee !== null) && 
+                            <li className="list-group-item d-flex justify-content-between bg-light">
+                                <div className="text-primary">
+                                  <div>{shipAddress}</div>
+                                  <div>{"Thời gian dự kiến: " + shipTime}</div>
+                                </div>
+                            </li>
+                            {(typeof(shipFee) === 'number') && 
                             <li className="list-group-item d-flex justify-content-between bg-light">
                                 <div className="text-primary">
                                     <h6 className="my-0">Phí chuyển hàng</h6>
