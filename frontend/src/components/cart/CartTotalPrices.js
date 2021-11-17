@@ -7,43 +7,10 @@ const Container = styled.div`
   padding: 15px; 
   margin-top: 10px;
 `;
-const Contact = styled(Container)`
-	p {
-		color: gray;
-		font-size: 14px;
-		max-width: 90%;
-		line-height: 18px;
-	}
-	padding-bottom: 5px;
-`;
-Contact.Header = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-`;
-Contact.SecondLine = styled.div`
-	margin: 10px 0;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	font-size: 16px;
-	font-weight: 500;
-	div:first-child {
-		width: 55%;
-		border-right: 1px solid #dedede;
-		box-sizing: border-box;
-	}
-`
-const ChangeContact = styled.span`
-	color: #007bff;
-	&:hover {
-		cursor: pointer;
-	}
-`;
 
 const Total = styled(Container)`
 	border: 0.5px #999999 solid;
-`
+`;
 Total.Calculation = styled.div`
 	font-size: 15px;
 	.cal {
@@ -67,7 +34,7 @@ Total.TotalPrice = styled.div`
 	.description {
 		font-size: 13px;
 	}
-`
+`;
 const PayButton = styled.button`
 	background: rgb(255, 66, 78);
 	color: rgb(255, 255, 255);
@@ -82,36 +49,16 @@ const PayButton = styled.button`
 	font-weight: 700;
 `;
 
-// const contactData = {
-// 	name: 'Nguyễn Phúc Vinh',
-// 	phone: '0373 395 726',
-// 	addr: `Ticklab, 92/10, đường Vành Đai ĐH Quốc Gia TP.HCM, khu phố Tân Lập,
-// 	 	Phường Linh Trung, Quận Thủ Đức, Hồ Chí Minh`
-// };
-
-function ContactInfo() {
-	const contactData = {}
-	contactData.name = window.localStorage.getItem('customerName');
-	contactData.phone = window.localStorage.getItem('customerPhone');
-	contactData.addr = window.localStorage.getItem('customerAddr');
-	return <Contact>
-		<Contact.Header>
-			<span style={{ fontWeight: '600', fontSize: '16px' }}>Giao tới</span>
-			<ChangeContact>Thay đổi</ChangeContact>
-		</Contact.Header>
-		<Contact.SecondLine>
-			<div>{contactData.name}</div>
-			<div>{contactData.phone}</div>
-		</Contact.SecondLine>
-		<p>{contactData.addr}</p>
-	</Contact>
-}
 function TotalPrice(props) {
 	return <Total>
 		<Total.Calculation>
 			<div className='cal'>
 				<span>Giá gốc</span>
-				<span>{props.amount()}đ</span>
+				<span>+ {props.amount()}đ</span>
+			</div>
+			<div className='cal'>
+				<span>Món phụ</span>
+				<span>+ {props.additionalFee()}đ</span>
 			</div>
 			<div className='cal'>
 				<span>Giảm giá</span>
@@ -121,7 +68,7 @@ function TotalPrice(props) {
 		<Total.TotalPrice>
 			<div>Tổng cộng</div>
 			<div style={{ display: 'flex', flexFlow: 'column', alignItems: 'end' }}>
-				<div className='total-pay'>{props.amount() - props.discount()}đ</div>
+				<div className='total-pay'>{props.amount() - props.discount() + props.additionalFee()}đ</div>
 				<div className='description'>(Đã bao gồm VAT nếu có)</div>
 			</div>
 		</Total.TotalPrice>
@@ -131,14 +78,14 @@ function TotalPrice(props) {
 export default function CartTotalPrice(props) {
 	const total = {
 		amount: function() {
-			let totalAmount = 0;
+			let money = 0;
 			props.cartItems.forEach(function(item) {
-				if(item.active) totalAmount += item.price * item.quantity;
+				if(item.active) money += item.price * item.quantity;
 			})
-			return totalAmount;
+			return money;
 		},
 		discount: function() {
-			let discountAmount = 0;
+			let money = 0;
 			props.cartItems.forEach(item => {
 				if(item.active) {
 					let value = item.discount;
@@ -149,21 +96,38 @@ export default function CartTotalPrice(props) {
 					} else {
 						value = parseInt(value) * item.quantity
 					}
-					discountAmount += value
+					money += value
 				}
 			})
-			//console.log(discountAmount)
-			return discountAmount
+			return money
+		},
+		additionalFee: function() {
+			let money = 0
+			props.cartItems.forEach(item => {
+				if(item.active) money += item.addition
+			})
+			return money
 		}
+	}
+	const numberOfItems = () => {
+		return props.cartItems.filter(value => value.active === true).length
+	}
+	const payBill = () => {
+		window.localStorage.setItem('bill', JSON.stringify({
+			amount: total.amount(),
+			discount: total.discount(),
+			addition: total.additionalFee()
+		}))
+		window.location.href="/checkout"
 	}
 	
 	return (
 		<div className='col-lg-3 col-md-12'>
-			<ContactInfo />
 			<TotalPrice {...total}/>
-			<PayButton onClick={() => window.location.href="/checkout"}>Đặt hàng ({
-				props.cartItems.filter(value => value.active === true).length
-				})</PayButton>
+			<PayButton onClick={payBill} 
+				disabled={numberOfItems() === 0}>
+				Đặt hàng ({numberOfItems()})
+			</PayButton>
 		</div>
 	)
 }

@@ -11,19 +11,10 @@ const getCartItems = async function (req, res) {
     ).map(value => ObjectId(value.toString()))
 
     try {
-        const items = await db.Foods.aggregate([
-            { $match: { "_id": { $in: validItemIds } } },
-            {
-                $lookup: {
-                    from: 'options',
-                    localField: 'optionIds',
-                    foreignField: '_id',
-                    as: 'options'
-                }
-            },
-            { $project: { 'optionIds': 0 } }
-        ])
-        // fs.writeFile('./cartDataSample.json', JSON.stringify(items), () => {});
+        const items = await db.Foods.find(
+            { "_id": { $in: validItemIds } },
+            { 'optionIds': false } 
+        )
         res.status(200).send(items)
     }
     catch (err) {
