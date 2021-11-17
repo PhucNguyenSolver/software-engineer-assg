@@ -20,8 +20,14 @@ const modifyStt = async function(req, res){
     res.send('Update success')
 }
 
+const getImgUrlByFoodId = async function(req, res) {
+    const food = await db.Foods.findOne({ _id: req.params.id }, 'imageUrls').exec();
+    res.send(food.imageUrls);
+}
+
 module.exports = {
     saveOrder,
     getOrderbyStatus,
-    modifyStt
+    modifyStt,
+    getImgUrlByFoodId,
 }

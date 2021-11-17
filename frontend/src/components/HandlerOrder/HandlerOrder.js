@@ -19,7 +19,15 @@ export default function HandlerOrder() {
     useEffect(() => {
         axios.get(`http://localhost:8080/order/manage-order/Đang chờ xử lý`)
             .then(res => {
-                setData(res.data)
+                res.data.forEach(order => {
+                    order.items.forEach(item => {
+                        axios.get(`http://localhost:8080/order/get-img/${item.foodId}`)
+                            .then(res => {
+                                item.foodId = res.data;
+                            });
+                    })
+                })
+                setData(res.data);
             })
     }, [])
 
@@ -32,6 +40,14 @@ export default function HandlerOrder() {
 
             axios.get(`http://localhost:8080/order/manage-order/${currStatus}`)
                 .then(res => {
+                    res.data.forEach(order => {
+                        order.items.forEach(item => {
+                            axios.get(`http://localhost:8080/order/get-img/${item.foodId}`)
+                                .then(res => {
+                                    item.foodId = res.data;
+                                });
+                        })
+                    })
                     console.log(res.data)
                     setData(res.data)
                 })
@@ -105,6 +121,14 @@ export default function HandlerOrder() {
                 .then(() => {
                     axios.get(`http://localhost:8080/order/manage-order/${order.status}`)
                         .then(res => {
+                            res.data.forEach(order => {
+                                order.items.forEach(item => {
+                                    axios.get(`http://localhost:8080/order/get-img/${item.foodId}`)
+                                        .then(res => {
+                                            item.foodId = res.data;
+                                        });
+                                })
+                            })
                             console.log(res.data)
                             setData(res.data)
                         })
@@ -120,6 +144,14 @@ export default function HandlerOrder() {
                 .then(() => {
                     axios.get(`http://localhost:8080/order/manage-order/${order.status}`)
                         .then(res => {
+                            res.data.forEach(order => {
+                                order.items.forEach(item => {
+                                    axios.get(`http://localhost:8080/order/get-img/${item.foodId}`)
+                                        .then(res => {
+                                            item.foodId = res.data;
+                                        });
+                                })
+                            })
                             console.log(res.data)
                             setData(res.data)
                         })
@@ -180,7 +212,7 @@ export default function HandlerOrder() {
                                 <h5>Giỏ hàng</h5>
                                 {order.items.map(item => (
                                     <Row>
-                                        <Col xl={2} lg={2} md={2} sm={2} xs={2}><Figure.Image alt="FoodImg" src={item.imgUrl}></Figure.Image></Col>
+                                        <Col xl={2} lg={2} md={2} sm={2} xs={2}><Figure.Image alt="FoodImg" src={item.foodId[0]}></Figure.Image></Col>
                                         <Col xl={7} lg={7} md={10} sm={10} xs={10}>
                                             <Row><h5>{item.name}</h5></Row>
                                             <Row><p>{item.options}</p></Row>
