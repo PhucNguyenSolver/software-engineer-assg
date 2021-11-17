@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from "react";
-// import ProcessBar from "./ProcessBar";
 import './ProcessBar.css'
 import { Badge, Col, Figure, Modal, Row } from "react-bootstrap";
+import axios from 'axios';
 
 // ReactDOM.render(logOutIcon,document.getElementById('logout'))
-
-
-const axios = require('axios')
-
-
 
 
 export default function HandlerOrder() {
@@ -22,7 +17,7 @@ export default function HandlerOrder() {
             .then(res => {
                 res.data.forEach(order => {
                     order.items.forEach(item => {
-                        axios.get(`http://localhost:8080/order/get-img/${item.foodId}`)
+                        axios.get(`http://localhost:8080/food/${item.foodId}`)
                             .then(res => {
                                 item.foodId = res.data;
                             });
@@ -43,7 +38,7 @@ export default function HandlerOrder() {
                 .then(res => {
                     res.data.forEach(order => {
                         order.items.forEach(item => {
-                            axios.get(`http://localhost:8080/order/get-img/${item.foodId}`)
+                            axios.get(`http://localhost:8080/food/${item.foodId}`)
                                 .then(res => {
                                     item.foodId = res.data;
                                 });
@@ -57,15 +52,15 @@ export default function HandlerOrder() {
             let statusCurr = 'Đang chờ xử lý'
             let statusUpdate = 'Đang được làm'
 
-            if (onDisplayNumber == 2) {
+            if (onDisplayNumber === 2) {
                 statusCurr = 'Đang được làm'
                 statusUpdate = 'Đang giao hàng'
             }
-            else if (onDisplayNumber == 3) {
+            else if (onDisplayNumber === 3) {
                 statusCurr = 'Đang giao hàng'
                 statusUpdate = 'Đã thanh toán'
             }
-            else if (onDisplayNumber == 4) {
+            else if (onDisplayNumber === 4) {
                 statusCurr = 'Đã thanh toán'
                 statusUpdate = 'Done'
             }
@@ -81,9 +76,9 @@ export default function HandlerOrder() {
         function handlerRejectAll() {
             let status = 'Đang chờ xử lý'
 
-            if (onDisplayNumber == 2) status = 'Đang được làm'
-            else if (onDisplayNumber == 3) status = 'Đang giao hàng'
-            else if (onDisplayNumber == 4) status = 'Đã thanh toán'
+            if (onDisplayNumber === 2) status = 'Đang được làm'
+            else if (onDisplayNumber === 3) status = 'Đang giao hàng'
+            else if (onDisplayNumber === 4) status = 'Đã thanh toán'
 
             axios.post("http://localhost:8080/order/manage-order/reject", {
                 "status": status
@@ -120,7 +115,7 @@ export default function HandlerOrder() {
                                     </div>
                                     <h4 class="step-title">Đang giao hàng</h4>
                                 </div>
-                                <div class={onDisplayNumber == 4 ? 'step completed' : 'step'}>
+                                <div class={onDisplayNumber === 4 ? 'step completed' : 'step'}>
                                     <div class="step-icon-wrap">
                                         <div class="step-icon" onClick={() => displayOrder('Đã thanh toán', 4)} style={{ cursor: 'pointer' }}><i class="pe-7s-credit"></i></div>
                                     </div>
@@ -161,7 +156,7 @@ export default function HandlerOrder() {
                         .then(res => {
                             res.data.forEach(order => {
                                 order.items.forEach(item => {
-                                    axios.get(`http://localhost:8080/order/get-img/${item.foodId}`)
+                                    axios.get(`http://localhost:8080/food/${item.foodId}`)
                                         .then(res => {
                                             item.foodId = res.data;
                                         });
@@ -183,7 +178,7 @@ export default function HandlerOrder() {
                         .then(res => {
                             res.data.forEach(order => {
                                 order.items.forEach(item => {
-                                    axios.get(`http://localhost:8080/order/get-img/${item.foodId}`)
+                                    axios.get(`http://localhost:8080/food/${item.foodId}`)
                                         .then(res => {
                                             item.foodId = res.data;
                                         });
