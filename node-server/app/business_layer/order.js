@@ -20,6 +20,7 @@ const modifyStt = async function(req, res){
 const getImgUrlByFoodId = async function(req, res) {
     const food = await db.Foods.findOne({ _id: req.params.id }, 'imageUrls').exec();
     res.send(food.imageUrls);
+}
 const acceptAll = async function(req, res){
     db.Orders.updateMany({ status: req.body.statusCurr }, { status: req.body.statusUpdate }).exec();
     // res.send(null)
