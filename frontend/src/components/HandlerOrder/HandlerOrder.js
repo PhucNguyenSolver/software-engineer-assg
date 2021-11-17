@@ -88,45 +88,45 @@ export default function HandlerOrder() {
 
         return (
             <div className="main_container">
-                <div class="container padding-bottom-3x mb-1">
-                    <div class="card mb-3">
-                        <div class="p-4 text-center text-white text-lg rounded-top" style={{ backgroundColor: 'black' }}>
-                            <span class="text-uppercase">Management Order</span>
+                <div className="container padding-bottom-3x mb-1">
+                    <div className="card mb-3">
+                        <div className="p-4 text-center text-white text-lg rounded-top" style={{ backgroundColor: 'black' }}>
+                            <span className="text-uppercase">Management Order</span>
                         </div>
-                        <div class="d-flex flex-wrap flex-sm-nowrap justify-content-between py-3 px-2 bg-secondary">
+                        <div className="d-flex flex-wrap flex-sm-nowrap justify-content-between py-3 px-2 bg-secondary">
                         </div>
-                        <div class="card-body">
-                            <div class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x">
-                                <div class={onDisplayNumber >= 1 ? 'step completed' : 'step'} >
-                                    <div class="step-icon-wrap">
-                                        <div class="step-icon" onClick={() => displayOrder('Đang chờ xử lý', 1)} style={{ cursor: 'pointer' }}><i class="pe-7s-cart"></i></div>
+                        <div className="card-body">
+                            <div className="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x">
+                                <div className={onDisplayNumber >= 1 ? 'step completed' : 'step'} >
+                                    <div className="step-icon-wrap">
+                                        <div className="step-icon" onClick={() => displayOrder('Đang chờ xử lý', 1)} style={{ cursor: 'pointer' }}><i className="pe-7s-cart"></i></div>
                                     </div>
-                                    <h4 class="step-title">Đang chờ xử lý</h4>
+                                    <h4 className="step-title">Đang chờ xử lý</h4>
                                 </div>
-                                <div class={onDisplayNumber >= 2 ? 'step completed' : 'step'} >
-                                    <div class="step-icon-wrap">
-                                        <div class="step-icon" onClick={() => displayOrder('Đang được làm', 2)} style={{ cursor: 'pointer' }}><i class="pe-7s-config"></i></div>
+                                <div className={onDisplayNumber >= 2 ? 'step completed' : 'step'} >
+                                    <div className="step-icon-wrap">
+                                        <div className="step-icon" onClick={() => displayOrder('Đang được làm', 2)} style={{ cursor: 'pointer' }}><i className="pe-7s-config"></i></div>
                                     </div>
-                                    <h4 class="step-title">Đang được làm </h4>
+                                    <h4 className="step-title">Đang được làm </h4>
                                 </div>
-                                <div class={onDisplayNumber >= 3 ? 'step completed' : 'step'} >
-                                    <div class="step-icon-wrap">
-                                        <div class="step-icon" onClick={() => displayOrder('Đang giao hàng', 3)} style={{ cursor: 'pointer' }}><i class="pe-7s-car"></i></div>
+                                <div className={onDisplayNumber >= 3 ? 'step completed' : 'step'} >
+                                    <div className="step-icon-wrap">
+                                        <div className="step-icon" onClick={() => displayOrder('Đang giao hàng', 3)} style={{ cursor: 'pointer' }}><i className="pe-7s-car"></i></div>
                                     </div>
-                                    <h4 class="step-title">Đang giao hàng</h4>
+                                    <h4 className="step-title">Đang giao hàng</h4>
                                 </div>
-                                <div class={onDisplayNumber === 4 ? 'step completed' : 'step'}>
-                                    <div class="step-icon-wrap">
-                                        <div class="step-icon" onClick={() => displayOrder('Đã thanh toán', 4)} style={{ cursor: 'pointer' }}><i class="pe-7s-credit"></i></div>
+                                <div className={onDisplayNumber === 4 ? 'step completed' : 'step'}>
+                                    <div className="step-icon-wrap">
+                                        <div className="step-icon" onClick={() => displayOrder('Đã thanh toán', 4)} style={{ cursor: 'pointer' }}><i className="pe-7s-credit"></i></div>
                                     </div>
-                                    <h4 class="step-title">Đã thanh toán</h4>
+                                    <h4 className="step-title">Đã thanh toán</h4>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="d-flex flex-wrap flex-md-nowrap justify-content-center justify-content-sm-between align-items-center">
-                        <div class="text-left text-sm-right"><a class="btn btn-secondary btn-rounded btn-sm" onClick={() => handlerRejectAll()}>Từ chối tất cả</a></div>
-                        <div class="text-left text-sm-right"><a class="btn btn-primary btn-rounded btn-sm" onClick={() => handlerAcceptAll()}>Chấp nhận tất cả</a></div>
+                    <div className="d-flex flex-wrap flex-md-nowrap justify-content-center justify-content-sm-between align-items-center">
+                        <div className="text-left text-sm-right"><button className="btn btn-secondary btn-rounded btn-sm" onClick={() => handlerRejectAll()}>Từ chối tất cả</button></div>
+                        <div className="text-left text-sm-right"><button className="btn btn-primary btn-rounded btn-sm" onClick={() => handlerAcceptAll()}>Chấp nhận tất cả</button></div>
                     </div>
                 </div>
 
@@ -244,7 +244,7 @@ export default function HandlerOrder() {
                                 {order.items.map(item => (
                                     <Row>
                                         <Col xl={2} lg={2} md={2} sm={2} xs={2}><Figure.Image alt="FoodImg" src={item.foodId.imageUrls ? item.foodId.imageUrls[0] : ''}></Figure.Image></Col>
-                                        <Col xl={7} lg={7} md={10} sm={10} xs={10}>
+                                        <Col xl={6} lg={6} md={10} sm={10} xs={10}>
                                             <Row><h5>{item.foodId.name}</h5></Row>
                                             <Row><p>{item.options}</p></Row>
                                         </Col>
