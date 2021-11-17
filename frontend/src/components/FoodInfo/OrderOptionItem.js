@@ -15,7 +15,7 @@ export function OrderOptionItem({orderOptionItem, callbacks}) {
         if(JSON.stringify(checkedOptions) != JSON.stringify(new_checkOptions)) {
             setCheckedOptions(new_checkOptions);
             raiseEvent(new_checkOptions);
-            orderOptionItem.answer = new_checkOptions;
+            // orderOptionItem.answer = new_checkOptions;
         }
     }
 

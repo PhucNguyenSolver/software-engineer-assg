@@ -1,7 +1,7 @@
 import { QuantitySelector } from "./QuantitySelector";
 
-export function FoodDescription({food, setQuantity}) {
-    
+export function FoodDescription({food, quantity, setQuantity}) {
+
     return(
         <>
             <div class="row text-start">
@@ -15,7 +15,7 @@ export function FoodDescription({food, setQuantity}) {
             </div>
             <div class="mb-3">
                 <div class="col col-md-6 col-lg-4 p-2 border">
-                    <QuantitySelector callbacks={[setQuantity]}/>
+                    <QuantitySelector quantity={quantity} setQuantity={setQuantity}/>
                 </div>
             </div>
         </>
