@@ -94,8 +94,13 @@ const payFood = async function(req, res) {
     
 }
 
+const getAllFood = async function(req, res) {
+    const food = await db.Foods.find().exec();
+    res.status(200).send(food);
+}
 module.exports = {
     getFoodById,
     getFoodDetailById,
-    payFood
+    payFood,
+    getAllFood
 }

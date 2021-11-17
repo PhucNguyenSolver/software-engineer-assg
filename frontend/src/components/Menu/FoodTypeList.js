@@ -1,13 +1,15 @@
 import React from "react";
 import {Button} from 'react-bootstrap';
-//import FoodType from './FoodType.js'
+import { useState, useEffect } from 'react';
+import JSONDATA from './MOCK_DATA.json';
 //import NormalFoodType from './NormalFoodType.js'
 
 function FoodTypeList() {
 
-    const array = ['combo','doan','thucuong','khaivi','trangmieng']
+    const array = ['Combo','Foody','Drink','Appetizer','Dessert']
 
     function ChangeEffective(e){
+        //console.log(e.target.id)
         var idChange = document.getElementById(e.target.id)
         idChange.style.borderRadius = '50px'
         idChange.style.borderColor = '#F63C3C'
@@ -28,34 +30,34 @@ function FoodTypeList() {
     return (
         <div style={{backgroundColor:'#AFEEEE',height:'100px', width:'100%'}}
         >
-            <Button id="combo" class="btn btn-light text-danger" 
+            <Button id="Combo" class="btn btn-light text-danger" 
             variant="primary" onClick={ChangeEffective}
             style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
-            borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '25px 65px',borderRadius:'12px' }}>
+            borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '25px 25px 25px 67px',borderRadius:'12px' }}>
             {"Combo"}
             </Button>
-            <Button id="doan" class="btn btn-light text-danger" 
+            <Button id="Foody" class="btn btn-light text-danger" 
             variant="primary" onClick={ChangeEffective}
             style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
-            borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '15px 50px',borderRadius:'12px' }}>
+            borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '15px 20px',borderRadius:'12px' }}>
             {"Đồ ăn"}
             </Button>
-            <Button id="thucuong" class="btn btn-light text-danger" 
+            <Button id="Drink" class="btn btn-light text-danger" 
             variant="primary" onClick={ChangeEffective}
             style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
-            borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '15px 50px',borderRadius:'12px' }}>
+            borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '15px 20px',borderRadius:'12px' }}>
             {"Thức uống"}
             </Button>
-            <Button id="khaivi" class="btn btn-light text-danger" 
+            <Button id="Appetizer" class="btn btn-light text-danger" 
             variant="primary" onClick={ChangeEffective}
             style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
-            borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '15px 50px',borderRadius:'12px' }}>
+            borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '15px 20px',borderRadius:'12px' }}>
             {"Khai vị"}
             </Button>
-            <Button id="trangmieng" class="btn btn-light text-danger" 
+            <Button id="Dessert" class="btn btn-light text-danger" 
             variant="primary" onClick={ChangeEffective}
             style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
-            borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '15px 50px',borderRadius:'12px' }}>
+            borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '15px 20px',borderRadius:'12px' }}>
             {"Tráng miệng"}
             </Button>
         </div>
