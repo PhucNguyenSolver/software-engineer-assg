@@ -12,24 +12,25 @@ import {
     Redirect
 } from "react-router-dom";
 import Footer from "./components/homepage/Footer";
-import TaskSearch from "./components/Menu/TaskSearch";
+import MenuInGen from "./components/Menu/MenuInGen";
 import CheckOut from "./components/CheckOut/CheckOut";
 import HandlerOrder from "./components/HandlerOrder/HandlerOrder";
-
-
+import ProtectedRoute from "./components/Login/ProtectedRoute";
 
 function App() {
 	return (
 		<div className="App container-fluid">
 			<div class="row">
-				<Appbar />
+				<Appbar/>
 			</div>
 			<div class="row">
 				<Router>
 					<Switch>
 						<Route path="/login" exact component={Login} />
+						<ProtectedRoute exact path='/manage-order' exact component={HandlerOrder} />
+						{/* <Route path="/manage-order" exact component={HandlerOrder} /> */}
 						<Route path="/cart" exact component={Cart} />
-						<Route path="/menu" exact component={TaskSearch} />
+						<Route path="/menu" exact component={MenuInGen} />
 						<Route path="/checkout" exact component={CheckOut} />
 						<Route path="/cart-item-info" exact component={CartInfo} />
 						<Route path="/food-info" exact component={FoodInfo} />

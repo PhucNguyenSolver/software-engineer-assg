@@ -2,16 +2,7 @@ import { React, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
-
-const userAccountData = [
-    {
-        "account": "tienminh0801",
-        "password": "0123456789"
-    }
-]
-
-
-let accountDataSend = []
+const axios = require('axios')
 
 
 
@@ -23,27 +14,28 @@ export default function Login() {
 
     function handleSubmit(e) {
         e.preventDefault();
-        for (let userAccount of userAccountData) {
-            if (userAccount.account == account && userAccount.password == pw) {
-                // accountDataSend = accountDataSend.concat({
-                //     "account": account,
-                //     "password": pw
-                // }) 
-                // console.log(accountDataSend)
-                return
-            } // send request login
-        }
-        // e.preventDefault();
-        // alert("Tài khoản hoặc mật khẩu không đúng")
-        toast.error('Mật khẩu hoặc tài khoản không đúng', {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-        });
+        
+        axios.post('http://localhost:8080/login', {
+            "account" : account,
+            "password": pw
+        })
+            .then((response) => {
+                if (response.data == 'Accept') {
+                    localStorage.setItem('isAuthenticated', true)
+                    window.location.href = "/manage-order"
+                }
+                else {
+                    toast.error('Mật khẩu hoặc tài khoản không đúng', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                }
+            })
     }
 
     return (
