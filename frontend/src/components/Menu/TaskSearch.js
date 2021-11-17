@@ -1,26 +1,190 @@
 import React from "react";
-import RenderElement from './RenderElement.js'
-// import FilterBar from './FilterBar.js'
 import JSONDATA from './MOCK_DATA.json'
-import { useState } from 'react';
-import ReactDOM from 'react-dom';
-import FoodTypeList from './FoodTypeList.js'
+import { useState, useEffect } from 'react';
+//import FoodTypeList from './FoodTypeList.js'
+import {Button} from 'react-bootstrap';
 import FoodInMenu from './FoodInMenu.js'
-import Appbar from './Appbar.js'
+
+
+
+
+
+// function FoodTypeList() {
+
+//     useEffect(() => {
+//     axios.get('http://localhost:8080/food')
+//     .then( (res) => {
+//       arr = res.data
+//     })
+//     }, [])
+
+//   var arr = []
+
+//   const array = ['Combo','Foody','Drink','Appetizer','Dessert']
+
+//   function ChangeEffective(e){
+//       //console.log(e.target.id)
+//       var idChange = document.getElementById(e.target.id)
+//       idChange.style.borderRadius = '50px'
+//       idChange.style.borderColor = '#F63C3C'
+//       idChange.style.color = '#F63C3C'
+//       idChange.style.boxShadow = '1px 1px #F63C3C'
+//       for(var i=0;i<array.length;i++) {
+//           if (array[i] === e.target.id) continue;
+//           else {
+//               var idNormal = document.getElementById(array[i])
+//               idNormal.style.borderColor='#ffffff'
+//               idNormal.style.color='#000000'
+//               idNormal.style.borderRadius='12px'
+//               idNormal.style.boxShadow='None'
+//           }
+//       }
+//       JSONDATA.length = 0;
+//       //console.log(JSONDATA)
+//       for(var i=0;i < arr.length;i++) {
+//         if (arr[i].type === e.target.id) {
+//           var temp = {
+//             food_name: arr[i].name,
+//             price: arr[i].price,
+//             img: arr[i].imageUrls[0],
+//           }
+//           JSONDATA.push(temp)
+//         }
+//     }
+//       console.log(JSONDATA)
+//   }
+
+//   return (
+//       <div style={{backgroundColor:'#AFEEEE',height:'100px', width:'100%'}}
+//       >
+//           <Button id="Combo" class="btn btn-light text-danger" 
+//           variant="primary" onClick={ChangeEffective}
+//           style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
+//           borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '25px 25px 25px 67px',borderRadius:'12px' }}>
+//           {"Combo"}
+//           </Button>
+//           <Button id="Foody" class="btn btn-light text-danger" 
+//           variant="primary" onClick={ChangeEffective}
+//           style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
+//           borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '15px 20px',borderRadius:'12px' }}>
+//           {"Đồ ăn"}
+//           </Button>
+//           <Button id="Drink" class="btn btn-light text-danger" 
+//           variant="primary" onClick={ChangeEffective}
+//           style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
+//           borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '15px 20px',borderRadius:'12px' }}>
+//           {"Thức uống"}
+//           </Button>
+//           <Button id="Appetizer" class="btn btn-light text-danger" 
+//           variant="primary" onClick={ChangeEffective}
+//           style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
+//           borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '15px 20px',borderRadius:'12px' }}>
+//           {"Khai vị"}
+//           </Button>
+//           <Button id="Dessert" class="btn btn-light text-danger" 
+//           variant="primary" onClick={ChangeEffective}
+//           style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
+//           borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '15px 20px',borderRadius:'12px' }}>
+//           {"Tráng miệng"}
+//           </Button>
+//       </div>
+//     );
+// }
+
 
 const axios = require('axios')
-axios.get('localhost:8080/food')
-.then( (res) => {
-  console.log(res.data)
-})
+var arr = []
 
 function TaskSearch() { 
-
   const tmp = JSONDATA.slice()
   const [temp, setTemp] = useState(tmp)
   const [filterNameInit,setFilterNameInit] = useState('No filter here...')
   const [data, setData] = useState(tmp)
   const [pageNumber,setPageNumber] = useState(1)
+
+  useEffect(() => {
+    axios.get('http://localhost:8080/food')
+    .then( (res) => {
+      arr = res.data
+    })
+    }, [])
+
+function FoodTypeList() {
+
+
+
+const array = ['Combo','Foody','Drink','Appetizer','Dessert']
+
+function ChangeEffective(e){
+    //setPageNumber(1)
+    var JSONDATA = []
+    var idChange = document.getElementById(e.target.id)
+    idChange.style.borderRadius = '50px'
+    idChange.style.borderColor = '#F63C3C'
+    idChange.style.color = '#F63C3C'
+    idChange.style.boxShadow = '1px 1px #F63C3C'
+    for(var i=0;i<array.length;i++) {
+        if (array[i] === e.target.id) continue;
+        else {
+            var idNormal = document.getElementById(array[i])
+            idNormal.style.borderColor='#ffffff'
+            idNormal.style.color='#000000'
+            idNormal.style.borderRadius='12px'
+            idNormal.style.boxShadow='None'
+        }
+    }
+    JSONDATA.length = 0;
+    for(var i=0;i < arr.length;i++) {
+      if (arr[i].type === e.target.id) {
+        var temp = {
+          food_name: arr[i].name,
+          price: arr[i].price,
+          img: arr[i].imageUrls[0],
+        }
+        JSONDATA.push(temp)
+      }
+  }
+    setTemp(JSONDATA)
+    setData(JSONDATA)
+   // console.log(data)
+}
+console.log(data)
+return (
+    <div style={{backgroundColor:'#AFEEEE',height:'100px', width:'100%'}}
+    >
+        <Button id="Combo" class="btn btn-light text-danger" 
+        variant="primary" onClick={ChangeEffective}
+        style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
+        borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '25px 25px 25px 67px',borderRadius:'12px' }}>
+        {"Combo"}
+        </Button>
+        <Button id="Foody" class="btn btn-light text-danger" 
+        variant="primary" onClick={ChangeEffective}
+        style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
+        borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '15px 20px',borderRadius:'12px' }}>
+        {"Foody"}
+        </Button>
+        <Button id="Drink" class="btn btn-light text-danger" 
+        variant="primary" onClick={ChangeEffective}
+        style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
+        borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '15px 20px',borderRadius:'12px' }}>
+        {"Drink"}
+        </Button>
+        <Button id="Appetizer" class="btn btn-light text-danger" 
+        variant="primary" onClick={ChangeEffective}
+        style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
+        borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '15px 20px',borderRadius:'12px' }}>
+        {"Appetizer"}
+        </Button>
+        <Button id="Dessert" class="btn btn-light text-danger" 
+        variant="primary" onClick={ChangeEffective}
+        style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
+        borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '15px 20px',borderRadius:'12px' }}>
+        {"Dessert"}
+        </Button>
+    </div>
+  );
+}
 
   function MenuInGen({arr}) {
     return (

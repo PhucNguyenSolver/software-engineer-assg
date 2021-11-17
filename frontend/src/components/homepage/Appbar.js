@@ -5,19 +5,40 @@ import './Appbar.css'
 import React from "react";
 import RenderElement from '../Menu/RenderElement'
 import JSONDATA from '../Menu/MOCK_DATA'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import FoodTypeList from '../Menu/FoodTypeList'
 import FoodInMenu from '../Menu/FoodInMenu'
 
 // Combo: 12, Foody: 13, Drink: 15, Appetizer: 14, Dessert: 16
 
+
+const axios = require('axios')
+var arrAll = []
+
 export default function Appbar() {
   const [searchTerm,setSearchTerm] = useState('')
-  const [data, setData] = useState(JSONDATA)
+  const [data, setData] = useState(arrAll)
   var filtered;
   var pagingSearch;
   var pageNumber = 1
+
+
+  useEffect(() => {
+    axios.get('http://localhost:8080/food')
+    .then( (res) => {
+      for(var i = 0;i<res.data.length;++i){
+        var temp = {
+          food_name: res.data[i].name,
+          price: res.data[i].price,
+          img: res.data[i].imageUrls[0],
+        }
+        arrAll.push(temp)
+      }
+    })
+    }, [])
+
+
   function ChangePage(index){
     if(index > Math.ceil(filtered.length / 10) || index < 1) return;
     pageNumber = index
@@ -60,7 +81,7 @@ export default function Appbar() {
       window.location.href = "/menu"
     }
     else {
-    filtered = JSONDATA.filter((val)=>{
+    filtered = arrAll.filter((val)=>{
       if (val.food_name.toLowerCase().includes(searchKey.toLowerCase())){
           return val
       }
@@ -97,7 +118,7 @@ export default function Appbar() {
 
   function MenuInGen({arr}) {
     
-  const temp = JSONDATA.slice()
+  const temp = arrAll.slice()
   const [filterNameInit,setFilterNameInit] = useState('No filter here...'.slice())
   const [data, setData] = useState(temp)
 
@@ -117,8 +138,8 @@ export default function Appbar() {
 
   function NoFilterFunction(){
    setFilterNameInit('No filter here...')
-    setData(JSONDATA.slice())
-    ReactDOM.render(<MenuInGen arr={JSONDATA.slice()}/>, document.getElementById('MenuFirst'))
+    setData(arrAll.slice())
+    ReactDOM.render(<MenuInGen arr={arrAll.slice()}/>, document.getElementById('MenuFirst'))
   }
     
     return (
