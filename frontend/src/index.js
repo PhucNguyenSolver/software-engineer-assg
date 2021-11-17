@@ -7,11 +7,12 @@ import './index.css';
 import App from './App';
 //import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/js/bootstrap';
-
+import Map from './components/CheckOut/Map';
 
 ReactDOM.render(
   <React.StrictMode>
     <App />
+    {/* <Map /> */}
     
   </React.StrictMode>,
   document.getElementById('root')

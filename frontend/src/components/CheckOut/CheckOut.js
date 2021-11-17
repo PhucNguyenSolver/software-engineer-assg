@@ -1,61 +1,63 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { ToastContainer, toast } from 'react-toastify';
+import { calculateShipFee, FROM } from "./Map";   
 import { useLocation } from "react-router-dom";
 
 const axios = require('axios');
 
+const contactData = {
+	name: 'Nguyễn Phúc Vinh',
+	phone: '0373 395 726',
+	addr: `Ticklab, 92/10, đường Vành Đai ĐH Quốc Gia TP.HCM, khu phố Tân Lập,
+	 	Phường Linh Trung, Quận Thủ Đức, Hồ Chí Minh`
+};
 
-const productData = [
-    {
-        "name": "Combo Gà Rán A",
-        "image": "https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg",
-        "quantity": 4,
-        "price": 97000
-    },
-    {
-        "name": "Combo Gà Rán A",
-        "image": "https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg",
-        "quantity": 4,
-        "price": 97000
-    },
-    {
-        "name": "Combo Gà Rán A",
-        "image": "https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg",
-        "quantity": 4,
-        "price": 97000
-    },
-    {
-        "name": "Combo Gà Rán A",
-        "image": "https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg",
-        "quantity": 4,
-        "price": 97000
-    },
-    {
-        "name": "Combo Gà Rán A",
-        "image": "https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg",
-        "quantity": 4,
-        "price": 97000
-    },
-    {
-        "name": "Combo Gà Rán A",
-        "image": "https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg",
-        "quantity": 4,
-        "price": 97000
-    },
+// const productData = [
+//     {
+//         "name": "Combo Gà Rán A",
+//         "image": "https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg",
+//         "quantity": 4,
+//         "price": 97000
+//     },
+//     {
+//         "name": "Combo Gà Rán A",
+//         "image": "https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg",
+//         "quantity": 4,
+//         "price": 97000
+//     },
+//     {
+//         "name": "Combo Gà Rán A",
+//         "image": "https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg",
+//         "quantity": 4,
+//         "price": 97000
+//     },
+//     {
+//         "name": "Combo Gà Rán A",
+//         "image": "https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg",
+//         "quantity": 4,
+//         "price": 97000
+//     },
+//     {
+//         "name": "Combo Gà Rán A",
+//         "image": "https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg",
+//         "quantity": 4,
+//         "price": 97000
+//     },
+//     {
+//         "name": "Combo Gà Rán A",
+//         "image": "https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg",
+//         "quantity": 4,
+//         "price": 97000
+//     },
 
-]
+// ]
 
-
-
-
-const CustomerDataOrdered = []
-// let CustomerDataOrdered 
 
 function Product(props) {
     return (
         <li className="list-group-item d-flex justify-content-between lh-sm">
             <div className='col-2'>
-                <img src={props.product.imgUrl} style={{ marginTop: 4, width: '100%' }} />
+                <img src={props.product.imgUrl} alt="" style={{ marginTop: 4, width: '100%' }} />
             </div>
             <div className='col-6'>
                 <h6 className="my-0">{props.product.name}</h6>
@@ -81,11 +83,38 @@ const wardOptionList =
 
 export default function CheckOut() {
 
+    const DEFAULT_LOCATE = 'Lựa chọn';
+    const [district, setDistrict] = useState(DEFAULT_LOCATE)
+    const [ward, setWard] = useState(DEFAULT_LOCATE)
+
+    const [shipFee, setShipFee] = useState(null);
+    const [shipTime, setShipTime] = useState();
+    const [shipAddress, setShipAddress] = useState('Ticklab, 92/10, đường Vành Đai ĐH Quốc Gia TP.HCM, khu phố Tân Lập, Phường Linh Trung, Quận Thủ Đức, Hồ Chí Minh');
+    
+    useEffect(() => {
+      async function fetchData() {
+        if (district === DEFAULT_LOCATE || ward === DEFAULT_LOCATE) {
+          setShipFee(null);
+        } else {
+          const to = ward + ', ' + district + ' TP HCM';
+          const {shipFee, duration} = await calculateShipFee(FROM, to);
+          setShipFee(shipFee);
+          setShipTime(duration);
+        }
+      }
+      fetchData();
+    }, [district, ward]);
     const [wardOption, setWardOption] = useState('Lựa chọn')
+    const handleDistrictChange = (event) => {
+      setDistrict(event.target.value);
+    }
+    const handleWardChange = (event) => {
+      setWard(event.target.value);
+    }
 
     const location = useLocation().state;
 
-    let shipFee = 50000
+    // let shipFee = 50000
 
 
     function handleCheckOut(e) {
@@ -93,7 +122,9 @@ export default function CheckOut() {
         let phone = document.getElementById('input-phone').value
         let address = document.getElementById('input-address').value
         let district = document.getElementById('district').value
+        // setDistrict(district);
         let ward = document.getElementById('ward').value
+        // setWard(ward);
         let paymentMethod = document.querySelector('input[type="radio"]:checked');
         let totalPrice = location.reduce((acc, product) => {
             return acc + product.price * product.quantity
@@ -101,7 +132,7 @@ export default function CheckOut() {
 
         e.preventDefault();
 
-        if (name == '' || phone == '' || address == '' || district == 'Lựa chọn' || ward == 'Lựa chọn' || paymentMethod == null) {
+        if (name === '' || phone === '' || address === '' || district === 'Lựa chọn' || ward === 'Lựa chọn' || paymentMethod === null) {
             toast.error('Thông tin không hợp lệ', {
                 position: "top-right",
                 autoClose: 5000,
@@ -132,10 +163,10 @@ export default function CheckOut() {
 
 
     function WardOption() {
-        if (wardOption == 'Lựa chọn') return null
-        else return wardOption.map((ward) => {
-            return <option>{ward}</option>
-        })
+        if (wardOption === 'Lựa chọn') return null
+        else return wardOption.map(ward => 
+            <option key={ward}>{ward}</option>
+        )
     }
 
     return (
@@ -164,10 +195,17 @@ export default function CheckOut() {
                             </li> */}
                             <li className="list-group-item d-flex justify-content-between bg-light">
                                 <div className="text-primary">
+                                  <div>{shipAddress}</div>
+                                  <div>{"Thời gian dự kiến: " + shipTime}</div>
+                                </div>
+                            </li>
+                            {(typeof(shipFee) === 'number') && 
+                            <li className="list-group-item d-flex justify-content-between bg-light">
+                                <div className="text-primary">
                                     <h6 className="my-0">Phí chuyển hàng</h6>
                                 </div>
                                 <span className="text-primary">{new Intl.NumberFormat().format(shipFee)}</span>
-                            </li>
+                            </li>}
                             <li className="list-group-item d-flex justify-content-between">
                                 <span>Tổng Tiền (VND)</span>
                                 <strong>{new Intl.NumberFormat().format(location.reduce((acc, product) => {
@@ -212,8 +250,9 @@ export default function CheckOut() {
                                 <div className="col-md">
                                     <label for="district" className="form-label">Quận/Huyện</label>
                                     <select className="form-select" name='customerDistrict' id="district" onChange={even => {
-                                        if (even.target.value == 'Lựa chọn') setWardOption('Lựa chọn')
+                                        if (even.target.value === 'Lựa chọn') setWardOption('Lựa chọn')
                                         else setWardOption(wardOptionList[even.target.value])
+                                        handleDistrictChange(even);
                                     }}>
                                         <option selected>Lựa chọn</option>
                                         <option >Quận Thủ Đức</option>
@@ -227,7 +266,7 @@ export default function CheckOut() {
 
                                 <div className="col-md">
                                     <label for="ward" className="form-label">Phường / Xã</label>
-                                    <select className="form-select" name='customerWard' id="ward" >
+                                    <select className="form-select" name='customerWard' id="ward" onChange={handleWardChange}>
                                         <option selected>Lựa chọn</option>
                                         <WardOption />
                                     </select>
