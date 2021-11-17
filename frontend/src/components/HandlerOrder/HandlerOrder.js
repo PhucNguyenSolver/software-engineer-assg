@@ -49,7 +49,6 @@ export default function HandlerOrder() {
                                 });
                         })
                     })
-                    console.log(res.data)
                     setData(res.data)
                 })
         }
@@ -147,10 +146,10 @@ export default function HandlerOrder() {
         function handlerAccept() {
             let sttOrder = 'Đang chờ xử lý'
 
-            if (order.status == 'Đang chờ xử lý') sttOrder = 'Đang được làm'
-            else if (order.status == 'Đang được làm') sttOrder = 'Đang giao hàng'
-            else if (order.status == 'Đang giao hàng') sttOrder = 'Đã thanh toán'
-            else if (order.status == 'Đã thanh toán') sttOrder = 'Done'
+            if (order.status === 'Đang chờ xử lý') sttOrder = 'Đang được làm'
+            else if (order.status === 'Đang được làm') sttOrder = 'Đang giao hàng'
+            else if (order.status === 'Đang giao hàng') sttOrder = 'Đã thanh toán'
+            else if (order.status === 'Đã thanh toán') sttOrder = 'Done'
 
 
             axios.post("http://localhost:8080/order/manage-order", {
@@ -168,7 +167,6 @@ export default function HandlerOrder() {
                                         });
                                 })
                             })
-                            console.log(res.data)
                             setData(res.data)
                         })
                 })
@@ -191,7 +189,6 @@ export default function HandlerOrder() {
                                         });
                                 })
                             })
-                            console.log(res.data)
                             setData(res.data)
                         })
                 })
@@ -251,9 +248,9 @@ export default function HandlerOrder() {
                                 <h5>Giỏ hàng</h5>
                                 {order.items.map(item => (
                                     <Row>
-                                        <Col xl={2} lg={2} md={2} sm={2} xs={2}><Figure.Image alt="FoodImg" src={item.foodId[0]}></Figure.Image></Col>
+                                        <Col xl={2} lg={2} md={2} sm={2} xs={2}><Figure.Image alt="FoodImg" src={item.foodId.imageUrls ? item.foodId.imageUrls[0] : ''}></Figure.Image></Col>
                                         <Col xl={7} lg={7} md={10} sm={10} xs={10}>
-                                            <Row><h5>{item.name}</h5></Row>
+                                            <Row><h5>{item.foodId.name}</h5></Row>
                                             <Row><p>{item.options}</p></Row>
                                         </Col>
                                         <Col xl={2} lg={2} md={10} sm={10} xs={9}>
