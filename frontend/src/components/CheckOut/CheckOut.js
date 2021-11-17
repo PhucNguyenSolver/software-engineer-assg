@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react"
 import { ToastContainer, toast } from 'react-toastify';
-import { calculateShipFee, FROM } from "./Map";   
+import { calculateShipFee, FROM } from "./Map";
 import { useLocation } from "react-router-dom";
 
 const axios = require('axios');
 
 const contactData = {
-	name: 'Nguyễn Phúc Vinh',
-	phone: '0373 395 726',
-	addr: `Ticklab, 92/10, đường Vành Đai ĐH Quốc Gia TP.HCM, khu phố Tân Lập,
+    name: 'Nguyễn Phúc Vinh',
+    phone: '0373 395 726',
+    addr: `Ticklab, 92/10, đường Vành Đai ĐH Quốc Gia TP.HCM, khu phố Tân Lập,
 	 	Phường Linh Trung, Quận Thủ Đức, Hồ Chí Minh`
 };
 
@@ -90,27 +90,32 @@ export default function CheckOut() {
 
     const [shipFee, setShipFee] = useState(null);
     const [shipTime, setShipTime] = useState();
-    const [shipAddress, setShipAddress] = useState('Ticklab, 92/10, đường Vành Đai ĐH Quốc Gia TP.HCM, khu phố Tân Lập, Phường Linh Trung, Quận Thủ Đức, Hồ Chí Minh');
-    
-    useEffect(() => {
-      async function fetchData() {
+    const [shipAddress, setShipAddress] = useState('');
 
-        if (district === DEFAULT_LOCATE || ward === DEFAULT_LOCATE) {
-          setShipFee(null);
-        } else {
-          const to = ward + ', ' + district + ' TP HCM';
-          const {shipFee, duration} = await calculateShipFee(FROM, to);
-          setShipFee(shipFee);
-          setShipTime(duration);
+    useEffect(() => {
+        async function fetchData() {
+
+            if (district === DEFAULT_LOCATE || ward === DEFAULT_LOCATE) {
+                setShipFee(null);
+            } else {
+                const to = ward + ', ' + district + ' TP HCM';
+                const { shipFee, duration } = await calculateShipFee(FROM, to);
+                setShipFee(shipFee);
+                setShipTime(duration);
+            }
         }
-      }
-      fetchData();
+        fetchData();
     }, [district, ward]);
     const handleDistrictChange = (event) => {
-      setDistrict(event.target.value);
+        setDistrict(event.target.value);
     }
     const handleWardChange = (event) => {
-      setWard(event.target.value);
+        let address = document.getElementById('input-address').value
+        let district = document.getElementById('district').value
+        // setDistrict(district);
+        let ward = document.getElementById('ward').value
+        setShipAddress(`${address}, ${ward}, ${district} `)
+        setWard(event.target.value);
     }
 
     const location = useLocation().state;
@@ -154,7 +159,7 @@ export default function CheckOut() {
                 "ward": ward,
                 "paymentMethod": paymentMethod.value === 'cod' ? 'Trực tiếp' : 'Online'
             },
-            "totalPrice" : totalPrice,
+            "totalPrice": totalPrice,
             "items": location
         })
             .then(response => console.log(response))
@@ -192,19 +197,20 @@ export default function CheckOut() {
                                 </div>
                                 <span className="text-success">{discountCode}</span>
                             </li> */}
-                            <li className="list-group-item d-flex justify-content-between bg-light">
-                                <div className="text-primary">
-                                  <div>{shipAddress}</div>
-                                  <div>{"Thời gian dự kiến: " + shipTime}</div>
-                                </div>
-                            </li>
-                            {(typeof(shipFee) === 'number') && 
-                            <li className="list-group-item d-flex justify-content-between bg-light">
-                                <div className="text-primary">
-                                    <h6 className="my-0">Phí chuyển hàng</h6>
-                                </div>
-                                <span className="text-primary">{new Intl.NumberFormat().format(shipFee)}</span>
-                            </li>}
+                            {(typeof (shipFee) === 'number') &&
+                                <li className="list-group-item d-flex justify-content-between bg-light">
+                                    <div className="text-primary">
+                                        <div>{`Giao tới : ${shipAddress}`}</div>
+                                        <div>{"Thời gian dự kiến : " + Math.round(shipTime) + ' Phút'}</div>
+                                    </div>
+                                </li>}
+                            {(typeof (shipFee) === 'number') &&
+                                <li className="list-group-item d-flex justify-content-between bg-light">
+                                    <div className="text-primary">
+                                        <h6 className="my-0">Phí chuyển hàng</h6>
+                                    </div>
+                                    <span className="text-primary">{new Intl.NumberFormat().format(shipFee)}</span>
+                                </li>}
                             <li className="list-group-item d-flex justify-content-between">
                                 <span>Tổng Tiền (VND)</span>
                                 <strong>{new Intl.NumberFormat().format(location.reduce((acc, product) => {
@@ -294,14 +300,14 @@ export default function CheckOut() {
 
                             <hr className="my-4" />
 
+                            <button className="w-25 btn btn-danger btn-lg float-end text-white" type="submit" onClick={handleCheckOut} >Thanh Toán</button>
+                            <ToastContainer />
+                        </form>
                             <button className="w-25 btn btn-lg float-start text-white" style={{ backgroundColor: "blue" }} onClick={(e) => {
                                 e.preventDefault();
                                 window.location.href = '/cart'
                             }
                             }>Quay lại</button>
-                            <button className="w-25 btn btn-danger btn-lg float-end text-white" type="submit" onClick={handleCheckOut} >Thanh Toán</button>
-                            <ToastContainer />
-                        </form>
                     </div>
                 </div>
             </main>
