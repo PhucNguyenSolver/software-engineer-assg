@@ -7,6 +7,7 @@ import {ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import {useHistory} from "react-router-dom";
+import { useParams } from "react-router";
 
 var DEFAULT_FOOD = {
     name: "Cánh gà xóc tỏi",
@@ -53,6 +54,8 @@ var DEFAULT_FOOD = {
 
 export default function FoodInfo() {
     var history = useHistory();
+    const {foodId: FOOD_ID} = useParams();
+
     const [food, setFood] = useState(null);
     const [quantity, setQuantity] = useState(1);
     const [totalPrice, setTotalPrice] = useState(0);
@@ -60,25 +63,34 @@ export default function FoodInfo() {
 
     useEffect(() => {
         if(food) {
-            let basePrice = food.unitPrice * quantity;
+            let basePrice = food.unitPrice * quantity * parseFloat(food.discount) / 100;
             let newTotalPrice = basePrice + additionalPrice;
             if(newTotalPrice != totalPrice) {
                 setTotalPrice(newTotalPrice);
             }
         }
-    }, [totalPrice, quantity, additionalPrice]);
+    });
 
     
 
     function onSubmit() {
-        const CART_STORAGE_NAME = "res-pos-cart";
+        const CART_STORAGE_NAME = "cart";
         let curCart = JSON.parse(localStorage.getItem(CART_STORAGE_NAME));
         let cartItem = {};
         cartItem.orderOptions = food.orderOptions;
-        cartItem.foodName = food.name;
-        cartItem.unitPrice = food.unitPrice;
-        cartItem.image = food.images[0];
+        cartItem.foodId = FOOD_ID;
         cartItem.quantity = quantity;
+
+        var optionSum = {}
+        optionSum.str = food.orderOptions.map((item) => {
+            return item.title + ": " + item.options.filter((ele, idx) => item.answer[idx]).
+                map((option, idx) => {
+                    return option;
+            }).join(", ")
+        }).join(" / ");
+        optionSum.price = additionalPrice;
+
+        cartItem.optionSum = optionSum;
 
         if(curCart) {
             curCart.push(cartItem);
@@ -99,7 +111,7 @@ export default function FoodInfo() {
         });
     }
 
-    const FOOD_ID = "618eb8bfc195fbd6f3d8983d";
+
 
     useEffect(() => {
         axios.get("http://localhost:8080/food/detail/" + FOOD_ID)
@@ -110,11 +122,13 @@ export default function FoodInfo() {
             alert("Some errors occur in server. Cannot get food detail");
         })
     }, [])
+
     async function pay() {
         const result = await axios.post("http://localhost:8080/pay");
         console.log(result);
         window.location.href = result.data;
     }
+
 
     if(!food) {
         return <div class="container">Loading...</div>

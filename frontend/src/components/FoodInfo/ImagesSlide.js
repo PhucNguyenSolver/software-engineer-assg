@@ -50,7 +50,7 @@ export function ImagesSlide({imageData}) {
                 </div>
                 <div class="col row">
                     {bottomImgIdxs.map((idx) => {
-                        console.log("Bottom " + idx);
+                    
                         return (
                             <div class={"col-4 w-25 p-1" + " " + (idx == mainImgIdx ? "" : "opacity-50")} onMouseEnter={() => {setMainImgIdx(idx)}}>
                                 <button class="btn button-light p-0 shadow-none">

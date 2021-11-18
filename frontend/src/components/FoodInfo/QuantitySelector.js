@@ -3,8 +3,6 @@ import { useState, useEffect } from "react";
 export function QuantitySelector({initQuantity = 1, quantity, setQuantity, callbacks = []}) {
     const LOWER_BOUND = 0;
     const UPPER_BOUND = 99;
-    console.log("INI");
-    console.log(initQuantity);
     // const [quantity, setQuantity] = useState(initQuantity);
     
 

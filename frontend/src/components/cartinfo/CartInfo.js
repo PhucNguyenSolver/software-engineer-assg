@@ -4,8 +4,8 @@ import { Container, Col, Row, Figure } from 'react-bootstrap'
 import { OrderOptionItem } from "../FoodInfo/OrderOptionItem"
 import { useState, useEffect } from "react"
 import { useParams } from "react-router"
+import axios from "axios"
 
-var cartItem =  null;
 const DEFAULT = {
     id: 1234,
     foodName: "Cánh gà xóc tỏi",
@@ -47,35 +47,53 @@ const DEFAULT = {
 
 export default function CartInfo() {
     const {id: CART_ITEM_OFFSET} = useParams();
-    const CART_STORAGE_NAME = "res-pos-cart";
+    const CART_STORAGE_NAME = "cart";
     var cart = JSON.parse(localStorage.getItem(CART_STORAGE_NAME));
 
     const [quantity, setQuantity] = useState(0);
     const [orderOptionsAnswer, setOrderOptionsAnswer] = useState([]);
-    const [isLoaded, setIsLoaded] = useState(false);
+    const [food, setFood] = useState(null);
+    const [cartItem, setCartItem] = useState(null);
 
     useEffect(() => {
         if(cart && cart.length > CART_ITEM_OFFSET) {
-            cartItem = cart[CART_ITEM_OFFSET];
-            setQuantity(cartItem.quantity);
-            setOrderOptionsAnswer(cartItem.orderOptions);
-            setIsLoaded(true);
+            setCartItem(cart[CART_ITEM_OFFSET]);
+            setQuantity(cart[CART_ITEM_OFFSET].quantity);
+            setOrderOptionsAnswer(cart[CART_ITEM_OFFSET].orderOptions);
+      
+            axios.get("http://localhost:8080/food/" + cart[CART_ITEM_OFFSET].foodId)
+            .then(res => {
+                console.log("Get success")
+                console.log(cart[CART_ITEM_OFFSET]);
+                setFood(res.data);
+            })
+            .catch(err => {
+                console.log(err);
+            })
         }
     }, [])
+
     useEffect(() => {
-        // cart.quantity = quantity;
-        // cart[CART_ITEM_OFFSET].orderOptions = orderOptionsAnswer;
-        // console.log(cart[CART_ITEM_OFFSET]);
         if(cartItem) {
             let newCart = JSON.parse(JSON.stringify(cart));
             newCart[CART_ITEM_OFFSET].quantity = quantity;
             newCart[CART_ITEM_OFFSET].orderOptions = orderOptionsAnswer;
+            newCart[CART_ITEM_OFFSET].optionSum.str = orderOptionsAnswer.map((item) => {
+                return item.title + ": " + item.options.filter((ele, idx) => item.answer[idx]).
+                    map((option, idx) => {
+                        return option;
+                }).join(", ")
+            }).join(" / ");
+
+            newCart[CART_ITEM_OFFSET].optionSum.price = orderOptionsAnswer.map( item => {
+                return item.price.reduce((r,a,i) => {return r + a * item.answer[i]},0);
+            }).reduce((pre, cur) => pre + cur, 0);
+
             localStorage.setItem(CART_STORAGE_NAME, JSON.stringify(newCart));
-            // localStorage.setItem(CART_STORAGE_NAME, JSON.stringify(cart));
         }
     })
 
-    if(!isLoaded) {
+    if(!cartItem || !food) {
         return(
              <Container>
                  Cart Item does not exists.
@@ -83,14 +101,16 @@ export default function CartInfo() {
         )
     }
 
+
     return (
-        <Container>
+        <Container class="p-4">
             <Row>
-                <Col xl={{span: 1, offset: 2}} lg={1} md={1} sm={1} xs={1}>
-                    <button type="button" className="btn btn-light"><i className="bi bi-arrow-left"></i></button>
+                <Col xl={9} lg={10} md={10} sm={10} xs={10}>
+                    <h4>Thông tin chi tiết đơn hàng </h4>
                 </Col>
-                <Col xl={9} lg={11} md={11} sm={11} xs={11}>
-                    <h4>Thông tin đơn hàng {cartItem.id}</h4>
+                <Col xl={{span: 1, offset: 2}} lg={2} md={2} sm={2} xs={2}>
+                    <button type="button" className="btn btn-secondary shadow-none"
+                    onClick={() => window.location.href = "/cart"}>Trở lại giỏ hàng</button>
                 </Col>
             </Row>
             <Row>
@@ -98,12 +118,13 @@ export default function CartInfo() {
                     <Row>
                         <Figure.Image
                             alt="FoodImg"
-                            src={cartItem.image}
+                            src={food.imageUrls[0]}
                         />
                     </Row>
                     <Row>
                         <TotalPayment
-                            fooUnitPrice={cartItem.unitPrice}
+                            fooUnitPrice={food.price}
+                            discount={parseFloat(food.discount) / 100}
                             quantity={quantity}
                             orderOptionsAnswer={orderOptionsAnswer} 
                         />
@@ -111,7 +132,7 @@ export default function CartInfo() {
                 </Col>
                 <Col xl={{span: 4, offset: 1}} lg={{span: 6, offset: 1}} md={{span: 6, offset: 1}}>
                     <Row>
-                        <h2>{cartItem.foodName}</h2>
+                        <h2>{food.name}</h2>
                     </Row>
                     <Row>
                         <Col xl={4} lg={4} md={4} sm={4} xs={4}>Số lượng:</Col>

@@ -8,12 +8,15 @@ paypal.configure({
 });
 
 const getFoodById = async function(req, res) {
+    console.log("GET food by ID");
     const foodId = req.params.id
     const food = await db.Foods.findById(foodId).exec();
+    console.log(food);
     res.status(200).send(food);
 }
 
 const getFoodDetailById = async function (req, res) {
+
     const foodId = req.params.id;
     var food = await db.Foods.findById(foodId);
     food = food.toObject();

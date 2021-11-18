@@ -32,7 +32,7 @@ function App() {
 						<Route path="/menu" exact component={TaskSearch} />
 						<Route path="/checkout" exact component={CheckOut} />
 						<Route path="/cart-item-info/:id" exact component={CartInfo} />
-						<Route path="/food-info" exact component={FoodInfo} />
+						<Route path="/food-info/:foodId" exact component={FoodInfo} />
 						<Route path="/" exact component={Homepage} />
 					</Switch>
 				</Router>

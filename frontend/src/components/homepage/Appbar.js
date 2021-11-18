@@ -215,7 +215,7 @@ export default function Appbar() {
   }
 
     return (
-      <div>
+      <div class="p-0">
         <Navbar expand="lg" sticky="top" className="color-appbar">
           <Navbar.Brand href='/'>Your logo</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />

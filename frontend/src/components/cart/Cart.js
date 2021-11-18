@@ -19,36 +19,6 @@ const CartTitle = styled.div`
 `
 const CartInner = styled.div``
 
-// const cartItem = [{
-//     id: 1,
-//     imgUrl: './chicken.png',
-//     name: 'Đùi gà rán',
-//     sideDish: 'Tuỳ chọn: Thêm gà :), thêm nhiều gà =)), thêm nhiều nhiều gà ^^',
-//     price: 49000,
-//     quantity: 1,
-//     active: false
-// }];
-
-// [{
-//     "_id": "618eb8bfc195fbd6f3d8983d",
-//     "name": "Cánh gà rán",
-//     "price": 25000,
-//     "discount": "0",
-//     "imageUrls": [
-//         "https://ameovat.com/wp-content/uploads/2016/05/cach-lam-ga-ran.jpg",
-//         "https://cdn.tgdd.vn/2020/12/CookProduct/2-1200x676-1.jpg"
-//     ],
-//     "options": [{
-//         "_id": "618eb1edc195fbd6f3cf8195",
-//         "name": "Độ cay",
-//         "isMultiSelect": false,
-//         "items": [{
-//             "name": "Cực cay",
-//             "price": 0
-//         }]
-//     }]
-// }]
-
 const cartSampleLocalData = [{
     foodId: "618eb8bfc195fbd6f3d8983d",
     quantity: 5,
@@ -56,14 +26,29 @@ const cartSampleLocalData = [{
         str: "Không cay/Fanta",
         price: 0
     },
-    orderOptions: {
+    orderOptions: [{
         isMultiSelect: false,
         options: ["Cực cay", "Cay vừa", "Cay nhẹ", "Không cay"],
         price: [0, 0, 0, 0],
         answer: [true, false, false, false],
         title: "Độ cay",
         _id: "618eb1edc195fbd6f3cf8195"
-    }
+    }]
+}, {
+    foodId: "618eb8bfc195fbd6f3d8983d",
+    quantity: 3,
+    optionSum: {
+        str: "Cực cay/Pepsi",
+        price: 5000
+    },
+    orderOptions: [{
+        isMultiSelect: false,
+        options: ["Cực cay", "Cay vừa", "Cay nhẹ", "Không cay"],
+        price: [0, 0, 0, 0],
+        answer: [true, false, false, false],
+        title: "Độ cay",
+        _id: "618eb1edc195fbd6f3cf8195"
+    }]
 }, {
     foodId: "619229f1792fa260bd3a1003",
     quantity: 2,
@@ -71,18 +56,18 @@ const cartSampleLocalData = [{
         str: "Cay/Trà đào",
         price: 10000
     },
-    orderOptions: {
+    orderOptions: [{
         isMultiSelect: false,
         options: ["Cực cay", "Cay vừa", "Cay nhẹ", "Không cay"],
         price: [0, 0, 0, 0],
         answer: [true, false, false, false],
         title: "Độ cay",
         _id: "618eb1edc195fbd6f3cf8195"
-    }
+    }]
 }]
 
 // Mock
-localStorage.setItem('cart', JSON.stringify(cartSampleLocalData))
+// localStorage.setItem('cart', JSON.stringify(cartSampleLocalData))
 
 export default function Cart() {
     const [data, setData] = useState([])
@@ -90,46 +75,42 @@ export default function Cart() {
 
     // Load cart basic info from local storage when load page
     const cartStorage = JSON.parse(localStorage.getItem('cart'));
-    const itemIdList = cartStorage !== null ? cartStorage.map(item => item.id) : null;
+    const itemIdList = cartStorage !== null ? cartStorage.map(item => item.foodId) : null;
 
     useEffect(() => {
-        itemIdList && CartService.getList(JSON.stringify(itemIdList)).then(response => {
-            const cartData = response.data.map((item, index) => {
-                let sideDish = ''
-                item.options.forEach((option, optionIndex) => {
-                    option.items.forEach((optItem, optionItemIdx) => {
-                        let isPicked = cartStorage[index].pickedOpts[optionIndex].items[optionItemIdx]
-                        isPicked && (sideDish += ', ' + optItem.name)
-                    })
+        itemIdList && CartService.getList(
+            JSON.stringify(itemIdList)
+        ).then(response => {
+            const foodData = response.data;
+            const cartData = cartStorage.map((item, index) => {
+                let foodItem = foodData.find(value => {
+                    return value._id === item.foodId
                 })
-                sideDish = sideDish.slice(2) // Remove ", "
                 return {
-                    id: item._id,
-                    name: item.name,
-                    imgUrl: item.imageUrls[0],
-                    price: item.price,
-                    // Get quantity from localStorage
-                    quantity: cartStorage[index].quantity,
+                    index: index,
+                    offset: new Date().getTime() + index,
+                    foodId: foodItem._id,
+                    name: foodItem.name,
+                    imgUrl: foodItem.imageUrls[0],
+                    price: foodItem.price,
+                    quantity: item.quantity,
                     active: false,
-                    sideDish: sideDish,
-                    discount: item.discount
+                    sideDish: item.optionSum.str,
+                    addition: item.optionSum.price,
+                    discount: foodItem.discount
                 }
             });
             setData(cartData);
         }).catch(err => console.log(err))
     }, [])
-    
-    const toggleActive = function (id) {
-        const newData = [...data];
-        newData.find(value => {
-            if(value.id !== id) return false;
 
-            value.active = !value.active
-            return true;
-        })
+    const toggleActive = function (offset) {
+        const newData = [...data];
+        const item = newData.find(value => value.offset === offset)
+        item.active = !item.active
 
         setData(newData);
-        
+
         let allIsActive = newData.every(value => value.active === true);
         setChooseAll(allIsActive);
     };
@@ -146,35 +127,53 @@ export default function Cart() {
     };
 
     const handleQuantity = {
-        decQuantity: function (id) {
+        decQuantity: function (offset) {
             const newData = [...data];
-            const index = newData.findIndex(value => value.id === id);
-            if (newData[index].quantity > 1) newData[index].quantity--;
+            const index = newData.findIndex(value => value.offset === offset)
+            if (newData[index].quantity > 1) {
+                newData[index].quantity--;
+                cartStorage[index].quantity--;
+            }
+            localStorage.setItem('cart', JSON.stringify(cartStorage))
             setData(newData);
         },
-        incQuantity: function (id) {
+        incQuantity: function (offset) {
             const newData = [...data];
-            const index = newData.findIndex(value => value.id === id);
-            newData[index].quantity++;
+            const index = newData.findIndex(value => value.offset === offset)
+            newData[index].quantity++
+            cartStorage[index].quantity++
+            localStorage.setItem('cart', JSON.stringify(cartStorage))
             setData(newData);
         },
-        updateQuantity: function (id, value) {
+        updateQuantity: function (offset, value) {
             const newData = [...data];
-            const index = newData.findIndex(value => value.id === id);
-            newData[index].quantity = value;
+            const index = newData.findIndex(value => value.offset === offset)
+            newData[index].quantity = value
+            cartStorage[index].quantity = value
+            localStorage.setItem('cart', JSON.stringify(cartStorage))
             setData(newData);
         }
     }
 
-    const deleteItem = function (id) {
+    const deleteItem = function (offset) {
         const newData = [...data];
-        const index = newData.findIndex(value => value.id === id);
+        const index = newData.findIndex(value => value.offset === offset)
         newData.splice(index, 1);
+        cartStorage.splice(index, 1)
+
+        localStorage.setItem('cart', JSON.stringify(cartStorage))
         setData(newData)
     }
 
     const deleteActiveItems = function () {
-        const newData = data.filter(value => value.active === false);
+        const arrIndex = []
+        const newData = data.filter((value, index) => {
+            arrIndex.unshift(index)
+            return value.active === false
+        });
+        arrIndex.forEach(value => {
+            cartStorage.splice(value, 1);
+        })
         setData(newData)
     }
 

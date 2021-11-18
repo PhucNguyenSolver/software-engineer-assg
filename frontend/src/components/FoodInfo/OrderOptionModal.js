@@ -28,7 +28,7 @@ export function OrderOptionModal({food, setFood, quantity, setAdditionalPrice, t
                         <ul>
                             <li><hr class="border-top border-secondary"/></li>
             
-                            {food.orderOptions.map((orderOption) => {
+                            {food.orderOptions.map((orderOption, idx) => {
                                 return(
                                     <>
                                         <li>
@@ -43,7 +43,8 @@ export function OrderOptionModal({food, setFood, quantity, setAdditionalPrice, t
                                                 console.log(orderOptionPrice);
                                                 setAdditionalPrice(orderOptionPrice);
                                                 let newFood = JSON.parse(JSON.stringify(food));
-                                                
+                                                newFood.orderOptions[idx].answer = newAnswer;
+                                                console.log(newFood);
                                                 setFood(newFood);
                                             }]}/>
                                         </li>
