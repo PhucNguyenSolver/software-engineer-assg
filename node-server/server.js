@@ -19,6 +19,7 @@ app.use(express.json());
 app.use('/food', router.food)
 app.use('/cart', router.cart)
 app.use('/homepage', router.homepage)
+app.use('/banner',router.banner)
 app.use('/order', orderRoute)
 app.use('/login', loginRoute)
 
