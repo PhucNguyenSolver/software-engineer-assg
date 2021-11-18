@@ -198,7 +198,7 @@ export default function HandlerOrder() {
                     <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{(new Date(order.createdAt)).toLocaleDateString("en-US")}</td>
                     <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{order.customerInfo.name}</td>
                     <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{order.customerInfo.typeOrder}</td>
-                    <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{Intl.NumberFormat().format(order.items.map((item) => item.price * item.quantity).reduce((acc, cur) => acc + cur, 0)) + ' đ'}</td>
+                    <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{Intl.NumberFormat().format(order.items.map((item) => item.price).reduce((acc, cur) => acc + cur, 0) + order.shipFee) + ' VND'}</td>
                     <td>
                         <button type="button" class="btn btn-sm btn-outline-primary" onClick={() => handlerAccept()} id={'accept' + idx}>Xử lý</button>
                     </td>
@@ -242,6 +242,10 @@ export default function HandlerOrder() {
                                     <Col xl={5} lg={5} md={5} sm={5} xs={5}>Quận / Huyện:</Col>
                                     <Col><p>{order.customerInfo.district}</p></Col>
                                 </Row>
+                                <Row className='mb-3'>
+                                    <Col xl={5} lg={5} md={5} sm={5} xs={5}>Phí giao hàng :</Col>
+                                    <Col><p>{order.shipFee}</p></Col>
+                                </Row>
                                 <h5>Giỏ hàng</h5>
                                 {order.items.map(item => (
                                     <Row>
@@ -254,14 +258,14 @@ export default function HandlerOrder() {
                                             <p>Số lượng: {item.quantity}</p>
                                         </Col>
                                         <Col>
-                                            <Row><Badge variant="primary" pill>{Intl.NumberFormat().format(item.price * item.quantity) + ' đ'}</Badge></Row>
+                                            <Row><Badge variant="primary" pill>{Intl.NumberFormat().format(item.price) + ' VND'}</Badge></Row>
                                         </Col>
                                     </Row>
                                 ))}
                                 <Row>
                                     <Col xl={7} lg={7} md={7} sm={7} xs={5}><h4>Tổng tiền:</h4></Col>
                                     <Col>
-                                        <h4><Badge variant="primary" pill>{Intl.NumberFormat().format(order.items.map(item => item.price * item.quantity).reduce((acc, cur) => acc + cur, 0)) + ' đ'}</Badge></h4>
+                                        <h4><Badge variant="primary" pill>{Intl.NumberFormat().format(order.items.map(item => item.price).reduce((acc, cur) => acc + cur, 0) + order.shipFee) + ' VND'}</Badge></h4>
                                     </Col>
                                 </Row>
                             </Col>

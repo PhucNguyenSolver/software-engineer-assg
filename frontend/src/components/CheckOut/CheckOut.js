@@ -160,9 +160,9 @@ export default function CheckOut() {
                 "address": address,
                 "district": district,
                 "ward": ward,
-                "paymentMethod": paymentMethod.value === 'cod' ? 'Trực tiếp' : 'Online'
+                "typeOrder": paymentMethod.value === 'cod' ? 'Trực tiếp' : 'Online'
             },
-            "totalPrice": totalPrice,
+            "shipFee": shipFee,
             "items": location.map((orderInfo) => {
                 return {
                     "options": orderInfo.sideDish,
@@ -215,7 +215,7 @@ export default function CheckOut() {
                             {(typeof (shipFee) === 'number') &&
                                 <li className="list-group-item d-flex justify-content-between bg-light">
                                     <div className="text-primary">
-                                        <h6 className="my-0">Phí chuyển hàng</h6>
+                                        <h6 className="my-0">Phí giao hàng</h6>
                                     </div>
                                     <span className="text-primary">{new Intl.NumberFormat().format(shipFee)}</span>
                                 </li>}
@@ -227,13 +227,6 @@ export default function CheckOut() {
                                 }, 0) + shipFee)}</strong>
                             </li>
                         </ul>
-
-                        <form class="card p-2">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Mã khuyến mãi" />
-                                <button type="submit" class="btn btn-secondary">Áp dụng</button>
-                            </div>
-                        </form>
                     </div>
                     <div className="col-md-7 col-lg-8">
                         <h4 className="mb-3">Thông Tin Thanh Toán</h4>

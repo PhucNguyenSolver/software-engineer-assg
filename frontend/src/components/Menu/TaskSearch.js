@@ -15,7 +15,7 @@ axios.get('http://localhost:8080')
 
 
 
-const axios = require('axios')
+// const axios = require('axios')
 var arr = []
 
 var Init = [
