@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import {useHistory} from "react-router-dom";
 import { useParams } from "react-router";
+import { v4 as uuidv4 } from 'uuid';
 
 var DEFAULT_FOOD = {
     name: "Cánh gà xóc tỏi",
@@ -77,6 +78,7 @@ export default function FoodInfo({setNCartItem}) {
         const CART_STORAGE_NAME = "cart";
         let curCart = JSON.parse(localStorage.getItem(CART_STORAGE_NAME));
         let cartItem = {};
+        cartItem.offset = uuidv4();
         cartItem.orderOptions = food.orderOptions;
         cartItem.foodId = FOOD_ID;
         cartItem.quantity = quantity;

@@ -46,7 +46,8 @@ const DEFAULT = {
 // }
 
 export default function CartInfo() {
-    const {id: CART_ITEM_OFFSET} = useParams();
+    const {id: cartItemId} = useParams();
+
     const CART_STORAGE_NAME = "cart";
     var cart = JSON.parse(localStorage.getItem(CART_STORAGE_NAME));
 
@@ -56,15 +57,16 @@ export default function CartInfo() {
     const [cartItem, setCartItem] = useState(null);
 
     useEffect(() => {
-        if(cart && cart.length > CART_ITEM_OFFSET) {
-            setCartItem(cart[CART_ITEM_OFFSET]);
-            setQuantity(cart[CART_ITEM_OFFSET].quantity);
-            setOrderOptionsAnswer(cart[CART_ITEM_OFFSET].orderOptions);
+        const cartItemOffset = cart.findIndex(item => item.offset == cartItemId)
+        if(cart && cartItemOffset >= 0) {
+            setCartItem(cart[cartItemOffset]);
+            setQuantity(cart[cartItemOffset].quantity);
+            setOrderOptionsAnswer(cart[cartItemOffset].orderOptions);
       
-            axios.get("http://localhost:8080/food/" + cart[CART_ITEM_OFFSET].foodId)
+            axios.get("http://localhost:8080/food/" + cart[cartItemOffset].foodId)
             .then(res => {
                 console.log("Get success")
-                console.log(cart[CART_ITEM_OFFSET]);
+                console.log(cart[cartItemOffset]);
                 setFood(res.data);
             })
             .catch(err => {
@@ -75,17 +77,18 @@ export default function CartInfo() {
 
     useEffect(() => {
         if(cartItem) {
+            const cartItemOffset = cart.findIndex(item => item.offset == cartItemId);
             let newCart = JSON.parse(JSON.stringify(cart));
-            newCart[CART_ITEM_OFFSET].quantity = quantity;
-            newCart[CART_ITEM_OFFSET].orderOptions = orderOptionsAnswer;
-            newCart[CART_ITEM_OFFSET].optionSum.str = orderOptionsAnswer.map((item) => {
+            newCart[cartItemOffset].quantity = quantity;
+            newCart[cartItemOffset].orderOptions = orderOptionsAnswer;
+            newCart[cartItemOffset].optionSum.str = orderOptionsAnswer.map((item) => {
                 return item.title + ": " + item.options.filter((ele, idx) => item.answer[idx]).
                     map((option, idx) => {
                         return option;
                 }).join(", ")
             }).join(" / ");
 
-            newCart[CART_ITEM_OFFSET].optionSum.price = orderOptionsAnswer.map( item => {
+            newCart[cartItemOffset].optionSum.price = orderOptionsAnswer.map( item => {
                 return item.price.reduce((r,a,i) => {return r + a * item.answer[i]},0);
             }).reduce((pre, cur) => pre + cur, 0);
 
