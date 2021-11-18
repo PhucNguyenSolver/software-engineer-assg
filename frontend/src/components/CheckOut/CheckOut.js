@@ -59,15 +59,15 @@ function Product(props) {
             <div className='col-2'>
                 <img src={props.product.imgUrl} alt="" style={{ marginTop: 4, width: '100%' }} />
             </div>
-            <div class='col-6'>
+            <div class='col-6 float-start'>
                 <h6 class="my-0">{props.product.name}</h6>
                 <small class="text-muted">Số lượng : {props.product.quantity}</small>
             </div>
-            <div className='float-end'>
+            <div className='col-2 float-end'>
                 <span className="text-muted">{new Intl.NumberFormat().format(props.product.price
-                     * props.product.quantity * parseFloat(props.product.discount) / 100
-                     + parseInt(props.product.addition))
-                     }</span>
+                    * props.product.quantity * parseFloat(props.product.discount) / 100
+                    + parseInt(props.product.addition))
+                }</span>
             </div>
         </li>
     )
@@ -163,7 +163,15 @@ export default function CheckOut() {
                 "paymentMethod": paymentMethod.value === 'cod' ? 'Trực tiếp' : 'Online'
             },
             "totalPrice": totalPrice,
-            "items": location
+            "items": location.map((orderInfo) => {
+                return {
+                    "options": orderInfo.sideDish,
+                    "foodId": orderInfo.foodId,
+                    "price": orderInfo.price * orderInfo.quantity
+                        * parseFloat(orderInfo.discount) / 100 + parseInt(orderInfo.addition),
+                    "quantity": orderInfo.quantity
+                }
+            })
         })
             .then(response => console.log(response))
 
@@ -171,10 +179,6 @@ export default function CheckOut() {
     }
 
 
-    function WardOption() {
-        if (wardOption === 'Lựa chọn') return <div></div>
-        else return wardOption.map(ward => <option key={ward} value={ward}>{ward}</option>)
-    }
 
     return (
         <div class="container">
@@ -219,9 +223,9 @@ export default function CheckOut() {
                                 <span>Tổng Tiền (VND)</span>
                                 <strong>{new Intl.NumberFormat().format(location.reduce((acc, product) => {
                                     return acc + product.price * product.quantity * parseFloat(product.discount) / 100
-                                            + product.addition
+                                        + product.addition
                                 }, 0) + shipFee)}</strong>
-                        </li>
+                            </li>
                         </ul>
 
                         <form class="card p-2">
@@ -308,11 +312,11 @@ export default function CheckOut() {
                             <button className="w-25 btn btn-danger btn-lg float-end text-white" type="submit" onClick={handleCheckOut} >Thanh Toán</button>
                             <ToastContainer />
                         </form>
-                            <button className="w-25 btn btn-lg float-start text-white" style={{ backgroundColor: "blue" }} onClick={(e) => {
-                                e.preventDefault();
-                                window.location.href = '/cart'
-                            }
-                            }>Quay lại</button>
+                        <button className="w-25 btn btn-lg float-start text-white" style={{ backgroundColor: "blue" }} onClick={(e) => {
+                            e.preventDefault();
+                            window.location.href = '/cart'
+                        }
+                        }>Quay lại</button>
                     </div>
                 </div>
             </main>

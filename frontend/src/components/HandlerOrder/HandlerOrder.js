@@ -170,7 +170,7 @@ export default function HandlerOrder() {
 
         function handlerReject() {
             axios.post("http://localhost:8080/order/manage-order", {
-                "orderId": order.orderId,
+                "orderId": order._id,
                 "sttOrder": 'Đã từ chối'
             })
                 .then(() => {
@@ -183,6 +183,7 @@ export default function HandlerOrder() {
                                             item.foodId = res.data;
                                         });
                                 })
+                                console.log(order.items)
                             })
                             setData(res.data)
                         })
@@ -194,6 +195,7 @@ export default function HandlerOrder() {
             <>
                 <tr>
                     <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{order._id}</td>
+                    <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{(new Date(order.createdAt)).toLocaleDateString("en-US")}</td>
                     <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{order.customerInfo.name}</td>
                     <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{order.customerInfo.typeOrder}</td>
                     <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{Intl.NumberFormat().format(order.items.map((item) => item.price * item.quantity).reduce((acc, cur) => acc + cur, 0)) + ' đ'}</td>
@@ -276,10 +278,11 @@ export default function HandlerOrder() {
             <ProcessBar data={data} />
             <div class="container mt-5 ">
                 <div class="table-responsive">
-                    <table class="table table-striped table-sm">
+                    <table class="table table-striped table-sm table-hover">
                         <thead>
                             <tr>
                                 <th scope="col">Mã đơn hàng</th>
+                                <th scope="col">Ngày đặt hàng</th>
                                 <th scope="col">Tên khách hàng </th>
                                 <th scope="col">Loại đặt hàng</th>
                                 <th scope="col">Tổng tiền</th>

@@ -43,7 +43,7 @@ const orders = new Schema({
         options: SchemaTypes.String,
         foodId: SchemaTypes.ObjectId,
         price: SchemaTypes.Number,
-        discount: SchemaTypes.String, // 'x%' or number
+        // discount: SchemaTypes.String, // 'x%' or number
         quantity: SchemaTypes.Number
     }]
 }, {

@@ -129,9 +129,10 @@ export default function CartTotalPrice(props) {
 			<TotalPrice {...total}/>
 			<PayButton
 				disabled={numberOfItems() === 0}
-				onClick={() =>
+				onClick={() => {
+				// console.log(props.cartItems)
 				history.push('/checkout',props.cartItems.filter(value => value.active === true))
-			}>Đặt hàng ({
+			}}>Đặt hàng ({
 					props.cartItems.filter(value => value.active === true).length
 				})</PayButton>
 			{/* <PayButton onClick={payBill} 
