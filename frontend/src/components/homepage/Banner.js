@@ -1,18 +1,22 @@
 import { Carousel } from "react-bootstrap";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 const axios = require('axios');
 
 
 export default function Banner() {
     const [imageBanner, setImageBanner] = useState([]);
 
-    axios.get("http://localhost:8080/banner")
-    .then(res => {
-        setImageBanner(res.data.imageUrls);
-    })
-    // .catch(err => {
-    //     alert("Occur when loading image banner");
-    // })
+    useEffect(() => {
+        axios.get("http://localhost:8080/banner")
+            .then(res => {
+                setImageBanner(res.data.imageUrls);
+            })
+            .catch(err => {
+                alert("Occur when loading image banner");
+            });
+    }, [])
+
+    
     return (
         <>
         <div className="row justify-content-center">
