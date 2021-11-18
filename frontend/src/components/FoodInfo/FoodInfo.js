@@ -52,7 +52,7 @@ var DEFAULT_FOOD = {
 }
 
 
-export default function FoodInfo() {
+export default function FoodInfo({setNCartItem}) {
     var history = useHistory();
     const {foodId: FOOD_ID} = useParams();
 
@@ -100,6 +100,7 @@ export default function FoodInfo() {
             localStorage.setItem(CART_STORAGE_NAME , JSON.stringify([cartItem]));
         }
 
+        setNCartItem(preVal => preVal + 1);
         toast.success('Thêm vào giỏ hàng thành công', {
             position: "top-right",
             autoClose: 2000,

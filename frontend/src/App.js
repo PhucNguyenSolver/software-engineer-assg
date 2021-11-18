@@ -14,14 +14,23 @@ import TaskSearch from "./components/Menu/TaskSearch";
 import CheckOut from "./components/CheckOut/CheckOut";
 import HandlerOrder from "./components/HandlerOrder/HandlerOrder";
 import ProtectedRoute from "./components/Login/ProtectedRoute";
+import { useState, useEffect } from "react";
 
 
 
 function App() {
+	const [nCartItem, setNCartItem] = useState(0);
+
+	useEffect(() => {
+		if(localStorage.getItem("cart")) {
+			setNCartItem(JSON.parse(localStorage.getItem("cart")).length);
+		}
+	}, [])
+
 	return (
 		<div className="App container-fluid">
 			<div class="row">
-				<Appbar />
+				<Appbar nCartItem={nCartItem} />
 			</div>
 			<div class="row">
 				<Router>
@@ -32,7 +41,7 @@ function App() {
 						<Route path="/menu" exact component={TaskSearch} />
 						<Route path="/checkout" exact component={CheckOut} />
 						<Route path="/cart-item-info/:id" exact component={CartInfo} />
-						<Route path="/food-info/:foodId" exact component={FoodInfo} />
+						<Route path="/food-info/:foodId" exact render={props => <FoodInfo setNCartItem={setNCartItem}/>} />
 						<Route path="/" exact component={Homepage} />
 					</Switch>
 				</Router>

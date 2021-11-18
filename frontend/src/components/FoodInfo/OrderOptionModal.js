@@ -35,16 +35,24 @@ export function OrderOptionModal({food, setFood, quantity, setAdditionalPrice, t
                                             <OrderOptionItem orderOptionItem={orderOption} callbacks={[(newAnswer) => {
                                                 let orderOptionPrice = 0;
                                                 console.log("Update Additional Price");
-                                                food.orderOptions.forEach( orderOption => {
-                                                    console.log(orderOption.price);
-                                                    console.log(newAnswer);
-                                                    orderOptionPrice += orderOption.price.reduce((r,a,i) => {return r + a * newAnswer[i]},0);
+                                                console.log(newAnswer);
+                                                food.orderOptions.forEach( (orderOption, _idx) => {
+                                                    if(_idx == idx) {
+                                                        console.log(orderOption.price);
+                                                        console.log(newAnswer);
+                                                        orderOptionPrice += orderOption.price.reduce((r,a,i) => {return r + a * newAnswer[i]},0);
+                                                    }
+                                                    else {
+                                                        console.log(orderOption.price);
+                                                        console.log(orderOption.answer);
+                                                        orderOptionPrice += orderOption.price.reduce((r,a,i) => {return r + a * orderOption.answer[i]},0); 
+                                                    }
                                                 })
                                                 console.log(orderOptionPrice);
                                                 setAdditionalPrice(orderOptionPrice);
                                                 let newFood = JSON.parse(JSON.stringify(food));
                                                 newFood.orderOptions[idx].answer = newAnswer;
-                                                console.log(newFood);
+             
                                                 setFood(newFood);
                                             }]}/>
                                         </li>

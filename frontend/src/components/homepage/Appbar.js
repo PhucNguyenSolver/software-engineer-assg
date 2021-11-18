@@ -17,7 +17,7 @@ import FoodInMenu from '../Menu/FoodInMenu'
 const axios = require('axios')
 var arrAll = []
 
-export default function Appbar() {
+export default function Appbar({nCartItem}) {
   const [searchTerm,setSearchTerm] = useState('')
   const [data, setData] = useState(arrAll)
   var filtered;
@@ -250,7 +250,7 @@ export default function Appbar() {
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="30" fill="#000000" class="bi bi-cart" viewBox="0 0 16 16">
               <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
               </svg>
-              <sup><span class="badge rounded-pill bg-danger">10</span></sup>
+              <sup><span class="badge rounded-pill bg-danger">{nCartItem}</span></sup>
               <span class="visually-hidden">Giỏ hàng</span>
             </Nav.Link>
             <DisplayLog />
