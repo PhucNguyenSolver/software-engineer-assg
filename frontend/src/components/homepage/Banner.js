@@ -1,6 +1,18 @@
 import { Carousel } from "react-bootstrap";
+import { useState } from "react";
+const axios = require('axios');
+
 
 export default function Banner() {
+    const [imageBanner, setImageBanner] = useState([]);
+
+    axios.get("http://localhost:8080/banner")
+    .then(res => {
+        setImageBanner(res.data.imageUrls);
+    })
+    // .catch(err => {
+    //     alert("Occur when loading image banner");
+    // })
     return (
         <>
         <div className="row justify-content-center">
@@ -8,35 +20,35 @@ export default function Banner() {
             <Carousel.Item>
                 <img
                 className="d-block w-100"
-                src="https://kfcvietnam.com.vn/uploads/banner/d1dd1f9c1c83301bc4a61add2ce73cd7.png"
+                src= {imageBanner[0]}
                 alt="First slide"
                 />
             </Carousel.Item>
             <Carousel.Item>
                 <img
                 className="d-block w-100"
-                src="https://kfcvietnam.com.vn/uploads/banner/0697dd81738426d9e9f4874759c080eb.png"
+                src= {imageBanner[1]}
                 alt="Second slide"
                 />
             </Carousel.Item>
             <Carousel.Item>
                 <img
                 className="d-block w-100"
-                src="https://kfcvietnam.com.vn/uploads/banner/6590d63cda67e12c4dbb1aa60530498f.png"
+                src= {imageBanner[2]}
                 alt="Third slide"
                 />
             </Carousel.Item>
             <Carousel.Item>
                 <img
                 className="d-block w-100"
-                src="https://kfcvietnam.com.vn/uploads/banner/c8c807bf7f8c3ecbbc50e8eef9f4f1b8.png"
+                src={imageBanner[3]}
                 alt="Fourth slide"
                 />
             </Carousel.Item>
             <Carousel.Item>
                 <img
                 className="d-block w-100"
-                src="https://kfcvietnam.com.vn/uploads/banner/71a29dc5191424d6003e2511da1a9836.jpg"
+                src={imageBanner[4]}
                 alt="Fourth slide"
                 />
             </Carousel.Item>

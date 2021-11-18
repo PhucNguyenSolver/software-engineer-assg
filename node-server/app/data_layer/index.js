@@ -14,7 +14,7 @@ class Database {
     Employees = mongoose.model('Employees', PosSchema.employees)
     Orders = mongoose.model('Orders', PosSchema.orders)
     Options = mongoose.model('Options', PosSchema.options);
-    Banner = mongoose.model('Banner', PosSchema.banner);
+    Banner = mongoose.model('Banners', PosSchema.banner);
     connect = () => {
         mongoose.connect(this.#uri, {
             useNewUrlParser: true,
