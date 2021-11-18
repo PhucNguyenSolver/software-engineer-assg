@@ -8,7 +8,9 @@ export function FoodDescription({food, quantity, setQuantity}) {
                 <h1>{food.name}</h1>
             </div>
             <div class="text-primary text-start">
-               
+                <h4>
+                    <span class="badge rounded-pill bg-primary">- {food.discount}</span>
+                </h4>
                 <h4 class="text-decoration-line-through text-secondary">{ Intl.NumberFormat().format(food.unitPrice) + " VNĐ" }</h4>
                 <h3>{ Intl.NumberFormat().format(food.unitPrice * parseFloat(food.discount) / 100) + " VNĐ" }</h3>
             </div>
