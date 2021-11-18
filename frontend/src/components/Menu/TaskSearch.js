@@ -1,100 +1,15 @@
 import React from "react";
-//import JSONDATA from './MOCK_DATA.json'
 import { useState, useEffect } from 'react';
-//import FoodTypeList from './FoodTypeList.js'
 import {Button} from 'react-bootstrap';
-import FoodInMenu from './FoodInMenu.js'
+import FoodInMenu from './FoodInMenu.js';
 
 
 
-
-
-// function FoodTypeList() {
-
-//     useEffect(() => {
-//     axios.get('http://localhost:8080/food')
-//     .then( (res) => {
-//       arr = res.data
-//     })
-//     }, [])
-
-//   var arr = []
-
-//   const array = ['Combo','Foody','Drink','Appetizer','Dessert']
-
-//   function ChangeEffective(e){
-//       //console.log(e.target.id)
-//       var idChange = document.getElementById(e.target.id)
-//       idChange.style.borderRadius = '50px'
-//       idChange.style.borderColor = '#F63C3C'
-//       idChange.style.color = '#F63C3C'
-//       idChange.style.boxShadow = '1px 1px #F63C3C'
-//       for(var i=0;i<array.length;i++) {
-//           if (array[i] === e.target.id) continue;
-//           else {
-//               var idNormal = document.getElementById(array[i])
-//               idNormal.style.borderColor='#ffffff'
-//               idNormal.style.color='#000000'
-//               idNormal.style.borderRadius='12px'
-//               idNormal.style.boxShadow='None'
-//           }
-//       }
-//       JSONDATA.length = 0;
-//       //console.log(JSONDATA)
-//       for(var i=0;i < arr.length;i++) {
-//         if (arr[i].type === e.target.id) {
-//           var temp = {
-//             food_name: arr[i].name,
-//             price: arr[i].price,
-//             img: arr[i].imageUrls[0],
-//           }
-//           JSONDATA.push(temp)
-//         }
-//     }
-//       console.log(JSONDATA)
-//   }
-
-//   return (
-//       <div style={{backgroundColor:'#AFEEEE',height:'100px', width:'100%'}}
-//       >
-//           <Button id="Combo" class="btn btn-light text-danger" 
-//           variant="primary" onClick={ChangeEffective}
-//           style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
-//           borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '25px 25px 25px 67px',borderRadius:'12px' }}>
-//           {"Combo"}
-//           </Button>
-//           <Button id="Foody" class="btn btn-light text-danger" 
-//           variant="primary" onClick={ChangeEffective}
-//           style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
-//           borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '15px 20px',borderRadius:'12px' }}>
-//           {"Đồ ăn"}
-//           </Button>
-//           <Button id="Drink" class="btn btn-light text-danger" 
-//           variant="primary" onClick={ChangeEffective}
-//           style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
-//           borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '15px 20px',borderRadius:'12px' }}>
-//           {"Thức uống"}
-//           </Button>
-//           <Button id="Appetizer" class="btn btn-light text-danger" 
-//           variant="primary" onClick={ChangeEffective}
-//           style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
-//           borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '15px 20px',borderRadius:'12px' }}>
-//           {"Khai vị"}
-//           </Button>
-//           <Button id="Dessert" class="btn btn-light text-danger" 
-//           variant="primary" onClick={ChangeEffective}
-//           style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
-//           borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '15px 20px',borderRadius:'12px' }}>
-//           {"Tráng miệng"}
-//           </Button>
-//       </div>
-//     );
-// }
 
 
 const axios = require('axios')
 var arr = []
-var JSONDATA = []
+
 var Init = [
 {"food_name":"Combo Healthy","price":34000,"img":"https://phanphoiruounhapkhau.com/wp-content/uploads/2021/04/healthy-food-la-gi-nguyen-tac-khi-giam-can-bang-che-do-an-clean-eating.jpg"},
 {"food_name":"Combo Vegetables","price":84000,"img":"https://zicxa.com/vi/uploaded/files/rong-nho-giam-can-2-1.jpg"},
@@ -117,6 +32,7 @@ function TaskSearch() {
   const [filterNameInit,setFilterNameInit] = useState('No filter here...')
   const [data, setData] = useState(tmp)
   const [pageNumber,setPageNumber] = useState(1)
+  const [init,setInit] = useState(Init)
 
   useEffect(() => {
     axios.get('http://localhost:8080/food')
@@ -153,65 +69,74 @@ function ChangeEffective(e){
     JSONDATA.length = 0
     for(var i=0;i < arr.length;i++) {
       if (arr[i].type === e.target.id) {
-        var temp = {
+        var t = {
           food_name: arr[i].name,
           price: arr[i].price,
           img: arr[i].imageUrls[0],
         }
-        JSONDATA.push(temp)
+        JSONDATA.push(t)
       }
   }
-    setTemp(JSONDATA)
-    setData(JSONDATA)
-   // console.log(data)
+    setFilterNameInit('No filter here...')
+    setTemp(JSONDATA.slice())
+    setData(JSONDATA.slice())
+    setInit(JSONDATA.slice())
 }
 return (
-    <div style={{backgroundColor:'#AFEEEE',height:'100px', width:'100%'}}
+    <div id="ButtonList" class="row align-items-center" style={{backgroundColor:'#F0FFFF',height:'100px'}}
     >
+        <div class="col-md-2 col-sm-2 col-2">
         <Button id="Combo" class="btn btn-light text-danger" 
         variant="primary" onClick={ChangeEffective}
         style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
-        borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '25px 25px 25px 67px',borderRadius:'12px' }}>
+        borderColor:'#ffffff',fontWeight:'bold',color:'#000000',borderRadius:'12px' }}>
         {"Combo"}
-        </Button>
+        </Button></div>
+        <div class="col-md-2 col-sm-2 col-2">
         <Button id="Foody" class="btn btn-light text-danger" 
         variant="primary" onClick={ChangeEffective}
         style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
-        borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '15px 20px',borderRadius:'12px' }}>
+        borderColor:'#ffffff',fontWeight:'bold',color:'#000000',borderRadius:'12px' }}>
         {"Foody"}
-        </Button>
+        </Button></div>
+        <div class="col-md-2 col-sm-2 col-2">
         <Button id="Drink" class="btn btn-light text-danger" 
         variant="primary" onClick={ChangeEffective}
         style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
-        borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '15px 20px',borderRadius:'12px' }}>
+        borderColor:'#ffffff',fontWeight:'bold',color:'#000000',borderRadius:'12px' }}>
         {"Drink"}
-        </Button>
+        </Button></div>
+        <div class="col-md-2 col-sm-2 col-2">
         <Button id="Appetizer" class="btn btn-light text-danger" 
         variant="primary" onClick={ChangeEffective}
         style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
-        borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '15px 20px',borderRadius:'12px' }}>
+        borderColor:'#ffffff',fontWeight:'bold',color:'#000000',borderRadius:'12px' }}>
         {"Appetizer"}
-        </Button>
+        </Button></div>
+        <div class="col-md-2 col-sm-2 col-2">
         <Button id="Dessert" class="btn btn-light text-danger" 
         variant="primary" onClick={ChangeEffective}
         style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
-        borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '15px 20px',borderRadius:'12px' }}>
+        borderColor:'#ffffff',fontWeight:'bold',color:'#000000',borderRadius:'12px' }}>
         {"Dessert"}
-        </Button>
+        </Button></div>
+        <div class="col-md-2 col-sm-4 col-4">
+        <FilterBar />
+        </div>
     </div>
   );
 }
 
   function MenuInGen({arr}) {
     return (
-        <div >
         <div>
+        {/* <div>
           <FilterBar />
-        </div>
+        </div> */}
         <div style={{width:'100%'}}>
             <FoodTypeList />
         </div>
-        <div style={{backgroundColor:'#efefef',height:'800px',width:'100%'}}>
+        <div style={{backgroundColor:'#efefef',width:'100%'}}>
             {
                arr.slice(0,10).map((val) => {
                return <FoodInMenu name={val.food_name} price={val.price} image={val.img} />
@@ -239,13 +164,14 @@ return (
   function NoFilterFunction(){
     setPageNumber(1)
     setFilterNameInit('No filter here...')
-    setData(JSONDATA.slice())
-    setTemp(JSONDATA.slice())
+    setTemp(init.slice())
+    setData(init.slice())
   }
 
   function FilterBar() {
     return (
-      <div class="dropdown" style={{position:'absolute', right:'62px',top:'90px'}}>
+      // style={{position:'absolute', right:'62px',top:'90px'}}
+      <div class="dropdown" >
     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
     style={{backgroundColor: '#F0A12A',width:'200px',height:'52px'}}>
       {filterNameInit}
@@ -275,11 +201,12 @@ function ChangePage(index){
 }
 return (
   <div>
-   <div id="MenuFirst" style={{height:'950px',backgroundColor:'#efefef'}}>
-    <MenuInGen arr={data}/>
+  {/* style={{height:'950px',backgroundColor:'#efefef'}} */}
+   <div id="MenuFirst" style={{backgroundColor:'#efefef',margin:'auto'}}>
+   <MenuInGen arr={data}/>
   </div> 
-
-  <div id="PaginationSearch" style={{height:'90px',backgroundColor:'#efefef'}}>
+  {/* style={{height:'90px',backgroundColor:'#efefef'}} */}
+  <div id="PaginationSearch" >
   <nav  aria-label="Page navigation example">
   <ul class="pagination justify-content-center pagination-lg">
     <li class="page-item">
