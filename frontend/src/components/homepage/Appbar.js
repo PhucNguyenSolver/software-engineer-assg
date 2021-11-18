@@ -169,7 +169,7 @@ export default function Appbar({nCartItem}) {
         <div style={{ width: '100%' }}>
           <FoodTypeList />
         </div>
-        <div id="ElementInMenu" style={{backgroundColor:'#efefef',height:'800px',width:'100%',marginLeft:'50px'}}>
+        <div id="ElementInMenu" style={{backgroundColor:'#efefef',width:'100%',marginLeft:'50px'}}>
             {
               arr.map((val) => {
               return <FoodInMenu name={val.food_name} price={val.price} image={val.img} />
@@ -275,11 +275,10 @@ export default function Appbar({nCartItem}) {
           </ Navbar.Collapse>
         </Navbar>
 
-        <div id = "pagingCheck" >
+        <div id = "pagingCheck" style={{position:'absolute',bottom:'-38%',marginLeft:'42%',marginRight:'auto'}}>
 
         </div>
         </div>
     )
         
   }
-        
