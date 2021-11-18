@@ -64,7 +64,10 @@ function Product(props) {
                 <small class="text-muted">Số lượng : {props.product.quantity}</small>
             </div>
             <div className='float-end'>
-                <span className="text-muted">{new Intl.NumberFormat().format(props.product.price * props.product.quantity)}</span>
+                <span className="text-muted">{new Intl.NumberFormat().format(props.product.price
+                     * props.product.quantity * parseFloat(props.product.discount) / 100
+                     + parseInt(props.product.addition))
+                     }</span>
             </div>
         </li>
     )
@@ -215,9 +218,10 @@ export default function CheckOut() {
                             <li className="list-group-item d-flex justify-content-between">
                                 <span>Tổng Tiền (VND)</span>
                                 <strong>{new Intl.NumberFormat().format(location.reduce((acc, product) => {
-                                    return acc + product.price * product.quantity
+                                    return acc + product.price * product.quantity * parseFloat(product.discount) / 100
+                                            + product.addition
                                 }, 0) + shipFee)}</strong>
-                            </li>
+                        </li>
                         </ul>
 
                         <form class="card p-2">

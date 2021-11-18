@@ -127,15 +127,17 @@ export default function CartTotalPrice(props) {
 	return (
 		<div className='col-lg-3 col-md-12'>
 			<TotalPrice {...total}/>
-			{/* <PayButton onClick={() =>
+			<PayButton
+				disabled={numberOfItems() === 0}
+				onClick={() =>
 				history.push('/checkout',props.cartItems.filter(value => value.active === true))
 			}>Đặt hàng ({
 					props.cartItems.filter(value => value.active === true).length
-				})</PayButton> */}
-			<PayButton onClick={payBill} 
+				})</PayButton>
+			{/* <PayButton onClick={payBill} 
 				disabled={numberOfItems() === 0}>
 				Đặt hàng ({numberOfItems()})
-			</PayButton>
+			</PayButton> */}
 		</div>
 	)
 }

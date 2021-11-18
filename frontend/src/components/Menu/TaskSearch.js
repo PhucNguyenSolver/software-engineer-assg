@@ -136,7 +136,6 @@ function TaskSearch() {
 function FoodTypeList() {
 
 
-
 const array = ['Combo','Foody','Drink','Appetizer','Dessert']
 
 function ChangeEffective(e){
@@ -218,7 +217,7 @@ return (
         <div style={{width:'100%'}}>
             <FoodTypeList />
         </div>
-        <div style={{backgroundColor:'#efefef',height:'800px',width:'100%'}}>
+        <div style={{backgroundColor:'#efefef',width:'100%'}}>
             {
                arr.slice(0,10).map((val) => {
                return <FoodInMenu name={val.food_name} price={val.price} image={val.img} />

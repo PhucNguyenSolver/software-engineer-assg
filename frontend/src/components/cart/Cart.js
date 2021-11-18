@@ -87,8 +87,7 @@ export default function Cart() {
                     return value._id === item.foodId
                 })
                 return {
-                    index: index,
-                    offset: new Date().getTime() + index,
+                    offset: item.offset,
                     foodId: foodItem._id,
                     name: foodItem.name,
                     imgUrl: foodItem.imageUrls[0],

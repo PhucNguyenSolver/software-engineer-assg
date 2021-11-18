@@ -186,7 +186,7 @@ function OrderItem(props) {
 
       <Item.Description>
         <Item.Name>
-          <Link class="text-black" to={"/cart-item-info/" + props.index}>{props.name}</Link>
+          <Link class="text-black" to={"/cart-item-info/" + props.offset}>{props.name}</Link>
         </Item.Name>
         <Item.SideDish>{props.sideDish}</Item.SideDish>
 
