@@ -39,15 +39,15 @@ function handleFilterItemClick(link) {
   console.log("Filter: " + link); // TODO: filter or sort - Thien Toan assigned
 }
 
-function ShowFiltered(props) {
-  if(props.name === "/combo") {
-    return (<FoodList name="combo" />);
-  }
-  else if(props.name === "/drink") {
-    return (<FoodList name="drink" />);
-  }
-  return <FoodList name="combo" />
-}
+// function ShowFiltered(props) {
+//   if(props.name === "/combo") {
+//     return (<FoodList name="combo" />);
+//   }
+//   else if(props.name === "/drink") {
+//     return (<FoodList name="drink" />);
+//   }
+//   return <FoodList name="combo" />
+// }
 
 function FilterItem(props) {
   const buttonClass = props.isActive ? "border border-primary border-5 rounded-3": "";
@@ -99,7 +99,7 @@ function Filter() {
         {categories.map((item, index) => renderPlaceHolder(index))}
       </div>
       
-      <ShowFiltered name={filterLink} />
+      <FoodList />
     </div>
   );
 
