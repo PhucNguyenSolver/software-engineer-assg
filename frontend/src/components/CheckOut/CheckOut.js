@@ -152,27 +152,27 @@ export default function CheckOut() {
             });
             return
         }
-        // axios.post('http://localhost:8080/order', {
-        //     "customerInfo": {
-        //         "name": name,
-        //         "phone": phone,
-        //         "address": address,
-        //         "district": district,
-        //         "ward": ward,
-        //         "typeOrder": paymentMethod.value === 'cod' ? 'Trực tiếp' : 'Online'
-        //     },
-        //     "shipFee": shipFee,
-        //     "items": location.map((orderInfo) => {
-        //         return {
-        //             "options": orderInfo.sideDish,
-        //             "foodId": orderInfo.foodId,
-        //             "price": orderInfo.price * orderInfo.quantity
-        //                 * parseFloat(orderInfo.discount) / 100 + parseInt(orderInfo.addition),
-        //             "quantity": orderInfo.quantity
-        //         }
-        //     })
-        // })
-        //     .then(response => console.log(response))
+        axios.post('http://localhost:8080/order', {
+            "customerInfo": {
+                "name": name,
+                "phone": phone,
+                "address": address,
+                "district": district,
+                "ward": ward,
+                "typeOrder": paymentMethod.value === 'cod' ? 'Trực tiếp' : 'Online'
+            },
+            "shipFee": shipFee,
+            "items": location.map((orderInfo) => {
+                return {
+                    "options": orderInfo.sideDish,
+                    "foodId": orderInfo.foodId,
+                    "price": orderInfo.price * orderInfo.quantity
+                        * parseFloat(orderInfo.discount) / 100 + parseInt(orderInfo.addition),
+                    "quantity": orderInfo.quantity
+                }
+            })
+        })
+            .then(response => console.log(response))
         console.log(location)
 
         console.log(cartStorage)
@@ -180,8 +180,9 @@ export default function CheckOut() {
 
         const newCart = cartStorage.filter(cart => {
             for (let item of location) {
-                if (item.foodId != cart.foodId) return true
+                if (item.foodId == cart.foodId) return false
             }
+            return true
         })
 
         localStorage.setItem('cart', JSON.stringify(newCart))
