@@ -195,7 +195,7 @@ export default function HandlerOrder() {
             <>
                 <tr>
                     <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{order._id}</td>
-                    <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{(new Date(order.createdAt)).toLocaleDateString("en-US")}</td>
+                    <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{(new Date(order.createdAt)).toLocaleDateString()}</td>
                     <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{order.customerInfo.name}</td>
                     <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{order.customerInfo.typeOrder}</td>
                     <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{Intl.NumberFormat().format(order.items.map((item) => item.price).reduce((acc, cur) => acc + cur, 0) + order.shipFee) + ' VND'}</td>

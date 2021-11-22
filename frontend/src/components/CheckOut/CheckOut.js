@@ -131,13 +131,12 @@ export default function CheckOut() {
         let phone = document.getElementById('input-phone').value
         let address = document.getElementById('input-address').value
         let district = document.getElementById('district').value
-        // setDistrict(district);
         let ward = document.getElementById('ward').value
-        // setWard(ward);
         let paymentMethod = document.querySelector('input[type="radio"]:checked');
-        let totalPrice = location.reduce((acc, product) => {
-            return acc + product.price * product.quantity
-        }, 0) + shipFee
+
+        const cartStorage = JSON.parse(localStorage.getItem('cart'));
+
+
 
         e.preventDefault();
 
@@ -174,6 +173,22 @@ export default function CheckOut() {
             })
         })
             .then(response => console.log(response))
+        console.log(location)
+
+        console.log(cartStorage)
+
+
+        const newCart = cartStorage.filter(cart => {
+            for (let item of location) {
+                if (item.foodId == cart.foodId) return false
+            }
+            return true
+        })
+
+        localStorage.setItem('cart', JSON.stringify(newCart))
+
+        console.log(newCart)
+
 
         window.location.href = "/"
     }
