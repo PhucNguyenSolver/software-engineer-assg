@@ -215,8 +215,8 @@ export default function Appbar({nCartItem}) {
   }
 
     return (
-      <div class="p-0">
-        <Navbar expand="lg" sticky="top" className="color-appbar">
+      <div class="py-0 color-appbar">
+        <Navbar expand="lg" sticky="top">
           <Navbar.Brand href='/'>Your logo</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">

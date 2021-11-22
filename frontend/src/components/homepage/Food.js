@@ -31,7 +31,7 @@ function Food(props) {
       <img className="w-100 round" src={food.imageUrls[0]} alt=""/>
       <div className="px-3">
         <h3 className="my-2 my-sm-4">{food.name}</h3>
-        <h4>{price}</h4>
+        <h5>{price}</h5>
         <div style={compactStyle}>
           <ul>
             {food.description}

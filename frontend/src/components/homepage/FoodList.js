@@ -29,7 +29,7 @@ export default function FoodList(props) {
     )
   }
   const listItems = rawFoods.map((afood) => (
-    <div className="col-10 col-sm-4 col-md-3 col-xl-3">
+    <div className="col-10 col-sm-6 col-md-4 col-xl-3">
       <Food food={afood}/>      
     </div>  
   ));

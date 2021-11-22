@@ -64,7 +64,7 @@ export default function FoodInfo({setNCartItem}) {
 
     useEffect(() => {
         if(food) {
-            let basePrice = food.unitPrice * quantity * parseFloat(food.discount) / 100;
+            let basePrice = food.unitPrice * quantity * (1 - parseFloat(food.discount) / 100);
             let newTotalPrice = basePrice + additionalPrice;
             if(newTotalPrice != totalPrice) {
                 setTotalPrice(newTotalPrice);
