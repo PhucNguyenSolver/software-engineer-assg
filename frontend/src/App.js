@@ -15,6 +15,7 @@ import CheckOut from "./components/CheckOut/CheckOut";
 import HandlerOrder from "./components/HandlerOrder/HandlerOrder";
 import ProtectedRoute from "./components/Login/ProtectedRoute";
 import { useState, useEffect } from "react";
+import Success from "./components/CheckOut/Success";
 
 
 
@@ -42,6 +43,7 @@ function App() {
 						<Route path="/checkout" exact component={CheckOut} />
 						<Route path="/cart-item-info/:id" exact component={CartInfo} />
 						<Route path="/food-info/:foodId" exact render={props => <FoodInfo setNCartItem={setNCartItem}/>} />
+						<Route path="/success" exact component={Success}/>
 						<Route path="/" exact component={Homepage} />
 					</Switch>
 				</Router>

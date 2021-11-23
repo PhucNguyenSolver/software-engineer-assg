@@ -50,7 +50,6 @@ const getFoodDetailById = async function (req, res) {
     food.unitPrice = food.price;
     delete food.price;
 
-    food.description = "Thật là ngon"
     res.status(200).send(food);
 }
 

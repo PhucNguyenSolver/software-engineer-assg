@@ -14,7 +14,8 @@ export function FoodDescription({food, quantity, setQuantity}) {
                 <h4 class="text-decoration-line-through text-secondary">{ Intl.NumberFormat().format(food.unitPrice) + " VNĐ" }</h4>
                 <h3>{ Intl.NumberFormat().format(food.unitPrice * (1 - parseFloat(food.discount) / 100)) + " VNĐ" }</h3>
             </div>
-            <div class="row text-start">
+            <div class="row text-start fs-4 my-3">
+                <h3>Thông tin chi tiết:</h3>
                 <p>{food.description}</p>
             </div>
             <div class="mb-3">

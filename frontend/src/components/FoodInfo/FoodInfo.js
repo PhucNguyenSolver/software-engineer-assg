@@ -126,11 +126,6 @@ export default function FoodInfo({setNCartItem}) {
         })
     }, [])
 
-    async function pay() {
-        const result = await axios.post("http://localhost:8080/pay");
-        console.log(result);
-        window.location.href = result.data;
-    }
 
 
     if(!food) {

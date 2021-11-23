@@ -3,7 +3,7 @@ import { OrderOptionItem } from "./OrderOptionItem";
 export function OrderOptionModal({food, setFood, quantity, setAdditionalPrice, totalPrice, onSubmit}) {
     return(
         <>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#orderOptionModal">
+            <button type="button" class="btn btn-primary fs-4" data-bs-toggle="modal" data-bs-target="#orderOptionModal">
                 Đặt món ngay
             </button>
             <div class="modal fade" id="orderOptionModal" tabindex="-1" aria-labelledby="orderOptionModalLabel" aria-hidden="true">
