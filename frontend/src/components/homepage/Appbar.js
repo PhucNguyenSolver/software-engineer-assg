@@ -49,14 +49,14 @@ export default function Appbar({nCartItem}) {
     for(var i = (index-1)*10 ; i < 10 + (index-1)*10 ; i++){
       if(i >= filtered.length) {
         if(i%10 <=5) {
-          document.getElementById('PaginationSearch').style.bottom = '30%'
-          document.getElementById('MenuFirst').style.height = '500px'
+          // document.getElementById('PaginationSearch').style.bottom = '30%'
+          // document.getElementById('MenuFirst').style.height = '500px'
           break;
         }
       }
       menu[i] = <FoodInMenu name={data[i].food_name} price={data[i].price} image={data[i].img} />
-      document.getElementById('PaginationSearch').style.bottom = '-34%'
-      document.getElementById('MenuFirst').style.height = '900px'
+      // document.getElementById('PaginationSearch').style.bottom = '-34%'
+      // document.getElementById('MenuFirst').style.height = '900px'
     }
     ReactDOM.render(menu,document.getElementById('MenuFirst'))
   }
@@ -66,14 +66,14 @@ export default function Appbar({nCartItem}) {
     for(var i = (index-1)*10 ; i < 10 + (index-1)*10 ; i++){
       if(i >= filtered.length) {
         if(i%10 <=5) {
-          document.getElementById('PaginationSearch').style.bottom = '30%'
-          document.getElementById('MenuFirst').style.height = '500px'
+          // document.getElementById('PaginationSearch').style.bottom = '30%'
+          // document.getElementById('MenuFirst').style.height = '500px'
           break;
         }
       }
       menu[i] = <FoodInMenu name={data[i].food_name} price={data[i].price} image={data[i].img} />
-      document.getElementById('PaginationSearch').style.bottom = '-34%'
-      document.getElementById('MenuFirst').style.height = '900px'
+      // document.getElementById('PaginationSearch').style.bottom = '-34%'
+      // document.getElementById('MenuFirst').style.height = '900px'
     }
      
     ReactDOM.render(menu,document.getElementById('MenuFirst'))
