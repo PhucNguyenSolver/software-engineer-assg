@@ -1,5 +1,6 @@
 import { Nav, Navbar, Form, FormControl, Col } from 'react-bootstrap'
 import './Appbar.css'
+import logo from './logo.png'
 
 
 import React from "react";
@@ -217,7 +218,10 @@ export default function Appbar({nCartItem}) {
     return (
       <div class="py-0 color-appbar">
         <Navbar expand="lg" sticky="top">
-          <Navbar.Brand href='/'>Your logo</Navbar.Brand>
+          <Navbar.Brand href='/' class="text-primary">
+              <img src={logo} width="30" alt="logo image"/>
+                Nhi's House          
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">

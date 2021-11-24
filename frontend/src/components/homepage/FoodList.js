@@ -39,7 +39,7 @@ export default function FoodList(props) {
       <div className="row">
         <div className="col">
           <div class="mb-3 mt-3">
-            <h3>MÓN ĂN MUA NHIỀU TẠI CỬA HÀNG</h3>
+            <h3>Món ăn được mua nhiều tại cửa hàng</h3>
           </div>
         </div>
       </div>
