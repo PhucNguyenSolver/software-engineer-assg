@@ -95,9 +95,9 @@ function Filter() {
   console.log(filterLink);
   return (
     <div className="fluid-container overflow-hidden">
-      <div className="row g-3 justify-content-center">
+      {/* <div className="row g-3 justify-content-center">
         {categories.map((item, index) => renderPlaceHolder(index))}
-      </div>
+      </div> */}
       
       <FoodList />
     </div>
