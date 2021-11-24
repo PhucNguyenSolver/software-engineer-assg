@@ -33,7 +33,7 @@ function App() {
 			<div class="row">
 				<Appbar nCartItem={nCartItem} />
 			</div>
-			<div class="row">
+			<div id="MenuFirst">
 				<Router>
 					<Switch>
 						<ProtectedRoute exact path='/manage-order' exact component={HandlerOrder} />
@@ -48,6 +48,10 @@ function App() {
 					</Switch>
 				</Router>
 			</div>
+			<div id="PaginationSearch">
+
+			</div>
+			
 			<div class="row">
 				<Footer/>
 			</div>
