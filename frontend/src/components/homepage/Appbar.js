@@ -1,5 +1,6 @@
 import { Nav, Navbar, Form, FormControl, Col } from 'react-bootstrap'
 import './Appbar.css'
+import logo from './logo.png'
 
 
 import React from "react";
@@ -47,14 +48,14 @@ export default function Appbar({nCartItem}) {
     for(var i = (index-1)*10 ; i < 10 + (index-1)*10 ; i++){
       if(i >= filtered.length) {
         if(i%10 <=5) {
-          document.getElementById('pagingCheck').style.bottom = '30%'
-          document.getElementById('MenuFirst').style.height = '500px'
+          // document.getElementById('PaginationSearch').style.bottom = '30%'
+          // document.getElementById('MenuFirst').style.height = '500px'
           break;
         }
       }
       menu[i] = <FoodInMenu name={data[i].food_name} price={data[i].price} image={data[i].img} />
-      document.getElementById('pagingCheck').style.bottom = '-34%'
-      document.getElementById('MenuFirst').style.height = '900px'
+      // document.getElementById('PaginationSearch').style.bottom = '-34%'
+      // document.getElementById('MenuFirst').style.height = '900px'
     }
     ReactDOM.render(menu,document.getElementById('MenuFirst'))
   }
@@ -64,14 +65,14 @@ export default function Appbar({nCartItem}) {
     for(var i = (index-1)*10 ; i < 10 + (index-1)*10 ; i++){
       if(i >= filtered.length) {
         if(i%10 <=5) {
-          document.getElementById('pagingCheck').style.bottom = '30%'
-          document.getElementById('MenuFirst').style.height = '500px'
+          // document.getElementById('PaginationSearch').style.bottom = '30%'
+          // document.getElementById('MenuFirst').style.height = '500px'
           break;
         }
       }
       menu[i] = <FoodInMenu name={data[i].food_name} price={data[i].price} image={data[i].img} />
-      document.getElementById('pagingCheck').style.bottom = '-34%'
-      document.getElementById('MenuFirst').style.height = '900px'
+      // document.getElementById('PaginationSearch').style.bottom = '-34%'
+      // document.getElementById('MenuFirst').style.height = '900px'
     }
      
     ReactDOM.render(menu,document.getElementById('MenuFirst'))
@@ -109,12 +110,8 @@ export default function Appbar({nCartItem}) {
     </li>
     </ul>
   </nav>
-    var t = document.getElementById('PaginationSearch')
-    if(t) {
-      t.style.display = 'none'
-    }
     ReactDOM.render(filtered.slice(0,10),document.getElementById('MenuFirst'))  
-    ReactDOM.render(pagingSearch,document.getElementById('pagingCheck'))
+    ReactDOM.render(pagingSearch,document.getElementById('PaginationSearch')) // edited
   }
 
   function MenuInGen({arr}) {
@@ -215,9 +212,12 @@ export default function Appbar({nCartItem}) {
   }
 
     return (
-      <div class="p-0">
-        <Navbar expand="lg" sticky="top" className="color-appbar">
-          <Navbar.Brand href='/'>Your logo</Navbar.Brand>
+      <div class="py-0 color-appbar">
+        <Navbar expand="lg" sticky="top">
+          <Navbar.Brand href='/' class="text-primary">
+              <img src={logo} width="30" alt="logo image"/>
+                Nhi's House          
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
@@ -275,9 +275,9 @@ export default function Appbar({nCartItem}) {
           </ Navbar.Collapse>
         </Navbar>
 
-        <div id = "pagingCheck" style={{position:'absolute',bottom:'-38%',marginLeft:'42%',marginRight:'auto'}}>
+        {/* <div id = "pagingCheck" style={{position:'absolute',bottom:'-38%',marginLeft:'42%',marginRight:'auto'}}>
 
-        </div>
+        </div> */}
         </div>
     )
         

@@ -93,6 +93,7 @@ export default function CheckOut() {
         let district = document.getElementById('district').value
         let ward = document.getElementById('ward').value
         let paymentMethod = document.querySelector('input[type="radio"]:checked');
+        console.log("Payyyyy")
 
         const cartStorage = JSON.parse(localStorage.getItem('cart'));
 
@@ -133,7 +134,7 @@ export default function CheckOut() {
                 }
             })
         })
-            .then(response => console.log(response))
+        .then(response => console.log(response))
         console.log(location)
 
         console.log(cartStorage)
@@ -151,7 +152,25 @@ export default function CheckOut() {
         console.log(newCart)
 
 
-        window.location.href = "/"
+        const TOTAL = location.reduce((acc, product) => {
+            return acc + product.price * product.quantity * parseFloat(product.discount) / 100
+                + product.addition}, 0) + shipFee;
+        if(paymentMethod.value == "online") {
+            axios.post("http://localhost:8080/payment/process", {
+                amount: (TOTAL / 23000).toFixed(1),
+                description: "Res POS payment"
+            })
+            .then(res => {
+                window.location.href = res.data;
+            })
+            .catch(err => {{
+                alert(err);
+            }})
+        }
+        else {
+            window.location.href = "/"
+        }
+
     }
 
 
@@ -283,7 +302,7 @@ export default function CheckOut() {
                         </form>
                         <button className="w-25 btn btn-lg float-start text-white" style={{ backgroundColor: "blue" }} onClick={(e) => {
                             e.preventDefault();
-                            window.location.href = '/cart'
+                            window.location.href = '/cart';
                         }
                         }>Quay lại</button>
                     </div>
