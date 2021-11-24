@@ -238,7 +238,6 @@ return (
    <div id="MenuFirst" style={{backgroundColor:'#efefef',margin:'auto'}}>
    <MenuInGen arr={data}/>
   </div>
-  {/* style={{height:'90px',backgroundColor:'#efefef'}} */}
   <div id="PaginationSearch" >
   <nav  aria-label="Page navigation example">
   <ul class="pagination justify-content-center pagination-lg">

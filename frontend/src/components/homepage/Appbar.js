@@ -46,13 +46,13 @@ export default function Appbar() {
     for(var i = (index-1)*10 ; i < 10 + (index-1)*10 ; i++){
       if(i >= filtered.length) {
         if(i%10 <=5) {
-          document.getElementById('pagingCheck').style.bottom = '30%'
+          document.getElementById('PaginationSearch').style.bottom = '30%'
           document.getElementById('MenuFirst').style.height = '500px'
           break;
         }
       }
       menu[i] = <FoodInMenu name={data[i].food_name} price={data[i].price} image={data[i].img} />
-      document.getElementById('pagingCheck').style.bottom = '-34%'
+      document.getElementById('PaginationSearch').style.bottom = '-34%'
       document.getElementById('MenuFirst').style.height = '900px'
     }
     ReactDOM.render(menu,document.getElementById('MenuFirst'))
@@ -63,13 +63,13 @@ export default function Appbar() {
     for(var i = (index-1)*10 ; i < 10 + (index-1)*10 ; i++){
       if(i >= filtered.length) {
         if(i%10 <=5) {
-          document.getElementById('pagingCheck').style.bottom = '30%'
+          document.getElementById('PaginationSearch').style.bottom = '30%'
           document.getElementById('MenuFirst').style.height = '500px'
           break;
         }
       }
       menu[i] = <FoodInMenu name={data[i].food_name} price={data[i].price} image={data[i].img} />
-      document.getElementById('pagingCheck').style.bottom = '-34%'
+      document.getElementById('PaginationSearch').style.bottom = '-34%'
       document.getElementById('MenuFirst').style.height = '900px'
     }
      
@@ -108,12 +108,8 @@ export default function Appbar() {
     </li>
     </ul>
   </nav>
-    var t = document.getElementById('PaginationSearch')
-    if(t) {
-      t.style.display = 'none'
-    }
     ReactDOM.render(filtered.slice(0,10),document.getElementById('MenuFirst'))  
-    ReactDOM.render(pagingSearch,document.getElementById('pagingCheck'))
+    ReactDOM.render(pagingSearch,document.getElementById('PaginationSearch')) // edited
   }
 
   function MenuInGen({arr}) {
@@ -242,9 +238,9 @@ export default function Appbar() {
           </ Navbar.Collapse>
         </Navbar>
 
-        <div id = "pagingCheck" style={{position:'absolute',bottom:'-38%',marginLeft:'42%',marginRight:'auto'}}>
+        {/* <div id = "pagingCheck" style={{position:'absolute',bottom:'-38%',marginLeft:'42%',marginRight:'auto'}}>
 
-        </div>
+        </div> */}
         </div>
     )
         

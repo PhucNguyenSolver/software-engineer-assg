@@ -36,6 +36,9 @@ function App() {
 					</Switch>
 				</Router>
 			</div>
+			<div id="PaginationSearch">
+
+			</div>
 			<div class="row">
 				<Footer/>
 			</div>
