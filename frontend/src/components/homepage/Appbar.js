@@ -1,6 +1,7 @@
 import { Nav, Navbar, Form, FormControl, Col } from 'react-bootstrap'
 import './Appbar.css'
 import logo from './logo.png'
+import {removeVI, DefaultOption} from 'jsrmvi';
 
 
 import React from "react";
@@ -84,7 +85,7 @@ export default function Appbar({nCartItem}) {
     }
     else {
     filtered = arrAll.filter((val)=>{
-      if (val.food_name.toLowerCase().includes(searchKey.toLowerCase())){
+      if (removeVI(val.food_name.toLowerCase()).includes(removeVI(searchKey.toLowerCase()))){
           return val
       }
       }).map((val,key) => {        
@@ -228,7 +229,7 @@ export default function Appbar({nCartItem}) {
                 <Nav.Link href='/'><span className="navItem">Trang chủ</span></Nav.Link>
                 <Nav.Link href='/menu'><span className="navItem">Thực đơn</span></Nav.Link>
                 <Nav.Link href='/manage-order'><span className="navItem">Đơn hàng</span></Nav.Link>
-                <Nav.Link href='/Footer'><span className="navItem">Giới thiệu</span></Nav.Link>
+                <Nav.Link href='#footer'><span className="navItem">Giới thiệu</span></Nav.Link>
             </Nav>
           <Form className="d-flex">
             <Col xs="auto">

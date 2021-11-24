@@ -1,7 +1,7 @@
 
 export default function Footer() {
     return (
-        <footer class="footer mt-5 bg-white">
+        <footer class="footer mt-5 bg-white" id="footer">
             <div className="grid wide footer-content mt-3">
                 <div className="row d-flex justify-content-evenly">
                     {/* <div className="col-sm-6"> */}

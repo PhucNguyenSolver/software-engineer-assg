@@ -55,21 +55,21 @@ function TotalPrice(props) {
 		<Total.Calculation>
 			<div className='cal'>
 				<span>Giá gốc</span>
-				<span>+ {props.amount()}đ</span>
+				<span>+ {Intl.NumberFormat().format(props.amount())}đ</span>
 			</div>
 			<div className='cal'>
 				<span>Món phụ</span>
-				<span>+ {props.additionalFee()}đ</span>
+				<span>+ {Intl.NumberFormat().format(props.additionalFee())}đ</span>
 			</div>
 			<div className='cal'>
 				<span>Giảm giá</span>
-				<span>- {props.discount()}đ</span>
+				<span>- {Intl.NumberFormat().format(props.discount())}đ</span>
 			</div>
 		</Total.Calculation>
 		<Total.TotalPrice>
 			<div>Tổng cộng</div>
 			<div style={{ display: 'flex', flexFlow: 'column', alignItems: 'end' }}>
-				<div className='total-pay'>{props.amount() - props.discount() + props.additionalFee()}đ</div>
+				<div className='total-pay'>{Intl.NumberFormat().format(props.amount() - props.discount() + props.additionalFee())}đ</div>
 				<div className='description'>(Đã bao gồm VAT nếu có)</div>
 			</div>
 		</Total.TotalPrice>

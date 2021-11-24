@@ -135,7 +135,7 @@ export default function FoodInfo({setNCartItem}) {
         <div class="container p-4">
             <ToastContainer/>
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-6 col-lg-5">
                     <ImagesSlide imageData={food.images}/>
                 </div>
                 <div class="col-md-6">
