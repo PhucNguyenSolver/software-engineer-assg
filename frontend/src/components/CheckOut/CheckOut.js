@@ -65,7 +65,7 @@ function Product(props) {
             </div>
             <div className='col-2 float-end'>
                 <span className="text-muted">{new Intl.NumberFormat().format(props.product.price
-                    * props.product.quantity * parseFloat(props.product.discount) / 100
+                    * props.product.quantity * (1 - parseFloat(props.product.discount) / 100)
                     + parseInt(props.product.addition))
                 }</span>
             </div>
@@ -168,7 +168,7 @@ export default function CheckOut() {
                     "options": orderInfo.sideDish,
                     "foodId": orderInfo.foodId,
                     "price": orderInfo.price * orderInfo.quantity
-                        * parseFloat(orderInfo.discount) / 100 + parseInt(orderInfo.addition),
+                        *  (1 - parseFloat(orderInfo.discount) / 100) + parseInt(orderInfo.addition),
                     "quantity": orderInfo.quantity
                 }
             })
@@ -192,7 +192,7 @@ export default function CheckOut() {
 
 
         const TOTAL = location.reduce((acc, product) => {
-            return acc + product.price * product.quantity * parseFloat(product.discount) / 100
+            return acc + product.price * product.quantity *  (1 - parseFloat(product.discount) / 100)
                 + product.addition}, 0) + shipFee;
         if(paymentMethod.value == "online") {
             axios.post("http://localhost:8080/payment/process", {
@@ -256,7 +256,7 @@ export default function CheckOut() {
                             <li className="list-group-item d-flex justify-content-between">
                                 <span>Tổng Tiền (VND)</span>
                                 <strong>{new Intl.NumberFormat().format(location.reduce((acc, product) => {
-                                    return acc + product.price * product.quantity * parseFloat(product.discount) / 100
+                                    return acc + product.price * product.quantity * (1 - parseFloat(product.discount) / 100)
                                         + product.addition
                                 }, 0) + shipFee)}</strong>
                             </li>
