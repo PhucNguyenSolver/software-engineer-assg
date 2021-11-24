@@ -3,11 +3,19 @@ import { useState, useEffect } from 'react';
 import {Button} from 'react-bootstrap';
 import FoodInMenu from './FoodInMenu.js';
 
-
-
-
-
 const axios = require('axios')
+
+axios.get('http://localhost:8080')
+  .then(res => console.log(res.data))
+  .catch(err => console.log(err))
+
+
+
+
+
+
+
+// const axios = require('axios')
 var arr = []
 
 var Init = [
@@ -47,6 +55,8 @@ function TaskSearch() {
 
 
 function FoodTypeList() {
+
+
 const array = ['Combo','Foody','Drink','Appetizer','Dessert']
 
 function ChangeEffective(e){

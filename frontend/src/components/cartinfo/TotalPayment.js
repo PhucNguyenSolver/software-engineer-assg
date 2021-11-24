@@ -1,7 +1,7 @@
 import { Col, ListGroup, ListGroupItem, Badge, Row } from "react-bootstrap"
 
 
-export default function TotalPayment({fooUnitPrice, quantity, orderOptionsAnswer=[]}) {
+export default function TotalPayment({fooUnitPrice, discount, quantity, orderOptionsAnswer=[]}) {
 
     return (
         <ListGroup as="ul">
@@ -10,7 +10,7 @@ export default function TotalPayment({fooUnitPrice, quantity, orderOptionsAnswer
                 <Row>
                     <Col>Tạm tính</Col>
                     <Col>
-                        <h6 className="text-end">{Intl.NumberFormat().format(fooUnitPrice) + "đ x " + quantity}</h6>
+                        <h6 className="text-end">{Intl.NumberFormat().format(fooUnitPrice * discount) + "đ x " + quantity}</h6>
                     </Col>
                 </Row>
             </ListGroupItem>
@@ -35,7 +35,7 @@ export default function TotalPayment({fooUnitPrice, quantity, orderOptionsAnswer
                     <Col><h5>Tổng</h5></Col>
                     <Col><h5 className="text-end"><Badge variant="primary" pill>{
                         Intl.NumberFormat().format(
-                        fooUnitPrice * quantity +
+                        fooUnitPrice * quantity * discount +
                         orderOptionsAnswer.map( item => {
                             return item.price.reduce((r,a,i) => {return r + a * item.answer[i]},0);
                         }).reduce((pre, cur) => pre + cur, 0))

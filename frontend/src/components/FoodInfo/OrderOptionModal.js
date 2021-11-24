@@ -1,9 +1,9 @@
 import { OrderOptionItem } from "./OrderOptionItem";
 
-export function OrderOptionModal({food, quantity, setAdditionalPrice, totalPrice, onSubmit}) {
+export function OrderOptionModal({food, setFood, quantity, setAdditionalPrice, totalPrice, onSubmit}) {
     return(
         <>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#orderOptionModal">
+            <button type="button" class="btn btn-primary fs-4" data-bs-toggle="modal" data-bs-target="#orderOptionModal">
                 Đặt món ngay
             </button>
             <div class="modal fade" id="orderOptionModal" tabindex="-1" aria-labelledby="orderOptionModalLabel" aria-hidden="true">
@@ -28,16 +28,32 @@ export function OrderOptionModal({food, quantity, setAdditionalPrice, totalPrice
                         <ul>
                             <li><hr class="border-top border-secondary"/></li>
             
-                            {food.orderOptions.map((orderOption) => {
+                            {food.orderOptions.map((orderOption, idx) => {
                                 return(
                                     <>
                                         <li>
                                             <OrderOptionItem orderOptionItem={orderOption} callbacks={[(newAnswer) => {
                                                 let orderOptionPrice = 0;
-                                                food.orderOptions.forEach( orderOption => {
-                                                    orderOptionPrice += orderOption.price.reduce((r,a,i) => {return r + a * orderOption.answer[i]},0);
+                                                console.log("Update Additional Price");
+                                                console.log(newAnswer);
+                                                food.orderOptions.forEach( (orderOption, _idx) => {
+                                                    if(_idx == idx) {
+                                                        console.log(orderOption.price);
+                                                        console.log(newAnswer);
+                                                        orderOptionPrice += orderOption.price.reduce((r,a,i) => {return r + a * newAnswer[i]},0);
+                                                    }
+                                                    else {
+                                                        console.log(orderOption.price);
+                                                        console.log(orderOption.answer);
+                                                        orderOptionPrice += orderOption.price.reduce((r,a,i) => {return r + a * orderOption.answer[i]},0); 
+                                                    }
                                                 })
+                                                console.log(orderOptionPrice);
                                                 setAdditionalPrice(orderOptionPrice);
+                                                let newFood = JSON.parse(JSON.stringify(food));
+                                                newFood.orderOptions[idx].answer = newAnswer;
+             
+                                                setFood(newFood);
                                             }]}/>
                                         </li>
                                         <li><hr class="border-top border-secondary"/></li>

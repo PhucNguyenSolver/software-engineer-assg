@@ -1,8 +1,12 @@
 const express = require("express");
 const cors = require("cors");
+var paypal = require('paypal-rest-sdk');
 
-const route = require('./app/routers');
-const db = require('./app/data_layer');
+const db = require('./app/data_layer')
+const router = require('./app/routers')
+const orderRoute = require('./app/routers/order.router')
+const loginRoute = require('./app/routers/login.router')
+const paymentRoute = require('./app/routers/payment.router');
 
 const app = express();
 
@@ -11,13 +15,18 @@ var corsOptions = {
 };
 
 app.use(cors(corsOptions));
-
 app.use(express.json());
+
+app.use('/food', router.food)
+app.use('/cart', router.cart)
+app.use('/homepage', router.homepage)
+app.use('/banner',router.banner)
+app.use('/order', orderRoute)
+app.use('/login', loginRoute)
+app.use('/payment', paymentRoute);
 
 db.connect();
 
-// Routes init
-route(app);
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

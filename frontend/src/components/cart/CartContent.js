@@ -56,14 +56,26 @@ Item.Name = styled.span`
 Item.SideDish = styled.p`
   font-size: 13px;
   color: gray;
+  margin-bottom: 5px;
 `;
-Item.SinglePrice = styled.span`
-  font-weight: 600;
+Item.SinglePrice = styled.div`
+  display: flex;
+  flex-flow: column;
+  span {
+    font-weight: 600;
+  }
+  .old {
+    text-decoration: line-through;
+  }
+  .new {
+    color: red;
+  }
 `;
 Item.Amount = styled.span`
   font-weight: 600;
   color: red;
 `;
+
 // For number counting button
 const InputGroup = styled.div`
   input {
@@ -109,26 +121,25 @@ function prettyNumber(x) {
 
 /* Component tăng giảm số lượng */
 function ItemQuantity(props) {
-  const handleValue = function (data) {
+  const handleValue = function (offset, data) {
     let nextValue;
     if (data === '') nextValue = 1;
     else nextValue = parseInt(data);
-    props.updateQuantity(props.id, nextValue);
+    props.updateQuantity(offset, nextValue);
   }
-
   return (
-    <InputGroup className='col-md-4 col-8'>
+    <InputGroup className='col-md-4 col-4'>
       <div className='input-group'>
         <div className='input-group-prepend'>
-          <button onClick={() => props.decQuantity(props.id)}
+          <button onClick={() => props.decQuantity(props.offset)}
             className='btn btn-primary shadow-none'>
             {'-'}
           </button>
         </div>
         <input type='number' min={1}
-          onChange={e => handleValue(e.target.value)} value={props.quantity} />
+          onChange={e => handleValue(props.offset, e.target.value)} value={props.quantity} />
         <div className='input-group-append'>
-          <button onClick={() => props.incQuantity(props.id)}
+          <button onClick={() => props.incQuantity(props.offset)}
             className='btn btn-primary shadow-none'>
             {'+'}
           </button>
@@ -147,40 +158,58 @@ function CartHeader(props) {
         {`Tất cả (${props.checkedNumber} sản phẩm)`}
       </label>
       <span className='col-md-2'>Đơn giá</span>
-      <span className='col-md-4'>Số lượng</span>
-      <span className='col-md-3'>Thành tiền</span>
-      <TrashIcon onClick={props.deleteActiveItems} className='col-md-05 col-2' />
+      <span className='col-md-2'>Số lượng</span>
+      <span className='col-md-2'>Thành tiền</span>
+      <TrashIcon onClick={props.deleteActiveItems} className='col-md-1 col-2' />
     </Header>
   )
 }
 
 function OrderItem(props) {
+  const discount = function () {
+    let value = props.discount;
+    if (value[value.length - 1] === '%') {
+      value = parseFloat(value.substr(0, value.length - 1)) / 100
+        * props.price;
+    } else {
+      value = parseInt(value)
+    }
+    return props.price - value;
+  }
+
   return <Item className='row align-items-center justify-content-between'>
     <Item.FirstGrid className='col-md-5 col-12 d-flex align-items-center'>
       <input type='checkbox'
-        checked={props.active} onChange={() => props.toggle(props.id)} />
+        checked={props.active} onChange={() => props.toggle(props.offset)} />
 
-      <img src={chicken} width='90' height='90' alt='chicken' />
+      <img src={props.imgUrl} width='90' height='90' alt='chicken' />
 
       <Item.Description>
         <Item.Name>
-          <Link class="text-black" to="/cart-item-info">{props.name}</Link>
+          <Link class="text-black" to={"/cart-item-info/" + props.offset}>{props.name}</Link>
         </Item.Name>
         <Item.SideDish>{props.sideDish}</Item.SideDish>
+
+        {props.discount !== '0' &&
+          <span className='badge rounded-pill bg-danger'>
+            -{props.discount}
+          </span>}
+
       </Item.Description>
     </Item.FirstGrid>
 
     <Item.SinglePrice className='col-md-2 col-1'>
-      {prettyNumber(props.price)}
+      <span className={`${props.discount !== '0' ? 'old' : ''}`}>{prettyNumber(props.price)}</span>
+      {props.discount !== '0' && <span className='new'>{prettyNumber(discount())}</span>}
     </Item.SinglePrice>
 
-    <ItemQuantity id={props.id} {...props.handleQuantity}
+    <ItemQuantity offset={props.offset} {...props.handleQuantity}
       quantity={props.quantity} />
 
-    <Item.Amount className='col-md-3 col-1'>
-      {prettyNumber(props.price * props.quantity)}đ
+    <Item.Amount className='col-md-2 col-1'>
+      {prettyNumber(discount() * props.quantity + props.addition)}đ
     </Item.Amount >
-    <TrashIcon onClick={() => props.deleteItem(props.id)} className='col-md-05 col-1'/>
+    <TrashIcon onClick={() => props.deleteItem(props.offset)} className='col-md-05 col-1' />
   </Item>
 }
 
@@ -221,32 +250,30 @@ function PaginatedItems({ numItemsPerPage, items, toggle, handleQuantity, delete
         {
           currentItems.map(value =>
             <OrderItem {...value} toggle={toggle} handleQuantity={handleQuantity}
-              key={value.id} deleteItem={deleteItem} />
-          )
+              deleteItem={deleteItem} />)
         }
       </div>
-      <div style={{marginRight: '12px'}}>
-      <ReactPaginate
-        breakLabel="..."
-        nextLabel=">"
-        onPageChange={handlePageClick}
-        pageRangeDisplayed={5}
-        pageCount={pageCount}
-        previousLabel="<"
-        renderOnZeroPageCount={null}
-        breakClassName={'page-item'}
-        breakLinkClassName={'page-link'}
-        containerClassName={'pagination'}
-        pageClassName={'page-item'}
-        pageLinkClassName={'page-link'}
-        previousClassName={'page-item'}
-        previousLinkClassName={'page-link'}
-        nextClassName={'page-item'}
-        nextLinkClassName={'page-link'}
-        activeClassName={'active'}
-      />
+      <div style={{ marginRight: '12px' }}>
+        <ReactPaginate
+          breakLabel="..."
+          nextLabel=">"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={5}
+          pageCount={pageCount}
+          previousLabel="<"
+          renderOnZeroPageCount={null}
+          breakClassName={'page-item'}
+          breakLinkClassName={'page-link'}
+          containerClassName={'pagination'}
+          pageClassName={'page-item'}
+          pageLinkClassName={'page-link'}
+          previousClassName={'page-item'}
+          previousLinkClassName={'page-link'}
+          nextClassName={'page-item'}
+          nextLinkClassName={'page-link'}
+          activeClassName={'active'}
+        />
       </div>
-      
     </Container>
   );
 }

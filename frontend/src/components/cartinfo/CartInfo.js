@@ -3,8 +3,10 @@ import { QuantitySelector } from "../FoodInfo/QuantitySelector"
 import { Container, Col, Row, Figure } from 'react-bootstrap'
 import { OrderOptionItem } from "../FoodInfo/OrderOptionItem"
 import { useState, useEffect } from "react"
+import { useParams } from "react-router"
+import axios from "axios"
 
-const order = {
+const DEFAULT = {
     id: 1234,
     foodName: "Cánh gà xóc tỏi",
     unitPrice: 95000,
@@ -36,25 +38,82 @@ const order = {
         }
     ]
 }
-function calOrderOptionPrice(order) {
-    let orderOptionPrice = 0;
-    order.orderOptions.forEach( orderOption => {
-        orderOptionPrice += orderOption.price.reduce((r,a,i) => {return r + a * orderOption.answer[i]},0);
-    })
-}
+// function calOrderOptionPrice(order) {
+//     let orderOptionPrice = 0;
+//     order.orderOptions.forEach( orderOption => {
+//         orderOptionPrice += orderOption.price.reduce((r,a,i) => {return r + a * orderOption.answer[i]},0);
+//     })
+// }
 
 export default function CartInfo() {
-    const [quantity, setQuantity] = useState(order.quantity);
-    const [orderOptionsAnswer, setOrderOptionsAnswer] = useState(order.orderOptions);
+    const {id: cartItemId} = useParams();
+
+    const CART_STORAGE_NAME = "cart";
+    var cart = JSON.parse(localStorage.getItem(CART_STORAGE_NAME));
+
+    const [quantity, setQuantity] = useState(0);
+    const [orderOptionsAnswer, setOrderOptionsAnswer] = useState([]);
+    const [food, setFood] = useState(null);
+    const [cartItem, setCartItem] = useState(null);
+
+    useEffect(() => {
+        const cartItemOffset = cart.findIndex(item => item.offset == cartItemId)
+        if(cart && cartItemOffset >= 0) {
+            setCartItem(cart[cartItemOffset]);
+            setQuantity(cart[cartItemOffset].quantity);
+            setOrderOptionsAnswer(cart[cartItemOffset].orderOptions);
+      
+            axios.get("http://localhost:8080/food/" + cart[cartItemOffset].foodId)
+            .then(res => {
+                console.log("Get success")
+                console.log(cart[cartItemOffset]);
+                setFood(res.data);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        }
+    }, [])
+
+    useEffect(() => {
+        if(cartItem) {
+            const cartItemOffset = cart.findIndex(item => item.offset == cartItemId);
+            let newCart = JSON.parse(JSON.stringify(cart));
+            newCart[cartItemOffset].quantity = quantity;
+            newCart[cartItemOffset].orderOptions = orderOptionsAnswer;
+            newCart[cartItemOffset].optionSum.str = orderOptionsAnswer.map((item) => {
+                return item.title + ": " + item.options.filter((ele, idx) => item.answer[idx]).
+                    map((option, idx) => {
+                        return option;
+                }).join(", ")
+            }).join(" / ");
+
+            newCart[cartItemOffset].optionSum.price = orderOptionsAnswer.map( item => {
+                return item.price.reduce((r,a,i) => {return r + a * item.answer[i]},0);
+            }).reduce((pre, cur) => pre + cur, 0);
+
+            localStorage.setItem(CART_STORAGE_NAME, JSON.stringify(newCart));
+        }
+    })
+
+    if(!cartItem || !food) {
+        return(
+             <Container>
+                 Cart Item does not exists.
+            </Container>
+        )
+    }
+
 
     return (
-        <Container>
+        <Container class="p-4">
             <Row>
-                <Col xl={{span: 1, offset: 2}} lg={1} md={1} sm={1} xs={1}>
-                    <button type="button" className="btn btn-light"><i className="bi bi-arrow-left"></i></button>
+                <Col xl={9} lg={10} md={10} sm={10} xs={10}>
+                    <h4>Thông tin chi tiết đơn hàng </h4>
                 </Col>
-                <Col xl={9} lg={11} md={11} sm={11} xs={11}>
-                    <h4>Thông tin đơn hàng {order.id}</h4>
+                <Col xl={{span: 1, offset: 2}} lg={2} md={2} sm={2} xs={2}>
+                    <button type="button" className="btn btn-secondary shadow-none"
+                    onClick={() => window.location.href = "/cart"}>Trở lại giỏ hàng</button>
                 </Col>
             </Row>
             <Row>
@@ -62,12 +121,13 @@ export default function CartInfo() {
                     <Row>
                         <Figure.Image
                             alt="FoodImg"
-                            src={order.image}
+                            src={food.imageUrls[0]}
                         />
                     </Row>
                     <Row>
                         <TotalPayment
-                            fooUnitPrice={order.unitPrice}
+                            fooUnitPrice={food.price}
+                            discount={parseFloat(food.discount) / 100}
                             quantity={quantity}
                             orderOptionsAnswer={orderOptionsAnswer} 
                         />
@@ -75,25 +135,22 @@ export default function CartInfo() {
                 </Col>
                 <Col xl={{span: 4, offset: 1}} lg={{span: 6, offset: 1}} md={{span: 6, offset: 1}}>
                     <Row>
-                        <h2>{order.foodName}</h2>
+                        <h2>{food.name}</h2>
                     </Row>
                     <Row>
                         <Col xl={4} lg={4} md={4} sm={4} xs={4}>Số lượng:</Col>
-                        <Col xl={8} lg={8} md={8} sm={8} xs={8}><QuantitySelector callbacks={[(newQuantity) => {
-                            console.log("he");
-                            setQuantity(newQuantity);
-                        }]}/></Col>
+                        <Col xl={8} lg={8} md={8} sm={8} xs={8}><QuantitySelector quantity={quantity} setQuantity={setQuantity}/></Col>
                     </Row>
                     <Row>
                         <ul>
                             <li><hr class="border-top border-secondary"/></li>
-                            {order.orderOptions.map((orderOptionItem) => {
+                            {cartItem.orderOptions.map((orderOptionItem) => {
                                 return(
                                     <>
                                         <li>
                                             <OrderOptionItem orderOptionItem={orderOptionItem} callbacks={[(newAnswer) => {
                                                 orderOptionItem.answer = newAnswer;
-                                                setOrderOptionsAnswer(JSON.parse(JSON.stringify(order.orderOptions)));
+                                                setOrderOptionsAnswer(JSON.parse(JSON.stringify(cartItem.orderOptions)));
                                             }]}/>
                                         </li>
                                         <li><hr class="border-top border-secondary"/></li>

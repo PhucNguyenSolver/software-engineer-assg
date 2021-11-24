@@ -1,11 +1,12 @@
-const homepageRouter = require('./homepage.router')
-const foodRouter = require('./food.router')
-const cartRouter = require('./cart.router')
+const food = require('./food.router')
+const cart = require('./cart.router')
+const homepage = require('./homepage.router')
+const banner = require('./banner.router')
+const payment = require('./payment.router');
 
-function route(app) {
-    app.use('/', homepageRouter);
-    app.use('/food', foodRouter);
-    app.use('/cart', cartRouter);
+module.exports = {
+    food, cart,
+    homepage,
+    banner,
+    payment
 }
-
-module.exports = route;

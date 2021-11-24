@@ -1,12 +1,16 @@
 import { FoodDescription } from "./FoodDescription";
 import { ImagesSlide } from "./ImagesSlide";
 import { useState, useEffect } from "react";
-import { OrderOptionItem } from "./OrderOptionItem";
+// import { OrderOptionItem } from "./OrderOptionItem";
 import { OrderOptionModal } from "./OrderOptionModal";
 import {ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+import {useHistory} from "react-router-dom";
+import { useParams } from "react-router";
+import { v4 as uuidv4 } from 'uuid';
 
-const food = {
+var DEFAULT_FOOD = {
     name: "Cánh gà xóc tỏi",
     unitPrice: 95000,
     description: "Mỗi phần gồm 6 cái cánh giữa, là phần nhiều thịt và mềm nhất. Cháy tỏi giòn tan như snack, vị mặn ngọt vừa vặn phủ đều lên cánh gà chiên giòn là món khai vị vô cùng kích thích",
@@ -49,27 +53,56 @@ const food = {
 }
 
 
-export default function FoodInfo() {
+export default function FoodInfo({setNCartItem}) {
+    var history = useHistory();
+    const {foodId: FOOD_ID} = useParams();
+
+    const [food, setFood] = useState(null);
     const [quantity, setQuantity] = useState(1);
     const [totalPrice, setTotalPrice] = useState(0);
-    const [additionalPrice, setAdditionalPrice] = useState( () => {
-        let orderOptionPrice = 0;
-        food.orderOptions.forEach( orderOption => {
-            orderOptionPrice += orderOption.price.reduce((r,a,i) => {return r + a * orderOption.answer[i]},0);
-            console.log(orderOptionPrice);
-        })
-        return orderOptionPrice;
-    });
+    const [additionalPrice, setAdditionalPrice] = useState(0);
 
     useEffect(() => {
-        let basePrice = food.unitPrice * quantity;
-        let newTotalPrice = basePrice + additionalPrice;
-        if(newTotalPrice != totalPrice) {
-            setTotalPrice(newTotalPrice);
+        if(food) {
+            let basePrice = food.unitPrice * quantity * (1 - parseFloat(food.discount) / 100);
+            let newTotalPrice = basePrice + additionalPrice;
+            if(newTotalPrice != totalPrice) {
+                setTotalPrice(newTotalPrice);
+            }
         }
     });
 
+    
+
     function onSubmit() {
+        const CART_STORAGE_NAME = "cart";
+        let curCart = JSON.parse(localStorage.getItem(CART_STORAGE_NAME));
+        let cartItem = {};
+        cartItem.offset = uuidv4();
+        cartItem.orderOptions = food.orderOptions;
+        cartItem.foodId = FOOD_ID;
+        cartItem.quantity = quantity;
+
+        var optionSum = {}
+        optionSum.str = food.orderOptions.map((item) => {
+            return item.title + ": " + item.options.filter((ele, idx) => item.answer[idx]).
+                map((option, idx) => {
+                    return option;
+            }).join(", ")
+        }).join(" / ");
+        optionSum.price = additionalPrice;
+
+        cartItem.optionSum = optionSum;
+
+        if(curCart) {
+            curCart.push(cartItem);
+            localStorage.setItem(CART_STORAGE_NAME , JSON.stringify(curCart));
+        }
+        else {
+            localStorage.setItem(CART_STORAGE_NAME , JSON.stringify([cartItem]));
+        }
+
+        setNCartItem(preVal => preVal + 1);
         toast.success('Thêm vào giỏ hàng thành công', {
             position: "top-right",
             autoClose: 2000,
@@ -81,8 +114,25 @@ export default function FoodInfo() {
         });
     }
 
+
+
+    useEffect(() => {
+        axios.get("http://localhost:8080/food/detail/" + FOOD_ID)
+        .then(res => {
+            setFood(res.data);
+        })
+        .catch(err => {
+            alert("Some errors occur in server. Cannot get food detail");
+        })
+    }, [])
+
+
+
+    if(!food) {
+        return <div class="container">Loading...</div>
+    }
     return(
-        <div class="container">
+        <div class="container p-4">
             <ToastContainer/>
             <div class="row">
                 <div class="col-md-4">
@@ -90,9 +140,10 @@ export default function FoodInfo() {
                 </div>
                 <div class="col-md-6">
                     <div class="container">
-                        <FoodDescription food={food} setQuantity={setQuantity}/>
+                        <FoodDescription food={food} quantity={quantity} setQuantity={setQuantity}/>
                         <OrderOptionModal
                             food={food}
+                            setFood={setFood}
                             quantity={quantity}
                             additionalPrice={additionalPrice}
                             setAdditionalPrice={setAdditionalPrice}

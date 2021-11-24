@@ -1,84 +1,147 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { ToastContainer, toast } from 'react-toastify';
+import { calculateShipFee, FROM } from "./Map";
+import { useLocation } from "react-router-dom";
 
+const axios = require('axios');
 
+const contactData = {
+    name: 'Nguyễn Phúc Vinh',
+    phone: '0373 395 726',
+    addr: `Ticklab, 92/10, đường Vành Đai ĐH Quốc Gia TP.HCM, khu phố Tân Lập,
+	 	Phường Linh Trung, Quận Thủ Đức, Hồ Chí Minh`
+};
 
-const productData = [
-    {
-        "name": "Combo Gà Rán A",
-        "image": "https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg",
-        "quantity": 4,
-        "price": 97000
-    },
-    {
-        "name": "Combo Gà Rán A",
-        "image": "https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg",
-        "quantity": 4,
-        "price": 97000
-    },
-    {
-        "name": "Combo Gà Rán A",
-        "image": "https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg",
-        "quantity": 4,
-        "price": 97000
-    },
-    {
-        "name": "Combo Gà Rán A",
-        "image": "https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg",
-        "quantity": 4,
-        "price": 97000
-    },
-    {
-        "name": "Combo Gà Rán A",
-        "image": "https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg",
-        "quantity": 4,
-        "price": 97000
-    },
-    {
-        "name": "Combo Gà Rán A",
-        "image": "https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg",
-        "quantity": 4,
-        "price": 97000
-    },
+// const productData = [
+//     {
+//         "name": "Combo Gà Rán A",
+//         "image": "https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg",
+//         "quantity": 4,
+//         "price": 97000
+//     },
+//     {
+//         "name": "Combo Gà Rán A",
+//         "image": "https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg",
+//         "quantity": 4,
+//         "price": 97000
+//     },
+//     {
+//         "name": "Combo Gà Rán A",
+//         "image": "https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg",
+//         "quantity": 4,
+//         "price": 97000
+//     },
+//     {
+//         "name": "Combo Gà Rán A",
+//         "image": "https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg",
+//         "quantity": 4,
+//         "price": 97000
+//     },
+//     {
+//         "name": "Combo Gà Rán A",
+//         "image": "https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg",
+//         "quantity": 4,
+//         "price": 97000
+//     },
+//     {
+//         "name": "Combo Gà Rán A",
+//         "image": "https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg",
+//         "quantity": 4,
+//         "price": 97000
+//     },
 
-]
+// ]
 
-
-const CustomerDataOrdered = []
-// let CustomerDataOrdered 
 
 function Product(props) {
     return (
-        <li class="list-group-item d-flex justify-content-between lh-sm">
-            <div class='col-2'>
-                <img src={props.product.image} style={{ marginTop: 4, width: '100%' }} />
+        <li className="list-group-item d-flex justify-content-between lh-sm">
+            <div className='col-2'>
+                <img src={props.product.imgUrl} alt="" style={{ marginTop: 4, width: '100%' }} />
             </div>
-            <div class='col-6'>
+            <div class='col-6 float-start'>
                 <h6 class="my-0">{props.product.name}</h6>
                 <small class="text-muted">Số lượng : {props.product.quantity}</small>
             </div>
-            <div class='col-3'>
-                <span class="text-muted">{props.product.price * props.product.quantity}đ</span>
+            <div className='col-2 float-end'>
+                <span className="text-muted">{new Intl.NumberFormat().format(props.product.price
+                    * props.product.quantity * parseFloat(props.product.discount) / 100
+                    + parseInt(props.product.addition))
+                }</span>
             </div>
         </li>
     )
 }
 
+const wardOptionList =
+{
+    'Quận Thủ Đức': ['Bình Chiểu', 'Bình Thọ', 'Linh Chiểu', 'Linh Trung'],
+
+    'Quận Bình Thạnh': ['Phường 6', 'Phường 7', 'Phường 11', 'Phường 22'],
+
+    'Quận 10': ['Phường 12', 'Phường 13', 'Phường 14', 'Phường 15']
+}
+
+
 
 export default function CheckOut() {
 
-    const [name, setName] = useState('')
-    const [phone, setPhone] = useState('')
-    const [address, setAddress] = useState('')
-    const [payType, setpayType] = useState('')
-    const [district, setDistrict] = useState('Lựa chọn')
-    const [ward, setWard] = useState('Lựa chọn')
+    const DEFAULT_LOCATE = 'Lựa chọn';
+    const [district, setDistrict] = useState(DEFAULT_LOCATE)
+    const [ward, setWard] = useState(DEFAULT_LOCATE)
+    const [wardOption, setWardOption] = useState([])
 
+    const [shipFee, setShipFee] = useState(null);
+    const [shipTime, setShipTime] = useState();
+    const [shipAddress, setShipAddress] = useState('');
+
+    useEffect(() => {
+        async function fetchData() {
+
+            if (district === DEFAULT_LOCATE || ward === DEFAULT_LOCATE) {
+                setShipFee(null);
+            } else {
+                const to = ward + ', ' + district + ' TP HCM';
+                const { shipFee, duration } = await calculateShipFee(FROM, to);
+                setShipFee(shipFee);
+                setShipTime(duration);
+            }
+        }
+        fetchData();
+    }, [district, ward]);
+    const handleDistrictChange = (event) => {
+        setDistrict(event.target.value);
+    }
+    const handleWardChange = (event) => {
+        let address = document.getElementById('input-address').value
+        let district = document.getElementById('district').value
+        // setDistrict(district);
+        let ward = document.getElementById('ward').value
+        setShipAddress(`${address}, ${ward}, ${district} `)
+        setWard(event.target.value);
+    }
+
+    const location = useLocation().state;
+
+    // let shipFee = 50000
 
 
     function handleCheckOut(e) {
+        let name = document.getElementById('input-name').value
+        let phone = document.getElementById('input-phone').value
+        let address = document.getElementById('input-address').value
+        let district = document.getElementById('district').value
+        let ward = document.getElementById('ward').value
+        let paymentMethod = document.querySelector('input[type="radio"]:checked');
+        console.log("Payyyyy")
+
+        const cartStorage = JSON.parse(localStorage.getItem('cart'));
+
+
+
         e.preventDefault();
-        if(name == '' || phone == '' || address == '' || payType == '' || district == 'Lựa chọn' || ward == 'Lựa chọn')
+
+        if (name === '' || phone === '' || address === '' || district === 'Lựa chọn' || ward === 'Lựa chọn' || paymentMethod === null) {
             toast.error('Thông tin không hợp lệ', {
                 position: "top-right",
                 autoClose: 5000,
@@ -88,28 +151,68 @@ export default function CheckOut() {
                 draggable: true,
                 progress: undefined,
             });
-        else {
-            CustomerDataOrdered.push({
-                "customerName" : name,
-                "customerPhone" : phone,
-                "customerAddress" : address,
-                "customerPayType" : payType,
-                "customerDistrict" : district,
-                "customerWard" : ward,
+            return
+        }
+        axios.post('http://localhost:8080/order', {
+            "customerInfo": {
+                "name": name,
+                "phone": phone,
+                "address": address,
+                "district": district,
+                "ward": ward,
+                "typeOrder": paymentMethod.value === 'cod' ? 'Trực tiếp' : 'Online'
+            },
+            "shipFee": shipFee,
+            "items": location.map((orderInfo) => {
+                return {
+                    "options": orderInfo.sideDish,
+                    "foodId": orderInfo.foodId,
+                    "price": orderInfo.price * orderInfo.quantity
+                        * parseFloat(orderInfo.discount) / 100 + parseInt(orderInfo.addition),
+                    "quantity": orderInfo.quantity
+                }
             })
+        })
+        .then(response => console.log(response))
+        console.log(location)
 
-            // CustomerDataOrdered = 
-            // {
-            //     "customerName" : name,
-            //     "customerPhone" : phone,
-            //     "customerAddress" : address,
-            //     "customerPayType" : payType,
-            //     "customerDistrict" : district,
-            //     "customerWard" : ward,
-            // }
+        console.log(cartStorage)
+
+
+        const newCart = cartStorage.filter(cart => {
+            for (let item of location) {
+                if (item.foodId == cart.foodId) return false
+            }
+            return true
+        })
+
+        localStorage.setItem('cart', JSON.stringify(newCart))
+
+        console.log(newCart)
+
+
+        const TOTAL = location.reduce((acc, product) => {
+            return acc + product.price * product.quantity * parseFloat(product.discount) / 100
+                + product.addition}, 0) + shipFee;
+        if(paymentMethod.value == "online") {
+            axios.post("http://localhost:8080/payment/process", {
+                amount: (TOTAL / 23000).toFixed(1),
+                description: "Res POS payment"
+            })
+            .then(res => {
+                window.location.href = res.data;
+            })
+            .catch(err => {{
+                alert(err);
+            }})
         }
-        // console.log(CustomerDataOrdered)
+        else {
+            window.location.href = "/"
         }
+
+    }
+
+
 
     return (
         <div class="container">
@@ -119,88 +222,93 @@ export default function CheckOut() {
 
                 </div>
 
-                <div class="row g-5">
-                    <div class="col-md-5 col-lg-4 order-md-last">
-                        <h4 class="d-flex justify-content-between align-items-center mb-3">
-                            <span class="text-danger">Đơn Hàng</span>
-                            <span class="badge bg-danger rounded-pill">{productData.length}</span>
+                <div className="row g-5">
+                    <div className="col-md-5 col-lg-4 order-md-last">
+                        <h4 className="d-flex justify-content-between align-items-center mb-3">
+                            <span className="text-danger">Đơn Hàng</span>
+                            <span className="badge bg-danger rounded-pill">{location.length}</span>
                         </h4>
-                        <ul class="list-group mb-3">
-                            {productData.map((product) => {
+                        <ul className="list-group mb-3">
+                            {location.map((product) => {
                                 return <Product product={product} />
                             })}
-                            <li class="list-group-item d-flex justify-content-between bg-light">
-                                <div class="text-success">
-                                    <h6 class="my-0">Mã Khuyến Mãi</h6>
+                            {/* <li className="list-group-item d-flex justify-content-between bg-light">
+                                <div className="text-success">
+                                    <h6 className="my-0">Mã Khuyến Mãi</h6>
                                     <small>Sinh nhật Tiến Minh</small>
                                 </div>
-                                <span class="text-success">−50000đ</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between">
+                                <span className="text-success">{discountCode}</span>
+                            </li> */}
+                            {(typeof (shipFee) === 'number') &&
+                                <li className="list-group-item d-flex justify-content-between bg-light">
+                                    <div className="text-primary">
+                                        <div>{`Giao tới : ${shipAddress}`}</div>
+                                        <div>{"Thời gian dự kiến : " + Math.round(shipTime) + ' Phút'}</div>
+                                    </div>
+                                </li>}
+                            {(typeof (shipFee) === 'number') &&
+                                <li className="list-group-item d-flex justify-content-between bg-light">
+                                    <div className="text-primary">
+                                        <h6 className="my-0">Phí giao hàng</h6>
+                                    </div>
+                                    <span className="text-primary">{new Intl.NumberFormat().format(shipFee)}</span>
+                                </li>}
+                            <li className="list-group-item d-flex justify-content-between">
                                 <span>Tổng Tiền (VND)</span>
-                                <strong>{productData.reduce((acc, product) => {
-                                    return acc + product.price * product.quantity
-                                }, 0) - 50000}</strong>
+                                <strong>{new Intl.NumberFormat().format(location.reduce((acc, product) => {
+                                    return acc + product.price * product.quantity * parseFloat(product.discount) / 100
+                                        + product.addition
+                                }, 0) + shipFee)}</strong>
                             </li>
                         </ul>
-
-                        <form class="card p-2">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Mã khuyến mãi" />
-                                <button type="submit" class="btn btn-secondary">Áp dụng</button>
-                            </div>
-                        </form>
                     </div>
-                    <div class="col-md-7 col-lg-8">
-                        <h4 class="mb-3">Thông Tin Thanh Toán</h4>
-                        <form class="needs-validation" novalidate>
-                            <div class="row g-3">
-                                <div class="col-12">
-                                    <div class="form-floating mb-2">
-                                        <input type="text" class="form-control" id="floatingInput" placeholder="Hoàng Văn A"
-                                            onChange={even => { setName(even.target.value) }} />
-                                        <label for="floatingInput">Họ và tên</label>
+                    <div className="col-md-7 col-lg-8">
+                        <h4 className="mb-3">Thông Tin Thanh Toán</h4>
+                        <form className="needs-validation" method='POST' validate onSubmit={handleCheckOut}>
+                            <div className="row g-3">
+                                <div className="col-12">
+                                    <div className="form-floating mb-2">
+                                        <input type="text" name='customerName' className="form-control"
+                                            id="input-name" placeholder="Hoàng Văn A" />
+                                        <label for="input-name">Họ và tên</label>
                                     </div>
                                 </div>
 
-                                <div class="col-12">
-                                    <div class="form-floating mb-2">
-                                        <input type="phone" class="form-control" id="floatingInput" placeholder="01234556789"
-                                            onChange={even => { setPhone(even.target.value) }} />
-                                        <label for="floatingInput">Số điện thoại</label>
+                                <div className="col-12">
+                                    <div className="form-floating mb-2">
+                                        <input type="phone" name='customerNoPhone' className="form-control" id="input-phone" placeholder="01234556789" />
+                                        <label for="input-phone">Số điện thoại</label>
                                     </div>
                                 </div>
 
-                                <div class="col-12">
-                                    <div class="form-floating mb-2">
-                                        <input type="address" class="form-control" id="floatingInput" placeholder="40 Vũ Trọng Phụng"
-                                            onChange={even => { setAddress(even.target.value) }} />
-                                        <label for="floatingInput">Địa chỉ</label>
+                                <div className="col-12">
+                                    <div className="form-floating mb-2">
+                                        <input type="address" name='customerAddress' className="form-control" id="input-address" placeholder="40 Vũ Trọng Phụng" />
+                                        <label for="input-address">Địa chỉ</label>
                                     </div>
                                 </div>
 
-                                <div class="col-md">
-                                    <label for="country" class="form-label">Quận/Huyện</label>
-                                    <select class="form-select" id="country" onChange={even => {setDistrict(even.target.value)}}>
+                                <div className="col-md">
+                                    <label for="district" className="form-label">Quận/Huyện</label>
+                                    <select className="form-select" name='customerDistrict' id="district" onChange={even => {
+                                        if (even.target.value === 'Lựa chọn') setWardOption('Lựa chọn')
+                                        else setWardOption(wardOptionList[even.target.value])
+                                        handleDistrictChange(even);
+                                    }}>
                                         <option selected>Lựa chọn</option>
-                                        <option >Huyện Nhà Bè</option>
                                         <option >Quận Thủ Đức</option>
+                                        <option >Quận 10</option>
+                                        <option >Quận Bình Thạnh</option>
                                     </select>
-                                    <div class="invalid-feedback">
-                                        Please select a valid country.
-                                    </div>
                                 </div>
 
-                                <div class="col-md">
-                                    <label for="state" class="form-label">Phường / Xã</label>
-                                    <select class="form-select" id="state" onChange={even => {setWard(even.target.value)}} >
-                                        <option selected>Lựa chọn</option>
-                                        <option >Phường Linh Xuân</option>
-                                        <option>Phường Linh Trung</option>
+                                <div className="col-md" >
+                                    <label for="ward" className="form-label">Phường / Xã</label>
+                                    <select className="form-select" name='customerWard' id="ward" onChange={event => handleWardChange(event)} >
+                                        <option >Lựa chọn</option>
+                                        {/* <WardOption /> */}
+                                        {wardOption.map(ward => <option key={ward} value={ward}>{ward}</option>)}
                                     </select>
-                                    <div class="invalid-feedback">
-                                        Please provide a valid state.
-                                    </div>
                                 </div>
                             </div>
 
@@ -215,30 +323,32 @@ export default function CheckOut() {
 
                             <h4 class="mb-3">Phương thức thanh toán</h4>
 
-                            <div class="my-3">
-                                <div class="form-check">
-                                    <input id="cod" name="paymentMethod" type="radio" class="form-check-input" 
-                                    onClick={() =>setpayType('COD')} />
-                                    <label class="form-check-label" for="cod">Thanh toán khi nhận hàng</label>
+                            <div className="my-3">
+                                <div className="form-check">
+                                    <input id="cod" name="paymentMethod" value='cod' type="radio" className="form-check-input" />
+                                    <label className="form-check-label" for="cod">Thanh toán khi nhận hàng</label>
                                 </div>
-                                <div class="form-check">
-                                    <label class="form-check-label" for="online">Thanh toán Online</label>
-                                    <input id="online" name="paymentMethod" type="radio" class="form-check-input" 
-                                    onClick={() => setpayType('Online')} />
-                                    </div>
+                                <div className="form-check">
+                                    <label className="form-check-label" for="online">Thanh toán Online</label>
+                                    <input id="online" name="paymentMethod" value='online' type="radio" className="form-check-input" />
+                                </div>
                             </div>
 
                             <hr class="my-4" />
 
-                            <button class="w-25 btn btn-danger btn-lg float-start" type="submit">Quay lại</button>
-                            <button class="w-25 btn btn-success btn-lg float-end" type="submit" onClick={handleCheckOut}>Thanh Toán</button>
+                            <button className="w-25 btn btn-danger btn-lg float-end text-white" type="submit" onClick={handleCheckOut} >Thanh Toán</button>
                             <ToastContainer />
                         </form>
+                        <button className="w-25 btn btn-lg float-start text-white" style={{ backgroundColor: "blue" }} onClick={(e) => {
+                            e.preventDefault();
+                            window.location.href = '/cart';
+                        }
+                        }>Quay lại</button>
                     </div>
                 </div>
             </main>
 
-            
+
         </div>
     )
 }
