@@ -15,7 +15,7 @@ export default function FoodList(props) {
   // }
   const[rawFoods, setRawFoods] = useState(null);
   useEffect(() => {
-    axios.get('http://localhost:8080/order/top-food')
+    axios.get('/order/top-food')
       .then(res => {
         setRawFoods(res.data);
       })

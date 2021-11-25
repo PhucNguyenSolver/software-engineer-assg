@@ -63,7 +63,7 @@ export default function CartInfo() {
             setQuantity(cart[cartItemOffset].quantity);
             setOrderOptionsAnswer(cart[cartItemOffset].orderOptions);
       
-            axios.get("http://localhost:8080/food/" + cart[cartItemOffset].foodId)
+            axios.get("/food/" + cart[cartItemOffset].foodId)
             .then(res => {
                 console.log("Get success")
                 console.log(cart[cartItemOffset]);

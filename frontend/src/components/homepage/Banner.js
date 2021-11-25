@@ -7,7 +7,7 @@ export default function Banner() {
     const [imageBanner, setImageBanner] = useState([]);
 
     useEffect(() => {
-        axios.get("http://localhost:8080/banner")
+        axios.get("/banner")
             .then(res => {
                 setImageBanner(res.data.imageUrls);
             })

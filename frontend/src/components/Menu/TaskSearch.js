@@ -5,9 +5,9 @@ import FoodInMenu from './FoodInMenu.js';
 
 const axios = require('axios')
 
-axios.get('http://localhost:8080')
-  .then(res => console.log(res.data))
-  .catch(err => console.log(err))
+// axios.get('http://localhost:8080')
+//   .then(res => console.log(res.data))
+//   .catch(err => console.log(err))
 
 
 
@@ -47,7 +47,7 @@ function TaskSearch() {
   const [boxShadowVar,setBoxShadowVar] = useState(['1px 1px #F63C3C','None','None','None','None'])
 
   useEffect(() => {
-    axios.get('http://localhost:8080/food')
+    axios.get('/food')
     .then( (res) => {
       arr = res.data
     })
@@ -179,7 +179,7 @@ return (
         <div style={{width:'100%'}}>
             <FoodTypeList />
         </div>
-        <div style={{backgroundColor:'#efefef',width:'100%'}}>
+        <div style={{width:'100%'}}>
             {
                arr.slice(0,10).map((val) => {
                return <FoodInMenu name={val.food_name} price={val.price} image={val.img} />
@@ -233,6 +233,7 @@ function Page(index) {
   setPageNumber(index)
   var menu = temp.slice((index-1)*10,10 + (index-1)*10)
   setData(menu)
+  window.scrollTo(0, 0)
 }
 
 function ChangePage(index){
@@ -241,11 +242,12 @@ function ChangePage(index){
   setPageNumber(index)
   var menu = temp.slice((index-1)*10,10 + (index-1)*10)
   setData(menu)
+  window.scrollTo(0, 0)
 }
 return (
   <div>
   {/* style={{height:'950px',backgroundColor:'#efefef'}} */}
-   <div id="MenuFirst" style={{backgroundColor:'#efefef',margin:'auto'}}>
+   <div id="MenuFirst" style={{margin:'auto'}}>
    <MenuInGen arr={data}/>
   </div>
   <div id="PaginationSearch" >

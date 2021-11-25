@@ -117,7 +117,7 @@ export default function FoodInfo({setNCartItem}) {
 
 
     useEffect(() => {
-        axios.get("http://localhost:8080/food/detail/" + FOOD_ID)
+        axios.get("/food/detail/" + FOOD_ID)
         .then(res => {
             setFood(res.data);
         })

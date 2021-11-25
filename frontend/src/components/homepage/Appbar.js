@@ -28,7 +28,7 @@ export default function Appbar({nCartItem}) {
 
 
   useEffect(() => {
-    axios.get('http://localhost:8080/food')
+    axios.get('/food')
     .then( (res) => {
       for(var i = 0;i<res.data.length;++i){
         var temp = {
@@ -59,6 +59,7 @@ export default function Appbar({nCartItem}) {
       // document.getElementById('MenuFirst').style.height = '900px'
     }
     ReactDOM.render(menu,document.getElementById('MenuFirst'))
+    window.scrollTo(0, 0)
   }
   function Page(index) {
     pageNumber = index
@@ -77,6 +78,7 @@ export default function Appbar({nCartItem}) {
     }
      
     ReactDOM.render(menu,document.getElementById('MenuFirst'))
+    window.scrollTo(0, 0)
   }
 
   function HandleSearch(searchKey) {
@@ -167,7 +169,7 @@ export default function Appbar({nCartItem}) {
         <div style={{ width: '100%' }}>
           <FoodTypeList />
         </div>
-        <div id="ElementInMenu" style={{backgroundColor:'#efefef',width:'100%',marginLeft:'50px'}}>
+        <div id="ElementInMenu" style={{width:'100%',marginLeft:'50px'}}>
             {
               arr.map((val) => {
               return <FoodInMenu name={val.food_name} price={val.price} image={val.img} />

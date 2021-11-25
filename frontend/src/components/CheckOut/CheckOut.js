@@ -153,7 +153,7 @@ export default function CheckOut() {
             });
             return
         }
-        axios.post('http://localhost:8080/order', {
+        axios.post('/order', {
             "customerInfo": {
                 "name": name,
                 "phone": phone,
@@ -195,7 +195,7 @@ export default function CheckOut() {
             return acc + product.price * product.quantity *  (1 - parseFloat(product.discount) / 100)
                 + product.addition}, 0) + shipFee;
         if(paymentMethod.value == "online") {
-            axios.post("http://localhost:8080/payment/process", {
+            axios.post("/payment/process", {
                 amount: (TOTAL / 23000).toFixed(1),
                 description: "Res POS payment"
             })
