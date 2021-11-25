@@ -19,18 +19,18 @@ const axios = require('axios')
 var arr = []
 
 var Init = [
-{"food_name":"Combo Khỏe Mạnh","price":34000,"img":"https://phanphoiruounhapkhau.com/wp-content/uploads/2021/04/healthy-food-la-gi-nguyen-tac-khi-giam-can-bang-che-do-an-clean-eating.jpg"},
-{"food_name":"Combo Rau Củ","price":84000,"img":"https://zicxa.com/vi/uploaded/files/rong-nho-giam-can-2-1.jpg"},
-{"food_name":"Combo Phô Mai","price":76000,"img":"https://tokbokki.com/wp-content/uploads/banh-gao-pho-mai.jpg"},
-{"food_name":"Combo 1","price":54000,"img":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNbC-GSyu_vAWtTAEhmq7A2OmOV9f1IbXudw&usqp=CAU"},
-{"food_name":"Combo Bò Ngũ Vị","price":48000,"img":"https://haisanbaba.com/wp-content/uploads/6834b901e85d14034d4c.jpg"},
-{"food_name":"Combo Bò Nướng","price":99000,"img":"https://cdn.dealtoday.vn/img/s630x420/a59fb6441a5547bb893f14565d84d6c6.jpg?sign=GXpsDTTdBfZBlxbPIruqBQ"},
-{"food_name":"Combo Xiên Que","price":49000,"img":"https://www.vibrantplate.com/wp-content/uploads/2018/07/Tofu-skewers-03-735x490.jpg"},
-{"food_name":"Combo Gà Cay","price":46000,"img":"https://ameovat.com/wp-content/uploads/2016/05/cach-lam-ga-ran.jpg"},
-{"food_name":"Combo Gà Sốt Kem","price":82000,"img":"https://songkhoe.medplus.vn/wp-content/uploads/2020/03/uc-ga-sot-kem-meo-1.png"},
-{"food_name":"Combo 2","price":30000,"img":"https://assets.grab.com/wp-content/uploads/sites/11/2020/04/03164942/111.jpg"},
-{"food_name":"Combo Cá Hồi","price":237000,"img":"https://www.topuytin.com/wp-content/uploads/2018/05/fresh-salmon-sushi-rolls.jpg"},
-{"food_name":"Combo Sushi","price":150000,"img":"https://kenh14cdn.com/2019/1/22/5bc7df9876ec5729a74dbca5-2018-10-18-011920-15481331553641106349192.jpg"},
+{"food_name":"Combo Khỏe Mạnh","price":34000,"img":"https://phanphoiruounhapkhau.com/wp-content/uploads/2021/04/healthy-food-la-gi-nguyen-tac-khi-giam-can-bang-che-do-an-clean-eating.jpg","id":"618eb8bfc195fbd6f3d8983d"},
+{"food_name":"Combo Rau Củ","price":84000,"img":"https://zicxa.com/vi/uploaded/files/rong-nho-giam-can-2-1.jpg","id":"619229f1792fa260bd3a1003"},
+{"food_name":"Combo Phô Mai","price":76000,"img":"https://tokbokki.com/wp-content/uploads/banh-gao-pho-mai.jpg","id":"6193cfa43e278583b22570c9"},
+{"food_name":"Combo 1","price":54000,"img":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNbC-GSyu_vAWtTAEhmq7A2OmOV9f1IbXudw&usqp=CAU","id":"6193cfac3e278583b22570ca"},
+{"food_name":"Combo Bò Ngũ Vị","price":48000,"img":"https://haisanbaba.com/wp-content/uploads/6834b901e85d14034d4c.jpg","id":"6193cfb13e278583b22570cb"},
+{"food_name":"Combo Bò Nướng","price":99000,"img":"https://cdn.dealtoday.vn/img/s630x420/a59fb6441a5547bb893f14565d84d6c6.jpg?sign=GXpsDTTdBfZBlxbPIruqBQ","id":"6193cfb73e278583b22570cc"},
+{"food_name":"Combo Xiên Que","price":49000,"img":"https://www.vibrantplate.com/wp-content/uploads/2018/07/Tofu-skewers-03-735x490.jpg","id":"6193cfbc3e278583b22570cd"},
+{"food_name":"Combo Gà Cay","price":46000,"img":"https://ameovat.com/wp-content/uploads/2016/05/cach-lam-ga-ran.jpg","id":"6193cfc23e278583b22570ce"},
+{"food_name":"Combo Gà Sốt Kem","price":82000,"img":"https://songkhoe.medplus.vn/wp-content/uploads/2020/03/uc-ga-sot-kem-meo-1.png","id":"6193cfc73e278583b22570cf"},
+{"food_name":"Combo 2","price":30000,"img":"https://assets.grab.com/wp-content/uploads/sites/11/2020/04/03164942/111.jpg","id":"6193cfcc3e278583b22570d0"},
+{"food_name":"Combo Cá Hồi","price":237000,"img":"https://www.topuytin.com/wp-content/uploads/2018/05/fresh-salmon-sushi-rolls.jpg","id":"6193cfd33e278583b22570d1"},
+{"food_name":"Combo Sushi","price":150000,"img":"https://kenh14cdn.com/2019/1/22/5bc7df9876ec5729a74dbca5-2018-10-18-011920-15481331553641106349192.jpg","id":"6193cfd93e278583b22570d2"},
 ]
 
 
