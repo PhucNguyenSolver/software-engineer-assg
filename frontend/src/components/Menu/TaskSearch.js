@@ -5,16 +5,6 @@ import FoodInMenu from './FoodInMenu.js';
 
 const axios = require('axios')
 
-axios.get('http://localhost:8080')
-  .then(res => console.log(res.data))
-  .catch(err => console.log(err))
-
-
-
-
-
-
-
 // const axios = require('axios')
 var arr = []
 
