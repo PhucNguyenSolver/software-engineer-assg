@@ -69,7 +69,9 @@ function ChangeEffective(e){
           food_name: arr[i].name,
           price: arr[i].price,
           img: arr[i].imageUrls[0],
+          id: arr[i]._id
         }
+        console.log(t)
         JSONDATA.push(t)
       }
   }
@@ -182,7 +184,7 @@ return (
         <div style={{backgroundColor:'#efefef',width:'100%'}}>
             {
                arr.slice(0,10).map((val) => {
-               return <FoodInMenu name={val.food_name} price={val.price} image={val.img} />
+               return <FoodInMenu name={val.food_name} price={val.price} image={val.img} id={val.id}/>
              })
              }
         </div>

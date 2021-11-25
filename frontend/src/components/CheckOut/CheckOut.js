@@ -12,46 +12,6 @@ const contactData = {
 	 	Phường Linh Trung, Quận Thủ Đức, Hồ Chí Minh`
 };
 
-// const productData = [
-//     {
-//         "name": "Combo Gà Rán A",
-//         "image": "https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg",
-//         "quantity": 4,
-//         "price": 97000
-//     },
-//     {
-//         "name": "Combo Gà Rán A",
-//         "image": "https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg",
-//         "quantity": 4,
-//         "price": 97000
-//     },
-//     {
-//         "name": "Combo Gà Rán A",
-//         "image": "https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg",
-//         "quantity": 4,
-//         "price": 97000
-//     },
-//     {
-//         "name": "Combo Gà Rán A",
-//         "image": "https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg",
-//         "quantity": 4,
-//         "price": 97000
-//     },
-//     {
-//         "name": "Combo Gà Rán A",
-//         "image": "https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg",
-//         "quantity": 4,
-//         "price": 97000
-//     },
-//     {
-//         "name": "Combo Gà Rán A",
-//         "image": "https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg",
-//         "quantity": 4,
-//         "price": 97000
-//     },
-
-// ]
-
 
 function Product(props) {
     return (
@@ -166,7 +126,8 @@ export default function CheckOut() {
             "items": location.map((orderInfo) => {
                 return {
                     "options": orderInfo.sideDish,
-                    "foodId": orderInfo.foodId,
+                    "name" : orderInfo.name,
+                    "imageUrl": orderInfo.imgUrl,
                     "price": orderInfo.price * orderInfo.quantity
                         * parseFloat(orderInfo.discount) / 100 + parseInt(orderInfo.addition),
                     "quantity": orderInfo.quantity
