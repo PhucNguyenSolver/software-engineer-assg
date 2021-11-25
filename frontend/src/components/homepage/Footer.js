@@ -6,11 +6,11 @@ export default function Footer() {
                 <div className="row d-flex justify-content-evenly">
                     {/* <div className="col-sm-6"> */}
                     <div className="col-sm-5">
-                        <h5 class="footer-heading">CÔNG TY TNHH THƯƠNG MẠI ABC</h5>
+                        <h5 class="footer-heading">CÔNG TY TNHH THƯƠNG MẠI NHI'S HOUSE</h5>
                         <ul class="footer_list" style={{listStyle: 'none', paddingLeft: 0}}>
                             <li class="footer_item">
-                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Mauris vel magna. Mauris risus nunc,
-                                tristique varius, gravclassa in, lacinia vel, elit.</p>
+                                <p>Hương vị độc đáo, phong cách phục vụ thân thiện, hết lòng vì khách hàng và bầu không khí nồng nhiệt, ấm cúng tại các nhà hàng là ba chìa khóa chính mở cánh cửa thành công của Nhi's House tại Việt Nam.
+                                    Nhi's House đã tạo nên một nét văn hóa ẩm thực mới và đóng góp to lớn vào sự phát triển của ngành công nghiệp thức ăn nhanh tại Việt Nam.</p>
                             </li>
                             <li class="footer_item">
                                 <p>Địa chỉ: 100 Lê Lợi, phường Bến Thành, quận 1, TP. Hồ Chí Minh</p>

@@ -31,11 +31,11 @@ const rejectAll = async function(req, res){
 const getTopOrderedFood = async function(req, res) {
     const topOrderedFood = await db.Orders.aggregate([
         {$project: {_id:0, items:1}},
-    ]).unwind('items').group({_id: "$items.foodId", no: {$sum: 1}}).sort('field -no').limit(8).exec();
+    ]).unwind('items').group({_id: "$items.name", no: {$sum: 1}}).sort('field -no').limit(8).exec();
 
     var foods = [];
     for(let i=0; i < topOrderedFood.length; i++) {
-        var food = await db.Foods.findById(topOrderedFood[i]._id).exec();
+        var food = await db.Foods.findOne({name: topOrderedFood[i]._id}).exec();
         if(food) {
             food = food.toObject();
             food.no = topOrderedFood[i].no;

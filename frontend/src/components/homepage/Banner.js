@@ -22,7 +22,7 @@ export default function Banner() {
     return (
         <>
         <div className="row justify-content-center">
-        <Carousel className="slide-banner col-md-10 col-xs-10 col-sm-10">
+        <Carousel className="slide-banner col-md-12 col-xs-10 col-sm-10">
             <Carousel.Item>
                 <img
                 className="d-block w-100"
