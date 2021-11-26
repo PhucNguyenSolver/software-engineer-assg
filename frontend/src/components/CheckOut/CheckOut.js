@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { ToastContainer, toast } from 'react-toastify';
 import { calculateShipFee, FROM } from "./Map";
 import { useLocation } from "react-router-dom";
-
+import { districtOptionList, wardOptionList } from "./data"; 
 const axios = require('axios');
 
 const contactData = {
@@ -32,17 +32,6 @@ function Product(props) {
         </li>
     )
 }
-
-const wardOptionList =
-{
-    'Quận Thủ Đức': ['Bình Chiểu', 'Bình Thọ', 'Linh Chiểu', 'Linh Trung'],
-
-    'Quận Bình Thạnh': ['Phường 6', 'Phường 7', 'Phường 11', 'Phường 22'],
-
-    'Quận 10': ['Phường 12', 'Phường 13', 'Phường 14', 'Phường 15']
-}
-
-
 
 export default function CheckOut() {
 
@@ -257,9 +246,9 @@ export default function CheckOut() {
                                         handleDistrictChange(even);
                                     }}>
                                         <option selected>Lựa chọn</option>
-                                        <option >Quận Thủ Đức</option>
-                                        <option >Quận 10</option>
-                                        <option >Quận Bình Thạnh</option>
+                                        {districtOptionList.map(district => (
+                                          <option key={district}>{district}</option>
+                                        ))}
                                     </select>
                                 </div>
 

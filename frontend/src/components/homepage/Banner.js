@@ -83,8 +83,8 @@ export default function Banner() {
                     </svg>
                 </div>
                 <div className="card-body">
-                    <p>Tô Hiến Thành</p>
-                    <p>quận 10, TP. Hồ Chí Minh</p>
+                    <p>307A, Tô Hiến Thành</p>
+                    <p>Quận 10, TP. Hồ Chí Minh</p>
                     {/* <p>100 Lê Lợi, phường Bến Thành,</p>
                     <p>quận 1, TP. Hồ Chí Minh</p> */}
                 </div>
