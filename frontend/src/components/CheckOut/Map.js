@@ -25,12 +25,12 @@ const minutesToFee = (minutes) => {
 }
 
 const kilometersToFee = (km) => {
-  let fee = 3000 + km * 1400;
-  if (fee < 5000)
-    fee = 0;
-  else if (fee > 300000)
-    fee = 300000;
-  return round(fee);  
+  if (km < 3)
+    return 5000;
+  else {
+    const fee = 5000 + (Math.round(km) - 3) * 4000;
+    return Math.min(fee, 35000);
+  }
 }
 
 function round(number) {
@@ -61,15 +61,16 @@ export const calculateShipFee = async (from, to) => {
     return res;
   }
 
-  let minutes = 0;
   if (routes.length > 0) {
-    minutes = routes[0].duration / 60;
-    Log(minutes);
+    const km = routes[0].distance / 1000;
+    const minutes = routes[0].duration / 60;
     res.duration = minutes;
-    res.shipFee = minutesToFee(minutes);
+    res.distance = km;
+    res.shipFee = kilometersToFee(km);
+    Log(km);
     return res;
   } else { // no suitable route
-    let km = getDistanceFromLatLonInKm(
+    const km = getDistanceFromLatLonInKm(
       fromLocation.lat, fromLocation.lon, toLocation.lat, toLocation.lon
     );
     Log(km);
