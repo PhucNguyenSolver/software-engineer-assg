@@ -158,7 +158,7 @@ export default function CheckOut() {
         if(paymentMethod.value == "online") {
             axios.post("/payment/process", {
                 amount: (TOTAL / 23000).toFixed(1),
-                description: "Res POS payment"
+                description: [name, phone, location.map((orderInfo) => orderInfo.name).join(", ")].join(" | ")
             })
             .then(res => {
                 window.location.href = res.data;
