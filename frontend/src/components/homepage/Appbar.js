@@ -34,6 +34,7 @@ export default function Appbar({nCartItem}) {
           food_name: res.data[i].name,
           price: res.data[i].price,
           img: res.data[i].imageUrls[0],
+          id: res.data[i]._id
         }
         arrAll.push(temp)
       }
@@ -53,7 +54,7 @@ export default function Appbar({nCartItem}) {
           break;
         }
       }
-      menu[i] = <FoodInMenu name={data[i].food_name} price={data[i].price} image={data[i].img} />
+      menu[i] = <FoodInMenu name={data[i].food_name} price={data[i].price} image={data[i].img} id={data[i].id} />
       // document.getElementById('PaginationSearch').style.bottom = '-34%'
       // document.getElementById('MenuFirst').style.height = '900px'
     }
@@ -70,7 +71,7 @@ export default function Appbar({nCartItem}) {
           break;
         }
       }
-      menu[i] = <FoodInMenu name={data[i].food_name} price={data[i].price} image={data[i].img} />
+      menu[i] = <FoodInMenu name={data[i].food_name} price={data[i].price} image={data[i].img} id={data[i].id}/>
       // document.getElementById('PaginationSearch').style.bottom = '-34%'
       // document.getElementById('MenuFirst').style.height = '900px'
     }
@@ -169,7 +170,7 @@ export default function Appbar({nCartItem}) {
         <div id="ElementInMenu" style={{backgroundColor:'#efefef',width:'100%',marginLeft:'50px'}}>
             {
               arr.map((val) => {
-              return <FoodInMenu name={val.food_name} price={val.price} image={val.img} />
+              return <FoodInMenu name={val.food_name} price={val.price} image={val.img} id={val.id}/>
             })
           }
         </div>
