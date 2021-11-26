@@ -36,6 +36,7 @@ function Product(props) {
 export default function CheckOut() {
 
     const DEFAULT_LOCATE = 'Lựa chọn';
+    wardOptionList[DEFAULT_LOCATE] = [];
     const [district, setDistrict] = useState(DEFAULT_LOCATE)
     const [ward, setWard] = useState(DEFAULT_LOCATE)
     const [wardOption, setWardOption] = useState([])
@@ -50,7 +51,8 @@ export default function CheckOut() {
             if (district === DEFAULT_LOCATE || ward === DEFAULT_LOCATE) {
                 setShipFee(null);
             } else {
-                const to = ward + ', ' + district + ' TP HCM';
+                const to = ward + ', ' + district + ' Ho Chi Minh City';
+                console.log({to});
                 const { shipFee, duration } = await calculateShipFee(FROM, to);
                 setShipFee(shipFee);
                 setShipTime(duration);
@@ -58,8 +60,10 @@ export default function CheckOut() {
         }
         fetchData();
     }, [district, ward]);
-    const handleDistrictChange = (event) => {
-        setDistrict(event.target.value);
+    const handleDistrictChange = (newDistrict) => {
+        setDistrict(newDistrict);
+        setWard(DEFAULT_LOCATE);
+        setWardOption(wardOptionList[newDistrict] || []);
     }
     const handleWardChange = (event) => {
         let address = document.getElementById('input-address').value
@@ -179,8 +183,8 @@ export default function CheckOut() {
                             <span className="badge bg-danger rounded-pill">{location.length}</span>
                         </h4>
                         <ul className="list-group mb-3">
-                            {location.map((product) => {
-                                return <Product product={product} />
+                            {[...location].map((product, id) => {
+                                return <Product key={id} product={product} />
                             })}
                             {/* <li className="list-group-item d-flex justify-content-between bg-light">
                                 <div className="text-success">
@@ -214,38 +218,43 @@ export default function CheckOut() {
                     </div>
                     <div className="col-md-7 col-lg-8">
                         <h4 className="mb-3">Thông Tin Thanh Toán</h4>
-                        <form className="needs-validation" method='POST' validate onSubmit={handleCheckOut}>
+                        <form className="needs-validation" method='POST' validate='true' onSubmit={handleCheckOut}>
                             <div className="row g-3">
                                 <div className="col-12">
                                     <div className="form-floating mb-2">
                                         <input type="text" name='customerName' className="form-control"
                                             id="input-name" placeholder="Hoàng Văn A" />
-                                        <label for="input-name">Họ và tên</label>
+                                        <label htmlFor="input-name">Họ và tên</label>
                                     </div>
                                 </div>
 
                                 <div className="col-12">
                                     <div className="form-floating mb-2">
                                         <input type="phone" name='customerNoPhone' className="form-control" id="input-phone" placeholder="01234556789" />
-                                        <label for="input-phone">Số điện thoại</label>
+                                        <label htmlFor="input-phone">Số điện thoại</label>
                                     </div>
                                 </div>
 
                                 <div className="col-12">
                                     <div className="form-floating mb-2">
                                         <input type="address" name='customerAddress' className="form-control" id="input-address" placeholder="40 Vũ Trọng Phụng" />
-                                        <label for="input-address">Địa chỉ</label>
+                                        <label htmlFor="input-address">Địa chỉ</label>
                                     </div>
                                 </div>
 
                                 <div className="col-md">
-                                    <label for="district" className="form-label">Quận/Huyện</label>
-                                    <select className="form-select" name='customerDistrict' id="district" onChange={even => {
-                                        if (even.target.value === 'Lựa chọn') setWardOption('Lựa chọn')
-                                        else setWardOption(wardOptionList[even.target.value])
-                                        handleDistrictChange(even);
+                                    <label htmlFor="district" className="form-label">Quận/Huyện</label>
+                                    <select className="form-select" name='customerDistrict' id="district" 
+                                      defaultValue={DEFAULT_LOCATE} onChange={even => {
+                                        // if (even.target.value === 'Lựa chọn') {
+                                        //   setWard('Lựa chọn');
+                                        //   setWardOption([]);
+                                        // }
+                                        // else setWardOption(wardOptionList[even.target.value])
+                                        // handleDistrictChange(even);
+                                        handleDistrictChange(even.target.value);
                                     }}>
-                                        <option selected>Lựa chọn</option>
+                                        <option>{DEFAULT_LOCATE}</option>
                                         {districtOptionList.map(district => (
                                           <option key={district}>{district}</option>
                                         ))}
@@ -253,8 +262,9 @@ export default function CheckOut() {
                                 </div>
 
                                 <div className="col-md" >
-                                    <label for="ward" className="form-label">Phường / Xã</label>
-                                    <select className="form-select" name='customerWard' id="ward" onChange={event => handleWardChange(event)} >
+                                    <label htmlFor="ward" className="form-label">Phường / Xã</label>
+                                    <select className="form-select" name='customerWard' id="ward" defaultValue={DEFAULT_LOCATE}
+                                    onChange={event => handleWardChange(event)} >
                                         <option >Lựa chọn</option>
                                         {/* <WardOption /> */}
                                         {wardOption.map(ward => <option key={ward} value={ward}>{ward}</option>)}
@@ -266,7 +276,7 @@ export default function CheckOut() {
 
                             <div class="form-check">
                                 <input type="checkbox" class="form-check-input" id="save-info" />
-                                <label class="form-check-label" for="save-info">Save this information for next time</label>
+                                <label class="form-check-label" htmlFor="save-info">Save this information for next time</label>
                             </div> */}
 
                             <hr class="my-4" />
@@ -276,10 +286,10 @@ export default function CheckOut() {
                             <div className="my-3">
                                 <div className="form-check">
                                     <input id="cod" name="paymentMethod" value='cod' type="radio" className="form-check-input" />
-                                    <label className="form-check-label" for="cod">Thanh toán khi nhận hàng</label>
+                                    <label className="form-check-label" htmlFor="cod">Thanh toán khi nhận hàng</label>
                                 </div>
                                 <div className="form-check">
-                                    <label className="form-check-label" for="online">Thanh toán Online</label>
+                                    <label className="form-check-label" htmlFor="online">Thanh toán Online</label>
                                     <input id="online" name="paymentMethod" value='online' type="radio" className="form-check-input" />
                                 </div>
                             </div>
