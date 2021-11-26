@@ -66,7 +66,7 @@ function Food(props) {
       <div className="d-flex justify-content-center">
         <div className="py-2 py-sm-3">
           <button 
-            onClick={() => window.location.href="/food-info/" + food._id}
+            onClick={() => window.open("/food-info/" + food._id, '_blank').focus()}
             className="btn btn-md shadow-none btn-primary"
           >
             Đặt hàng

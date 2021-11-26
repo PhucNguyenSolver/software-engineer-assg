@@ -15,14 +15,6 @@ function Log(msg) {
  * 
  *  Customize these functions
  */
-const minutesToFee = (minutes) => {
-  let fee = 3000 + minutes * 700;
-  if (fee < 5000)
-    fee = 0;
-  else if (fee > 300000)
-    fee = 300000;
-  return round(fee);
-}
 
 const kilometersToFee = (km) => {
   if (km < 3)
@@ -33,17 +25,12 @@ const kilometersToFee = (km) => {
   }
 }
 
-function round(number) {
-  const unit = 250;
-  return Math.ceil(number / unit) * unit;
-}
-
 export const calculateShipFee = async (from, to) => {
   let res = {to: null, shipFee: null, distance: null, duration: null};
   let fromLocation, toLocation;
   try {
     fromLocation = await textToLocation(from);
-    Log(fromLocation);
+    // Log(fromLocation);
     toLocation = await textToLocation(to);
     Log(toLocation);
   } catch(error) { // Cannot find location
@@ -67,13 +54,13 @@ export const calculateShipFee = async (from, to) => {
     res.duration = minutes;
     res.distance = km;
     res.shipFee = kilometersToFee(km);
-    Log(km);
+    // Log(km);
     return res;
   } else { // no suitable route
     const km = getDistanceFromLatLonInKm(
       fromLocation.lat, fromLocation.lon, toLocation.lat, toLocation.lon
     );
-    Log(km);
+    // Log(km);
     res.distance = km;
     res.shipFee = kilometersToFee(km);
     return res;

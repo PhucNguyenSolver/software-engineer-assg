@@ -16,7 +16,7 @@ function MenuInGen() {
       <div style={{width:'100%'}}>
           {
           JSONDATA.map((val) => {
-            return <FoodInMenu name={val.food_name} price={val.price} image={val.img} />
+            return <FoodInMenu name={val.food_name} price={val.price} image={val.img} id={val.id}/>
           })
           }
       </div>
