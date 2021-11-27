@@ -5,7 +5,6 @@ import FoodInMenu from './FoodInMenu.js';
 
 const axios = require('axios')
 
-// const axios = require('axios')
 var arr = []
 
 var Init = [
@@ -23,9 +22,9 @@ var Init = [
 {"food_name":"Combo Sushi","price":150000,"img":"https://kenh14cdn.com/2019/1/22/5bc7df9876ec5729a74dbca5-2018-10-18-011920-15481331553641106349192.jpg","id":"6193cfd93e278583b22570d2"},
 ]
 
-
 function TaskSearch() {
-  const tmp = Init.slice()
+
+  const [tmp,setTmp] = useState(Init.slice())
   const [temp, setTemp] = useState(tmp)
   const [filterNameInit,setFilterNameInit] = useState('Không lựa chọn')
   const [data, setData] = useState(tmp)
@@ -39,13 +38,24 @@ function TaskSearch() {
   useEffect(() => {
     axios.get('http://localhost:8080/food')
     .then( (res) => {
+      // arr = res.data.map((val) => {
+      //   return {
+      //     food_name: val.food,
+      //     price: val.price,
+      //     img: val.imageUrls[0],
+      //     id: val._id
+      //   }
+      // })
+      // setTmp(arr)
+      // setData(arr)
+      // setTemp(arr)
       arr = res.data
+      Init = []
+      console.log(Init)
     })
     }, [])
 
-
 function FoodTypeList() {
-
 
 const array = ['Combo','Foody','Drink','Appetizer','Dessert']
 
@@ -53,15 +63,14 @@ function ChangeEffective(e){
     //setPageNumber(1)
     var JSONDATA = []
     JSONDATA.length = 0
-    for(var i=0;i < arr.length;i++) {
-      if (arr[i].type === e.target.id) {
+    for(var i=0;i < tmp.length;i++) {
+      if (tmp[i].type === e.target.id) {
         var t = {
-          food_name: arr[i].name,
-          price: arr[i].price,
-          img: arr[i].imageUrls[0],
-          id: arr[i]._id
+          food_name: tmp[i].name,
+          price: tmp[i].price,
+          img: tmp[i].imageUrls[0],
+          id: tmp[i]._id
         }
-        console.log(t)
         JSONDATA.push(t)
       }
   }
@@ -69,21 +78,6 @@ function ChangeEffective(e){
     setTemp(JSONDATA.slice())
     setData(JSONDATA.slice())
     setInit(JSONDATA.slice())
-    // let idChange = document.getElementById(e.target.id)
-    // idChange.style.borderRadius = '50px'
-    // idChange.style.borderColor = '#F63C3C'
-    // idChange.style.color = '#F63C3C'
-    // idChange.style.boxShadow = '1px 1px #F63C3C'
-    // for(let i=0;i<array.length;i++) {
-    //     if (array[i] === e.target.id) continue;
-    //     else {
-    //       let idNormal = document.getElementById(array[i])
-    //         idNormal.style.borderColor='#ffffff'
-    //         idNormal.style.color='#000000'
-    //         idNormal.style.borderRadius='12px'
-    //         idNormal.style.boxShadow='None'
-    //     }
-    // }
     switch(e.target.id) {
       case 'Combo':
         setColorVar(['#F63C3C','#000000','#000000','#000000','#000000'])
