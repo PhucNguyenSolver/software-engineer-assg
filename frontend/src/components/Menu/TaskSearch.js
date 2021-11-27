@@ -49,7 +49,7 @@ function TaskSearch() {
   useEffect(() => {
     axios.get('/food')
     .then( (res) => {
-      arr = res.data
+      arr = res.data;
     })
     }, [])
 
@@ -256,18 +256,18 @@ return (
   <nav  aria-label="Page navigation example">
   <ul class="pagination justify-content-center pagination-lg">
     <li class="page-item">
-    <button class="page-link" aria-label="Previous" onClick={() => ChangePage(pageNumber-1)}>
+    <button class="page-link text-secondary" aria-label="Previous" onClick={() => ChangePage(pageNumber-1)}>
         <span aria-hidden="true">&laquo;</span>
       </button>
     </li>
     {
     Array.from({length: Math.ceil(temp.length / 10)}, (_, i) => i + 1).map((index) =>
-    {return <li class="page-item"><button class="page-link" onClick={() => Page(index)}>{index}</button></li>})
+    {return <li class="page-item"><button class="page-link text-secondary" onClick={() => Page(index)}>{index}</button></li>})
     }
     {/* <li class="page-item"><button class="page-link" onClick={Page2}>2</button></li>
     <li class="page-item"><button class="page-link" onClick={Page3}>3</button></li> */}
     <li class="page-item">
-      <button class="page-link" aria-label="Next" onClick={() => ChangePage(pageNumber+1)}>
+      <button class="page-link text-secondary" aria-label="Next" onClick={() => ChangePage(pageNumber+1)}>
         <span aria-hidden="true">&raquo;</span>
       </button>
     </li>
