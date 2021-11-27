@@ -3,6 +3,7 @@ import './ProcessBar.css'
 import { Badge, Col, Figure, Modal, Row } from "react-bootstrap";
 import axios from 'axios';
 
+
 // ReactDOM.render(logOutIcon,document.getElementById('logout'))
 
 
@@ -129,7 +130,6 @@ export default function HandlerOrder() {
                         <div className="text-left text-sm-right"><button className="btn btn-primary btn-rounded btn-sm" onClick={() => handlerAcceptAll()}>Chấp nhận tất cả</button></div>
                     </div>
                 </div>
-
             </div>
         );
     }

@@ -9,6 +9,7 @@ import axios from "axios";
 import {useHistory} from "react-router-dom";
 import { useParams } from "react-router";
 import { v4 as uuidv4 } from 'uuid';
+import { FoodEditor } from "../staff/FoodEditor";
 
 var DEFAULT_FOOD = {
     name: "Cánh gà xóc tỏi",
@@ -140,6 +141,10 @@ export default function FoodInfo({setNCartItem}) {
                 </div>
                 <div class="col-md-6">
                     <div class="container">
+                        { JSON.parse(localStorage.getItem("isAuthenticated")) ?
+                            <FoodEditor mode="edit" id={FOOD_ID}/>
+                        : ""
+                        }
                         <FoodDescription food={food} quantity={quantity} setQuantity={setQuantity}/>
                         <OrderOptionModal
                             food={food}

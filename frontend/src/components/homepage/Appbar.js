@@ -20,7 +20,7 @@ const axios = require('axios')
 var arrAll = []
 
 export default function Appbar({nCartItem}) {
-  const [searchTerm,setSearchTerm] = useState('')
+  const [searchTerm, setSearchTerm] = useState('')
   const [data, setData] = useState(arrAll)
   var filtered;
   var pagingSearch;

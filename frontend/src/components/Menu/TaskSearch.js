@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from 'react';
 import {Button} from 'react-bootstrap';
 import FoodInMenu from './FoodInMenu.js';
+import {FoodEditor} from '../staff/FoodEditor';
 
 const axios = require('axios')
 
@@ -181,6 +182,12 @@ return (
         <div style={{width:'100%'}}>
             <FoodTypeList />
         </div>
+        { JSON.parse(localStorage.getItem("isAuthenticated")) ?
+          <div class="container mx-0">
+            <FoodEditor mode="add"/>
+          </div>
+         : ""
+        }
         <div style={{width:'100%'}}>
             {
                arr.slice(0,10).map((val) => {
