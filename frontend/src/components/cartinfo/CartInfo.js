@@ -63,7 +63,7 @@ export default function CartInfo() {
             setQuantity(cart[cartItemOffset].quantity);
             setOrderOptionsAnswer(cart[cartItemOffset].orderOptions);
       
-            axios.get("http://localhost:8080/food/" + cart[cartItemOffset].foodId)
+            axios.get("/food/" + cart[cartItemOffset].foodId)
             .then(res => {
                 console.log("Get success")
                 console.log(cart[cartItemOffset]);
@@ -108,13 +108,14 @@ export default function CartInfo() {
     return (
         <Container class="p-4">
             <Row>
-                <Col xl={9} lg={10} md={10} sm={10} xs={10}>
+
+                <div class="col">
                     <h4>Thông tin chi tiết đơn hàng </h4>
-                </Col>
-                <Col xl={{span: 1, offset: 2}} lg={2} md={2} sm={2} xs={2}>
+                </div>
+                <div class="col-auto">
                     <button type="button" className="btn btn-secondary shadow-none"
                     onClick={() => window.location.href = "/cart"}>Trở lại giỏ hàng</button>
-                </Col>
+                </div>
             </Row>
             <Row>
                 <Col xl={{span: 3, offset: 2}} lg={5} md={5}>
@@ -135,7 +136,7 @@ export default function CartInfo() {
                 </Col>
                 <Col xl={{span: 4, offset: 1}} lg={{span: 6, offset: 1}} md={{span: 6, offset: 1}}>
                     <Row>
-                        <h2>{food.name}</h2>
+                        <a class="text-secondary fs-2" href={"/food-info/" + food._id}>{food.name}</a>
                     </Row>
                     <Row>
                         <Col xl={4} lg={4} md={4} sm={4} xs={4}>Số lượng:</Col>

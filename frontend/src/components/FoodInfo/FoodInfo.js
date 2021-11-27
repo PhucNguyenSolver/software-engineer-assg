@@ -9,6 +9,7 @@ import axios from "axios";
 import {useHistory} from "react-router-dom";
 import { useParams } from "react-router";
 import { v4 as uuidv4 } from 'uuid';
+import { FoodEditor } from "../staff/FoodEditor";
 
 var DEFAULT_FOOD = {
     name: "Cánh gà xóc tỏi",
@@ -117,7 +118,7 @@ export default function FoodInfo({setNCartItem}) {
 
 
     useEffect(() => {
-        axios.get("http://localhost:8080/food/detail/" + FOOD_ID)
+        axios.get("/food/detail/" + FOOD_ID)
         .then(res => {
             setFood(res.data);
         })
@@ -135,11 +136,15 @@ export default function FoodInfo({setNCartItem}) {
         <div class="container p-4">
             <ToastContainer/>
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-6 col-lg-5">
                     <ImagesSlide imageData={food.images}/>
                 </div>
                 <div class="col-md-6">
                     <div class="container">
+                        { JSON.parse(localStorage.getItem("isAuthenticated")) ?
+                            <FoodEditor mode="edit" id={FOOD_ID}/>
+                        : ""
+                        }
                         <FoodDescription food={food} quantity={quantity} setQuantity={setQuantity}/>
                         <OrderOptionModal
                             food={food}

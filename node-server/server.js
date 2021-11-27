@@ -20,12 +20,15 @@ app.use(express.json());
 app.use('/food', router.food)
 app.use('/cart', router.cart)
 app.use('/homepage', router.homepage)
-app.use('/banner',router.banner)
+app.use('/banner', router.banner)
 app.use('/order', orderRoute)
 app.use('/login', loginRoute)
 app.use('/payment', paymentRoute);
+app.use('/options', router.options)
 
 db.connect();
+
+
 
 
 const PORT = process.env.PORT || 8080;

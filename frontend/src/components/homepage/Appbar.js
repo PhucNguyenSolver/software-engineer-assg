@@ -1,6 +1,7 @@
 import { Nav, Navbar, Form, FormControl, Col } from 'react-bootstrap'
 import './Appbar.css'
 import logo from './logo.png'
+import {removeVI, DefaultOption} from 'jsrmvi';
 
 
 import React from "react";
@@ -19,7 +20,7 @@ const axios = require('axios')
 var arrAll = []
 
 export default function Appbar({nCartItem}) {
-  const [searchTerm,setSearchTerm] = useState('')
+  const [searchTerm, setSearchTerm] = useState('')
   const [data, setData] = useState(arrAll)
   var filtered;
   var pagingSearch;
@@ -27,14 +28,14 @@ export default function Appbar({nCartItem}) {
 
 
   useEffect(() => {
-    axios.get('http://localhost:8080/food')
+    axios.get('/food')
     .then( (res) => {
       for(var i = 0;i<res.data.length;++i){
         var temp = {
           food_name: res.data[i].name,
           price: res.data[i].price,
           img: res.data[i].imageUrls[0],
-          id: res.data[i]._id,
+          id: res.data[i]._id
         }
         arrAll.push(temp)
       }
@@ -54,11 +55,12 @@ export default function Appbar({nCartItem}) {
           break;
         }
       }
-      menu[i] = <FoodInMenu name={data[i].food_name} price={data[i].price} image={data[i].img} id={data[i].id}  />
+      menu[i] = <FoodInMenu name={data[i].food_name} price={data[i].price} image={data[i].img} id={data[i].id} />
       // document.getElementById('PaginationSearch').style.bottom = '-34%'
       // document.getElementById('MenuFirst').style.height = '900px'
     }
     ReactDOM.render(menu,document.getElementById('MenuFirst'))
+    window.scrollTo(0, 0)
   }
   function Page(index) {
     pageNumber = index
@@ -71,12 +73,13 @@ export default function Appbar({nCartItem}) {
           break;
         }
       }
-      menu[i] = <FoodInMenu name={data[i].food_name} price={data[i].price} image={data[i].img} />
+      menu[i] = <FoodInMenu name={data[i].food_name} price={data[i].price} image={data[i].img} id={data[i].id}/>
       // document.getElementById('PaginationSearch').style.bottom = '-34%'
       // document.getElementById('MenuFirst').style.height = '900px'
     }
      
     ReactDOM.render(menu,document.getElementById('MenuFirst'))
+    window.scrollTo(0, 0)
   }
 
   function HandleSearch(searchKey) {
@@ -85,7 +88,7 @@ export default function Appbar({nCartItem}) {
     }
     else {
     filtered = arrAll.filter((val)=>{
-      if (val.food_name.toLowerCase().includes(searchKey.toLowerCase())){
+      if (removeVI(val.food_name.toLowerCase()).includes(removeVI(searchKey.toLowerCase()))){
           return val
       }
       }).map((val,key) => {        
@@ -167,10 +170,10 @@ export default function Appbar({nCartItem}) {
         <div style={{ width: '100%' }}>
           <FoodTypeList />
         </div>
-        <div id="ElementInMenu" style={{backgroundColor:'#efefef',width:'100%',marginLeft:'50px'}}>
+        <div id="ElementInMenu" style={{width:'100%',marginLeft:'50px'}}>
             {
               arr.map((val) => {
-              return <FoodInMenu name={val.food_name} price={val.price} image={val.img} />
+              return <FoodInMenu name={val.food_name} price={val.price} image={val.img} id={val.id}/>
             })
           }
         </div>

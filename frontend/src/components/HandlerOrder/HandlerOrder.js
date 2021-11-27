@@ -3,6 +3,7 @@ import './ProcessBar.css'
 import { Badge, Col, Figure, Modal, Row } from "react-bootstrap";
 import axios from 'axios';
 
+
 // ReactDOM.render(logOutIcon,document.getElementById('logout'))
 
 
@@ -13,7 +14,7 @@ export default function HandlerOrder() {
     const [data, setData] = useState([])
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/order/manage-order/Đang chờ xử lý`)
+        axios.get(`/order/manage-order/Đang chờ xử lý`)
             .then(res => {
                 // res.data.forEach(order => {
                 //     order.items.forEach(item => {
@@ -34,7 +35,7 @@ export default function HandlerOrder() {
         function displayOrder(currStatus, number) {
             setOnDisplayNumber(number)
 
-            axios.get(`http://localhost:8080/order/manage-order/${currStatus}`)
+            axios.get(`/order/manage-order/${currStatus}`)
                 .then(res => {
                     // res.data.forEach(order => {
                     //     order.items.forEach(item => {
@@ -64,7 +65,7 @@ export default function HandlerOrder() {
                 statusCurr = 'Đã thanh toán'
                 statusUpdate = 'Done'
             }
-            axios.post("http://localhost:8080/order/manage-order/accept", {
+            axios.post("/order/manage-order/accept", {
                 "statusCurr": statusCurr,
                 "statusUpdate": statusUpdate
             })
@@ -80,7 +81,7 @@ export default function HandlerOrder() {
             else if (onDisplayNumber === 3) status = 'Đang giao hàng'
             else if (onDisplayNumber === 4) status = 'Đã thanh toán'
 
-            axios.post("http://localhost:8080/order/manage-order/reject", {
+            axios.post("/order/manage-order/reject", {
                 "status": status
             })
                 .then(setData([]))
@@ -129,7 +130,6 @@ export default function HandlerOrder() {
                         <div className="text-left text-sm-right"><button className="btn btn-primary btn-rounded btn-sm" onClick={() => handlerAcceptAll()}>Chấp nhận tất cả</button></div>
                     </div>
                 </div>
-
             </div>
         );
     }
@@ -147,12 +147,12 @@ export default function HandlerOrder() {
             else if (order.status === 'Đã thanh toán') sttOrder = 'Done'
 
 
-            axios.post("http://localhost:8080/order/manage-order", {
+            axios.post("/order/manage-order", {
                 "orderId": order._id,
                 "sttOrder": sttOrder
             })
                 .then(() => {
-                    axios.get(`http://localhost:8080/order/manage-order/${order.status}`)
+                    axios.get(`/order/manage-order/${order.status}`)
                         .then(res => {
                             // res.data.forEach(order => {
                             //     order.items.forEach(item => {
@@ -169,12 +169,12 @@ export default function HandlerOrder() {
         }
 
         function handlerReject() {
-            axios.post("http://localhost:8080/order/manage-order", {
+            axios.post("/order/manage-order", {
                 "orderId": order._id,
                 "sttOrder": 'Đã từ chối'
             })
                 .then(() => {
-                    axios.get(`http://localhost:8080/order/manage-order/${order.status}`)
+                    axios.get(`/order/manage-order/${order.status}`)
                         .then(res => {
                             // res.data.forEach(order => {
                             //     order.items.forEach(item => {

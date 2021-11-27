@@ -7,7 +7,7 @@ export default function Banner() {
     const [imageBanner, setImageBanner] = useState([]);
 
     useEffect(() => {
-        axios.get("http://localhost:8080/banner")
+        axios.get("/banner")
             .then(res => {
                 setImageBanner(res.data.imageUrls);
             })
@@ -83,8 +83,10 @@ export default function Banner() {
                     </svg>
                 </div>
                 <div className="card-body">
-                    <p>100 Lê Lợi, phường Bến Thành,</p>
-                    <p>quận 1, TP. Hồ Chí Minh</p>
+                    <p>307A, Tô Hiến Thành</p>
+                    <p>Quận 10, TP. Hồ Chí Minh</p>
+                    {/* <p>100 Lê Lợi, phường Bến Thành,</p>
+                    <p>quận 1, TP. Hồ Chí Minh</p> */}
                 </div>
             </div>
 
