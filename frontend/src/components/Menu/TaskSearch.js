@@ -224,8 +224,8 @@ return (
     return (
       // style={{position:'absolute', right:'62px',top:'90px'}}
       <div class="dropdown" >
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
-    style={{backgroundColor: '#F0A12A',width:'200px',height:'52px'}}>
+    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
+    style={{width:'200px',height:'52px'}}>
       {filterNameInit}
     </button>
     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" >

@@ -85,6 +85,7 @@ function Editor(props) {
         }
         FoodService.updateFood(props.id, data).then(response => {
             alert(response.data.msg)
+            window.location.reload()
         })
         props.onHide()
     }
@@ -169,7 +170,7 @@ function Editor(props) {
                 <Form.Group className='col-6 mb-1'>
                     <Form.Label>Mức giảm giá</Form.Label>
                     <InputGroup>
-                        <FormControl type='number' max={100} min={0} value={basicInfo.discount}
+                        <FormControl type='number' max={100} min={1} value={basicInfo.discount}
                             onChange={e => setBasicInfo({ ...basicInfo, discount: e.target.value })} defaultValue={0} />
                         <InputGroup.Text>%</InputGroup.Text>
                     </InputGroup>
