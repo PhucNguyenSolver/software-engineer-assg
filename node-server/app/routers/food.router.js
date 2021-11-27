@@ -1,11 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const foodController = require('../business_layer/food')
+const food = require('../business_layer/food')
 
-router.get('/:id', foodController.getFoodById);
-router.get("/detail/:id", foodController.getFoodDetailById);
-router.post("/payment", foodController.payFood);
+router.get('/:id', food.getFoodById);
+router.get("/detail/:id", food.getFoodDetailById);
+router.post("/payment", food.payFood);
+router.post('/new', food.createFood)
 
-router.get('/', foodController.getAllFood);
+router.get('/', food.getAllFood);
+router.put('/:id', food.updateFood)
+router.delete('/:id', food.deleteFood)
+
 
 module.exports = router;

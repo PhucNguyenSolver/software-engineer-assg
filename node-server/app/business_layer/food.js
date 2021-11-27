@@ -1,5 +1,6 @@
 const db = require('../data_layer')
 var paypal = require('paypal-rest-sdk');
+const ObjectId = require('mongoose').Types.ObjectId
 
 paypal.configure({
     'mode': 'sandbox', //sandbox or live
@@ -7,12 +8,17 @@ paypal.configure({
     'client_secret': 'ENJeGQ5ctfVzIjeqMBUCLlJZDdFhShCOWvy_ZL5YiwYd0Ge3Gg1siDR81rS2FjW86Ceu2YcS05_5lg2C'
 });
 
-const getFoodById = async function(req, res) {
-    console.log("GET food by ID");
+const getFoodById = async function (req, res) {
+    //console.log("GET food by ID");
     const foodId = req.params.id
-    const food = await db.Foods.findById(foodId).exec();
-    console.log(food);
-    res.status(200).send(food);
+    try {
+        const food = await db.Foods.findById(foodId).exec();
+        res.status(200).send(food);
+    }
+    catch (err) {
+        console.log(err)
+        res.status(500).send({ msg: "INTERNAL SERVER ERROR !!!" })
+    }
 }
 
 const getFoodDetailById = async function (req, res) {
@@ -21,19 +27,19 @@ const getFoodDetailById = async function (req, res) {
     var food = await db.Foods.findById(foodId);
     food = food.toObject();
     food.orderOptions = [];
-    for(let i = 0; i < food.optionIds.length; i++) {
+    for (let i = 0; i < food.optionIds.length; i++) {
         var option = await db.Options.findById(food.optionIds[i]);
         option = option.toObject();
         option.options = option.items.map((item) => {
             return item.name;
         })
-        
+
         option.price = option.items.map((item) => {
             return item.price;
         })
 
-        option.answer = option.items.map((item, idx) => {return false});
-        if(!option.isMultiSelect) {
+        option.answer = option.items.map((item, idx) => { return false });
+        if (!option.isMultiSelect) {
             option.answer[0] = true;
         }
 
@@ -53,7 +59,7 @@ const getFoodDetailById = async function (req, res) {
     res.status(200).send(food);
 }
 
-const payFood = async function(req, res) {
+const payFood = async function (req, res) {
     var create_payment_json = {
         "intent": "sale",
         "payer": {
@@ -80,29 +86,85 @@ const payFood = async function(req, res) {
             "description": "This is the payment description."
         }]
     };
-    
-    
+
+
     paypal.payment.create(create_payment_json, function (error, payment) {
         if (error) {
             res.status(404).send(error);
         } else {
-            for(let i = 0;i < payment.links.length;i++){
-                if(payment.links[i].rel === 'approval_url'){
-                  res.redirect(payment.links[i].href);
+            for (let i = 0; i < payment.links.length; i++) {
+                if (payment.links[i].rel === 'approval_url') {
+                    res.redirect(payment.links[i].href);
                 }
-              }
+            }
         }
     });
-    
+
 }
 
-const getAllFood = async function(req, res) {
+const getAllFood = async function (req, res) {
     const food = await db.Foods.find().exec();
     res.status(200).send(food);
 }
+
+const createFood = async function (req, res) {
+    const foodData = req.body
+    const optionIds = foodData.optionIds.map(value => new ObjectId(value))
+    const newFood = { ...foodData, optionIds: optionIds, discount: Object.prototype.toString(foodData.discount) + '%' }
+    console.log(newFood)
+    try {
+        await db.Foods.create(newFood)
+        res.send({ msg: 'ADDED OK' })
+    }
+    catch (err) {
+        console.log(err)
+        res.status(500).send({ msg: "ERROR" })
+    }
+}
+
+const getOptions = async function (req, res) {
+    try {
+        const options = await db.Options.find().exec()
+        res.status(200).send(options)
+    }
+    catch (err) {
+        console.log(err)
+        res.status(500).send({ msg: 'Error' })
+    }
+}
+
+const updateFood = async function (req, res) {
+    const foodId = req.params.id
+    const foodData = req.body
+    const optionIds = foodData.optionIds.map(value => new ObjectId(value))
+    const newFood = { ...foodData, optionIds: optionIds, discount: Object.prototype.toString(foodData.discount) + '%' }
+    try {
+        await db.Foods.findByIdAndUpdate(foodId, { $set: newFood })
+        res.send({ msg: 'UPDATED OK' })
+    } catch (err) {
+        console.log(err)
+        res.status(500).send({ msg: 'INTERAL SERVER ERROR' })
+    }
+}
+
+const deleteFood = async function(req, res) {
+    const foodId = req.params.id
+    try {
+        await db.Foods.findByIdAndDelete(foodId)
+        res.send({ msg: 'DELETED OK' })
+    } catch (err) {
+        console.log(err)
+        res.status(500).send({ msg: 'INTERAL SERVER ERROR' })
+    }
+}
+
 module.exports = {
     getFoodById,
     getFoodDetailById,
     payFood,
-    getAllFood
+    getAllFood,
+    createFood,
+    getOptions,
+    updateFood,
+    deleteFood
 }

@@ -20,6 +20,7 @@ const CartTitle = styled.div`
 const CartInner = styled.div``
 
 const cartSampleLocalData = [{
+    uniqueOffset: '',
     foodId: "618eb8bfc195fbd6f3d8983d",
     quantity: 5,
     optionSum: {
@@ -35,6 +36,7 @@ const cartSampleLocalData = [{
         _id: "618eb1edc195fbd6f3cf8195"
     }]
 }, {
+    uniqueOffset: '',
     foodId: "618eb8bfc195fbd6f3d8983d",
     quantity: 3,
     optionSum: {
@@ -50,6 +52,7 @@ const cartSampleLocalData = [{
         _id: "618eb1edc195fbd6f3cf8195"
     }]
 }, {
+    uniqueOffset: '',
     foodId: "619229f1792fa260bd3a1003",
     quantity: 2,
     optionSum: {
@@ -67,9 +70,9 @@ const cartSampleLocalData = [{
 }]
 
 // Mock
-// localStorage.setItem('cart', JSON.stringify(cartSampleLocalData))
+//localStorage.setItem('cart', JSON.stringify(cartSampleLocalData))
 
-export default function Cart() {
+export default function Cart(props) {
     const [data, setData] = useState([])
     const [chooseAll, setChooseAll] = useState(false);
 
@@ -81,6 +84,7 @@ export default function Cart() {
         itemIdList && CartService.getList(
             JSON.stringify(itemIdList)
         ).then(response => {
+            console.log(response.data)
             const foodData = response.data;
             const cartData = cartStorage.map((item, index) => {
                 let foodItem = foodData.find(value => {
@@ -102,6 +106,10 @@ export default function Cart() {
             setData(cartData);
         }).catch(err => console.log(err))
     }, [])
+
+    const updateIndex = () => {
+
+    }
 
     const toggleActive = function (offset) {
         const newData = [...data];
@@ -161,6 +169,7 @@ export default function Cart() {
         cartStorage.splice(index, 1)
 
         localStorage.setItem('cart', JSON.stringify(cartStorage))
+        props.setNCartItem(cartStorage.length)
         setData(newData)
     }
 
@@ -173,6 +182,7 @@ export default function Cart() {
         arrIndex.forEach(value => {
             cartStorage.splice(value, 1);
         })
+        props.setNCartItem(cartStorage.length)
         setData(newData)
     }
 
