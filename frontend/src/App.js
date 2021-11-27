@@ -15,12 +15,10 @@ import CheckOut from "./components/CheckOut/CheckOut";
 import HandlerOrder from "./components/HandlerOrder/HandlerOrder";
 import ProtectedRoute from "./components/Login/ProtectedRoute";
 import { useState, useEffect } from "react";
-
-
+import EditPage from "./components/staff/FoodEditor";
 
 function App() {
 	const [nCartItem, setNCartItem] = useState(0);
-
 	useEffect(() => {
 		if(localStorage.getItem("cart")) {
 			setNCartItem(JSON.parse(localStorage.getItem("cart")).length);
@@ -35,14 +33,15 @@ function App() {
 			<div class="row">
 				<Router>
 					<Switch>
-						<ProtectedRoute exact path='/manage-order' exact component={HandlerOrder} />
+						<ProtectedRoute exact path='/manage-order' component={HandlerOrder} />
 						<Route path="/login" exact component={Login} />
-						<Route path="/cart" exact component={Cart} />
+						<Route path="/cart" exact render={() => <Cart setNCartItem={setNCartItem}/>} />
 						<Route path="/menu" exact component={TaskSearch} />
 						<Route path="/checkout" exact component={CheckOut} />
 						<Route path="/cart-item-info/:id" exact component={CartInfo} />
-						<Route path="/food-info/:foodId" exact render={props => <FoodInfo setNCartItem={setNCartItem}/>} />
+						<Route path="/food-info/:foodId" exact render={props => <FoodInfo setNCartItem={setNCartItem} />} />
 						<Route path="/" exact component={Homepage} />
+						<Route path='/edit' exact component={EditPage} />
 					</Switch>
 				</Router>
 			</div>
