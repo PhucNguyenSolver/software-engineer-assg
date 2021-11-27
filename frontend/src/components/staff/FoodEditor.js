@@ -17,7 +17,7 @@ export function FoodEditor(props) {
         setIsShowEditor(true)
     }
 
-    return <div className='container px-0 my-2'>
+    return <div className='container px-0 my-2 mx-0'>
         <Button className='btn-secondary d-flex align-items-center' onClick={openEditor}>
             {props.mode === 'add' ? 'Thêm món ăn mới' : 'Chỉnh sửa'}
             {props.mode === 'add' ? <PlusLg size={25} fontWeight={800} className='ms-1' /> : <Pencil size={16} className='ms-2' />}

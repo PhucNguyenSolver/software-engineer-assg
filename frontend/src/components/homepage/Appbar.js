@@ -35,7 +35,8 @@ export default function Appbar({nCartItem}) {
           food_name: res.data[i].name,
           price: res.data[i].price,
           img: res.data[i].imageUrls[0],
-          id: res.data[i]._id
+          id: res.data[i]._id,
+          discount: res.data[i].discount
         }
         arrAll.push(temp)
       }
@@ -286,3 +287,4 @@ export default function Appbar({nCartItem}) {
     )
         
   }
+        
