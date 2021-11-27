@@ -8,8 +8,8 @@ const axios = require('axios')
 var arr = []
 
 var Init = [
-{"food_name":"Combo Khỏe Mạnh","price":34000,"img":"https://phanphoiruounhapkhau.com/wp-content/uploads/2021/04/healthy-food-la-gi-nguyen-tac-khi-giam-can-bang-che-do-an-clean-eating.jpg","id":"618eb8bfc195fbd6f3d8983d","discount":"15%"},
-{"food_name":"Combo Rau Củ","price":84000,"img":"https://zicxa.com/vi/uploaded/files/rong-nho-giam-can-2-1.jpg","id":"619229f1792fa260bd3a1003","discount":"50%"},
+{"food_name":"Combo Khỏe Mạnh","price":34000,"img":"https://phanphoiruounhapkhau.com/wp-content/uploads/2021/04/healthy-food-la-gi-nguyen-tac-khi-giam-can-bang-che-do-an-clean-eating.jpg","id":"618eb8bfc195fbd6f3d8983d","discount":"10%"},
+{"food_name":"Combo Rau Củ","price":84000,"img":"https://zicxa.com/vi/uploaded/files/rong-nho-giam-can-2-1.jpg","id":"619229f1792fa260bd3a1003","discount":"10%"},
 {"food_name":"Combo Phô Mai","price":76000,"img":"https://tokbokki.com/wp-content/uploads/banh-gao-pho-mai.jpg","id":"6193cfa43e278583b22570c9","discount":"50%"},
 {"food_name":"Combo 1","price":54000,"img":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNbC-GSyu_vAWtTAEhmq7A2OmOV9f1IbXudw&usqp=CAU","id":"6193cfac3e278583b22570ca","discount":"50%"},
 {"food_name":"Combo Bò Ngũ Vị","price":48000,"img":"https://haisanbaba.com/wp-content/uploads/6834b901e85d14034d4c.jpg","id":"6193cfb13e278583b22570cb","discount":"50%"},
