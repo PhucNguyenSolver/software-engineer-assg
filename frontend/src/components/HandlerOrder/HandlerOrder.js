@@ -59,10 +59,10 @@ export default function HandlerOrder() {
             }
             else if (onDisplayNumber === 3) {
                 statusCurr = 'Đang giao hàng'
-                statusUpdate = 'Đã thanh toán'
+                statusUpdate = 'Đã giao'
             }
             else if (onDisplayNumber === 4) {
-                statusCurr = 'Đã thanh toán'
+                statusCurr = 'Đã giao'
                 statusUpdate = 'Done'
             }
             axios.post("/order/manage-order/accept", {
@@ -79,7 +79,7 @@ export default function HandlerOrder() {
 
             if (onDisplayNumber === 2) status = 'Đang được làm'
             else if (onDisplayNumber === 3) status = 'Đang giao hàng'
-            else if (onDisplayNumber === 4) status = 'Đã thanh toán'
+            else if (onDisplayNumber === 4) status = 'Đã giao'
 
             axios.post("/order/manage-order/reject", {
                 "status": status
@@ -118,9 +118,9 @@ export default function HandlerOrder() {
                                 </div>
                                 <div className={onDisplayNumber === 4 ? 'step completed' : 'step'}>
                                     <div className="step-icon-wrap">
-                                        <div className="step-icon" onClick={() => displayOrder('Đã thanh toán', 4)} style={{ cursor: 'pointer' }}><i className="pe-7s-credit"></i></div>
+                                        <div className="step-icon" onClick={() => displayOrder('Đã giao', 4)} style={{ cursor: 'pointer' }}><i className="pe-7s-credit"></i></div>
                                     </div>
-                                    <h4 className="step-title">Đã thanh toán</h4>
+                                    <h4 className="step-title">Đã giao</h4>
                                 </div>
                             </div>
                         </div>
@@ -143,8 +143,8 @@ export default function HandlerOrder() {
 
             if (order.status === 'Đang chờ xử lý') sttOrder = 'Đang được làm'
             else if (order.status === 'Đang được làm') sttOrder = 'Đang giao hàng'
-            else if (order.status === 'Đang giao hàng') sttOrder = 'Đã thanh toán'
-            else if (order.status === 'Đã thanh toán') sttOrder = 'Done'
+            else if (order.status === 'Đang giao hàng') sttOrder = 'Đã giao'
+            else if (order.status === 'Đã giao') sttOrder = 'Done'
 
 
             axios.post("/order/manage-order", {
