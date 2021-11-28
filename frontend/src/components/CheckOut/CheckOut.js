@@ -301,7 +301,7 @@ export default function CheckOut() {
                         </form>
                         <button className="w-25 btn btn-lg float-start text-white" style={{ backgroundColor: "blue" }} onClick={(e) => {
                             e.preventDefault();
-                            window.location.href = '/cart';
+                            window.location.href = '/my-cart';
                         }
                         }>Quay lại</button>
                     </div>

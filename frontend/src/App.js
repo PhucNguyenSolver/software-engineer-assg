@@ -38,7 +38,7 @@ function App() {
 					<Switch>
 						<ProtectedRoute exact path='/manage-order' component={HandlerOrder} />
 						<Route path="/login" exact component={Login} />
-						<Route path="/cart" exact render={() => <Cart setNCartItem={setNCartItem}/>} />
+						<Route path="/my-cart" exact render={() => <Cart setNCartItem={setNCartItem}/>} />
 						<Route path="/menu" exact component={TaskSearch} />
 						<Route path="/checkout" exact component={CheckOut} />
 						<Route path="/cart-item-info/:id" exact component={CartInfo} />

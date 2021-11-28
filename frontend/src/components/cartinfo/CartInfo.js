@@ -114,7 +114,7 @@ export default function CartInfo() {
                 </div>
                 <div class="col-auto">
                     <button type="button" className="btn btn-secondary shadow-none"
-                    onClick={() => window.location.href = "/cart"}>Trở lại giỏ hàng</button>
+                    onClick={() => window.location.href = "/my-cart"}>Trở lại giỏ hàng</button>
                 </div>
             </Row>
             <Row>
