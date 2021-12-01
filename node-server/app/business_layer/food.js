@@ -138,7 +138,7 @@ const updateFood = async function (req, res) {
     const foodId = req.params.id
     const foodData = req.body
     const optionIds = foodData.optionIds.map(value => new ObjectId(value))
-    const newFood = { ...foodData, optionIds: optionIds, discount: Object.prototype.toString(foodData.discount) + '%' }
+    const newFood = { ...foodData, optionIds: optionIds, discount: String(foodData.discount).concat('%')}
     try {
         await db.Foods.findByIdAndUpdate(foodId, { $set: newFood })
         res.send({ msg: 'UPDATED OK' })
