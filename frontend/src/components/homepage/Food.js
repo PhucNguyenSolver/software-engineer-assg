@@ -13,9 +13,20 @@ function numberWithCommas(x) {
 
 function Food(props) {
   const food = props.food;
-  const tmp = JSON.parse(food.information);
-  const listItems = tmp.map((d) => <li key={d}>{d}</li>);
+  // const tmp = JSON.parse(food.description);
+  // const listItems = tmp.map((d) => <li key={d}>{d}</li>);
+  const discount = function () {
+    let value = food.discount;
+    if (value[value.length - 1] === '%') {
+      value = parseFloat(value.substr(0, value.length - 1)) / 100
+        * food.price;
+    } else {
+      value = parseInt(value)
+    }
+    return food.price - value;
+  }
   const price = numberWithCommas(food.price) + 'đ';
+  const discountPrice = numberWithCommas(discount()) + 'đ';
 
   const [showDetail, setShowDetail] = useState(false);
   const compactStyle = showDetail ? {} : {
@@ -28,15 +39,15 @@ function Food(props) {
   return (
     <div className="fluid-container overflow-hidden shadow rounded" >
 
-      <img className="w-100 round" src={food.image} alt=""/>
+      <img className="w-100 round" src={food.imageUrls[0]} alt=""/>
       <div className="px-3">
         <h3 className="my-2 my-sm-4">{food.name}</h3>
-        <h4>{price}</h4>
+        <p><strike>{price}</strike></p>
+        <h5>{discountPrice}</h5>
         <div style={compactStyle}>
-          <ul>
-            {listItems}
-          </ul>
+          {food.description}
         </div>
+        <h5>Đã mua: {food.no}</h5>
       </div>
       <div 
         className="d-flex justify-content-center"
@@ -55,7 +66,7 @@ function Food(props) {
       <div className="d-flex justify-content-center">
         <div className="py-2 py-sm-3">
           <button 
-            onClick={() => window.location.href="/food-info" }
+            onClick={() => window.open("/food-info/" + food._id, '_blank').focus()}
             className="btn btn-md shadow-none btn-primary"
           >
             Đặt hàng

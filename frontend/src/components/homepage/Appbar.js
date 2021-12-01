@@ -1,5 +1,7 @@
 import { Nav, Navbar, Form, FormControl, Col } from 'react-bootstrap'
 import './Appbar.css'
+import logo from './logo.png'
+import {removeVI, DefaultOption} from 'jsrmvi';
 
 
 import React from "react";
@@ -26,13 +28,15 @@ export default function Appbar({nCartItem}) {
 
 
   useEffect(() => {
-    axios.get('http://localhost:8080/food')
+    axios.get('/food')
     .then( (res) => {
       for(var i = 0;i<res.data.length;++i){
         var temp = {
           food_name: res.data[i].name,
           price: res.data[i].price,
           img: res.data[i].imageUrls[0],
+          id: res.data[i]._id,
+          discount: res.data[i].discount
         }
         arrAll.push(temp)
       }
@@ -47,16 +51,17 @@ export default function Appbar({nCartItem}) {
     for(var i = (index-1)*10 ; i < 10 + (index-1)*10 ; i++){
       if(i >= filtered.length) {
         if(i%10 <=5) {
-          document.getElementById('pagingCheck').style.bottom = '30%'
-          document.getElementById('MenuFirst').style.height = '500px'
+          // document.getElementById('PaginationSearch').style.bottom = '30%'
+          // document.getElementById('MenuFirst').style.height = '500px'
           break;
         }
       }
-      menu[i] = <FoodInMenu name={data[i].food_name} price={data[i].price} image={data[i].img} />
-      document.getElementById('pagingCheck').style.bottom = '-34%'
-      document.getElementById('MenuFirst').style.height = '900px'
+      menu[i] = <FoodInMenu name={data[i].food_name} price={data[i].price} image={data[i].img} id={data[i].id} />
+      // document.getElementById('PaginationSearch').style.bottom = '-34%'
+      // document.getElementById('MenuFirst').style.height = '900px'
     }
     ReactDOM.render(menu,document.getElementById('MenuFirst'))
+    window.scrollTo(0, 0)
   }
   function Page(index) {
     pageNumber = index
@@ -64,17 +69,18 @@ export default function Appbar({nCartItem}) {
     for(var i = (index-1)*10 ; i < 10 + (index-1)*10 ; i++){
       if(i >= filtered.length) {
         if(i%10 <=5) {
-          document.getElementById('pagingCheck').style.bottom = '30%'
-          document.getElementById('MenuFirst').style.height = '500px'
+          // document.getElementById('PaginationSearch').style.bottom = '30%'
+          // document.getElementById('MenuFirst').style.height = '500px'
           break;
         }
       }
-      menu[i] = <FoodInMenu name={data[i].food_name} price={data[i].price} image={data[i].img} />
-      document.getElementById('pagingCheck').style.bottom = '-34%'
-      document.getElementById('MenuFirst').style.height = '900px'
+      menu[i] = <FoodInMenu name={data[i].food_name} price={data[i].price} image={data[i].img} id={data[i].id}/>
+      // document.getElementById('PaginationSearch').style.bottom = '-34%'
+      // document.getElementById('MenuFirst').style.height = '900px'
     }
      
     ReactDOM.render(menu,document.getElementById('MenuFirst'))
+    window.scrollTo(0, 0)
   }
 
   function HandleSearch(searchKey) {
@@ -83,7 +89,7 @@ export default function Appbar({nCartItem}) {
     }
     else {
     filtered = arrAll.filter((val)=>{
-      if (val.food_name.toLowerCase().includes(searchKey.toLowerCase())){
+      if (removeVI(val.food_name.toLowerCase()).includes(removeVI(searchKey.toLowerCase()))){
           return val
       }
       }).map((val,key) => {        
@@ -109,12 +115,8 @@ export default function Appbar({nCartItem}) {
     </li>
     </ul>
   </nav>
-    var t = document.getElementById('PaginationSearch')
-    if(t) {
-      t.style.display = 'none'
-    }
     ReactDOM.render(filtered.slice(0,10),document.getElementById('MenuFirst'))  
-    ReactDOM.render(pagingSearch,document.getElementById('pagingCheck'))
+    ReactDOM.render(pagingSearch,document.getElementById('PaginationSearch')) // edited
   }
 
   function MenuInGen({arr}) {
@@ -169,10 +171,10 @@ export default function Appbar({nCartItem}) {
         <div style={{ width: '100%' }}>
           <FoodTypeList />
         </div>
-        <div id="ElementInMenu" style={{backgroundColor:'#efefef',height:'800px',width:'100%',marginLeft:'50px'}}>
+        <div id="ElementInMenu" style={{width:'100%',marginLeft:'50px'}}>
             {
               arr.map((val) => {
-              return <FoodInMenu name={val.food_name} price={val.price} image={val.img} />
+              return <FoodInMenu name={val.food_name} price={val.price} image={val.img} id={val.id}/>
             })
           }
         </div>
@@ -215,16 +217,19 @@ export default function Appbar({nCartItem}) {
   }
 
     return (
-      <div class="p-0">
-        <Navbar expand="lg" sticky="top" className="color-appbar">
-          <Navbar.Brand href='/'>Your logo</Navbar.Brand>
+      <div class="py-0 color-appbar">
+        <Navbar expand="lg" sticky="top">
+          <Navbar.Brand href='/' class="text-primary">
+              <img src={logo} width="30" alt="logo image"/>
+                Nhi's House          
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
                 <Nav.Link href='/'><span className="navItem">Trang chủ</span></Nav.Link>
                 <Nav.Link href='/menu'><span className="navItem">Thực đơn</span></Nav.Link>
                 <Nav.Link href='/manage-order'><span className="navItem">Đơn hàng</span></Nav.Link>
-                <Nav.Link href='/Footer'><span className="navItem">Giới thiệu</span></Nav.Link>
+                <Nav.Link href='#footer'><span className="navItem">Giới thiệu</span></Nav.Link>
             </Nav>
           <Form className="d-flex">
             <Col xs="auto">
@@ -246,7 +251,7 @@ export default function Appbar({nCartItem}) {
             </Col>
           </Form>
           <Nav>
-            <Nav.Link href='/cart'>
+            <Nav.Link href='/my-cart'>
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="30" fill="#000000" class="bi bi-cart" viewBox="0 0 16 16">
               <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
               </svg>
@@ -275,9 +280,9 @@ export default function Appbar({nCartItem}) {
           </ Navbar.Collapse>
         </Navbar>
 
-        <div id = "pagingCheck" >
+        {/* <div id = "pagingCheck" style={{position:'absolute',bottom:'-38%',marginLeft:'42%',marginRight:'auto'}}>
 
-        </div>
+        </div> */}
         </div>
     )
         

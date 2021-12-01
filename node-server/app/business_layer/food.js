@@ -56,54 +56,10 @@ const getFoodDetailById = async function (req, res) {
     food.unitPrice = food.price;
     delete food.price;
 
-    food.description = "Thật là ngon"
     res.status(200).send(food);
 }
 
-const payFood = async function (req, res) {
-    var create_payment_json = {
-        "intent": "sale",
-        "payer": {
-            "payment_method": "paypal"
-        },
-        "redirect_urls": {
-            "return_url": "http://localhost:3000/success",
-            "cancel_url": "http://localhost:3000/cancel"
-        },
-        "transactions": [{
-            "item_list": {
-                "items": [{
-                    "name": "Hat",
-                    "sku": "002",
-                    "price": "2.00",
-                    "currency": "USD",
-                    "quantity": 1
-                }]
-            },
-            "amount": {
-                "currency": "USD",
-                "total": "2.00"
-            },
-            "description": "This is the payment description."
-        }]
-    };
-
-
-    paypal.payment.create(create_payment_json, function (error, payment) {
-        if (error) {
-            res.status(404).send(error);
-        } else {
-            for (let i = 0; i < payment.links.length; i++) {
-                if (payment.links[i].rel === 'approval_url') {
-                    res.redirect(payment.links[i].href);
-                }
-            }
-        }
-    });
-
-}
-
-const getAllFood = async function (req, res) {
+const getAllFood = async function(req, res) {
     const food = await db.Foods.find().exec();
     res.status(200).send(food);
 }
@@ -111,7 +67,7 @@ const getAllFood = async function (req, res) {
 const createFood = async function (req, res) {
     const foodData = req.body
     const optionIds = foodData.optionIds.map(value => new ObjectId(value))
-    const newFood = { ...foodData, optionIds: optionIds, discount: Object.prototype.toString(foodData.discount) + '%' }
+    const newFood = { ...foodData, optionIds: optionIds, discount: String(foodData.discount) + '%' }
     console.log(newFood)
     try {
         await db.Foods.create(newFood)
@@ -162,7 +118,7 @@ const deleteFood = async function(req, res) {
 module.exports = {
     getFoodById,
     getFoodDetailById,
-    payFood,
+    getAllFood,
     getAllFood,
     createFood,
     getOptions,

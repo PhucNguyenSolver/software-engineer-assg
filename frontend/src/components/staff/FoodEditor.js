@@ -11,15 +11,15 @@ export default function EditPage() {
     </div>
 }
 
-function FoodEditor(props) {
+export function FoodEditor(props) {
     const [isShowEditor, setIsShowEditor] = useState(false)
     const openEditor = () => {
         setIsShowEditor(true)
     }
 
-    return <div className='container'>
-        <Button className='btn-primary d-flex align-items-center' onClick={openEditor}>
-            {props.mode === 'add' ? 'Thêm' : 'Lưu'}
+    return <div className='container px-0 my-2 mx-0'>
+        <Button className='btn-secondary d-flex align-items-center' onClick={openEditor}>
+            {props.mode === 'add' ? 'Thêm món ăn mới' : 'Chỉnh sửa'}
             {props.mode === 'add' ? <PlusLg size={25} fontWeight={800} className='ms-1' /> : <Pencil size={16} className='ms-2' />}
         </Button>
         <Editor show={isShowEditor} onHide={() => setIsShowEditor(false)}
@@ -85,6 +85,7 @@ function Editor(props) {
         }
         FoodService.updateFood(props.id, data).then(response => {
             alert(response.data.msg)
+            window.location.reload()
         })
         props.onHide()
     }
@@ -169,7 +170,7 @@ function Editor(props) {
                 <Form.Group className='col-6 mb-1'>
                     <Form.Label>Mức giảm giá</Form.Label>
                     <InputGroup>
-                        <FormControl type='number' max={100} min={0} value={basicInfo.discount}
+                        <FormControl type='number' max={100} min={1} value={basicInfo.discount}
                             onChange={e => setBasicInfo({ ...basicInfo, discount: e.target.value })} defaultValue={0} />
                         <InputGroup.Text>%</InputGroup.Text>
                     </InputGroup>
@@ -225,9 +226,10 @@ function Editor(props) {
                     <Form.Select value={basicInfo.type}
                         onChange={e => setBasicInfo({ ...basicInfo, type: e.target.value })} >
                         <option value='Combo' selected>Combo</option>
-                        <option value='Foody'>Foody</option>
-                        <option value='Giải khát'>Giải khát</option>
-                        <option value='Món mới'>Món mới</option>
+                        <option value='Foody'>Đồ ăn</option>
+                        <option value='Appetizer'>Khai vị</option>
+                        <option value='Drink'>Giải khát</option>
+                        <option value='Dessert'>Tráng miệng</option>
                     </Form.Select>
                 </Form.Group>
             </div>

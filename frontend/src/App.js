@@ -15,6 +15,9 @@ import CheckOut from "./components/CheckOut/CheckOut";
 import HandlerOrder from "./components/HandlerOrder/HandlerOrder";
 import ProtectedRoute from "./components/Login/ProtectedRoute";
 import { useState, useEffect } from "react";
+import Success from "./components/CheckOut/Success";
+
+
 import EditPage from "./components/staff/FoodEditor";
 
 function App() {
@@ -30,21 +33,26 @@ function App() {
 			<div class="row">
 				<Appbar nCartItem={nCartItem} />
 			</div>
-			<div class="row">
+			<div id="MenuFirst">
 				<Router>
 					<Switch>
 						<ProtectedRoute exact path='/manage-order' component={HandlerOrder} />
 						<Route path="/login" exact component={Login} />
-						<Route path="/cart" exact render={() => <Cart setNCartItem={setNCartItem}/>} />
+						<Route path="/my-cart" exact render={() => <Cart setNCartItem={setNCartItem}/>} />
 						<Route path="/menu" exact component={TaskSearch} />
 						<Route path="/checkout" exact component={CheckOut} />
 						<Route path="/cart-item-info/:id" exact component={CartInfo} />
-						<Route path="/food-info/:foodId" exact render={props => <FoodInfo setNCartItem={setNCartItem} />} />
+						<Route path="/food-info/:foodId" exact render={props => <FoodInfo setNCartItem={setNCartItem}/>} />
+						<Route path="/success" exact component={Success}/>
 						<Route path="/" exact component={Homepage} />
 						<Route path='/edit' exact component={EditPage} />
 					</Switch>
 				</Router>
 			</div>
+			<div id="PaginationSearch">
+
+			</div>
+			
 			<div class="row">
 				<Footer/>
 			</div>

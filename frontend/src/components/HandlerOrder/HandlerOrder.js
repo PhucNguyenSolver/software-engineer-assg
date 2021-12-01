@@ -3,6 +3,7 @@ import './ProcessBar.css'
 import { Badge, Col, Figure, Modal, Row } from "react-bootstrap";
 import axios from 'axios';
 
+
 // ReactDOM.render(logOutIcon,document.getElementById('logout'))
 
 
@@ -13,16 +14,16 @@ export default function HandlerOrder() {
     const [data, setData] = useState([])
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/order/manage-order/Đang chờ xử lý`)
+        axios.get(`/order/manage-order/Đang chờ xử lý`)
             .then(res => {
-                res.data.forEach(order => {
-                    order.items.forEach(item => {
-                        axios.get(`http://localhost:8080/food/${item.foodId}`)
-                            .then(res => {
-                                item.foodId = res.data;
-                            });
-                    })
-                })
+                // res.data.forEach(order => {
+                //     order.items.forEach(item => {
+                //         axios.get(`http://localhost:8080/food/${item.foodId}`)
+                //             .then(res => {
+                //                 item.foodId = res.data;
+                //             });
+                //     })
+                // })
                 setData(res.data);
             })
     }, [])
@@ -34,16 +35,16 @@ export default function HandlerOrder() {
         function displayOrder(currStatus, number) {
             setOnDisplayNumber(number)
 
-            axios.get(`http://localhost:8080/order/manage-order/${currStatus}`)
+            axios.get(`/order/manage-order/${currStatus}`)
                 .then(res => {
-                    res.data.forEach(order => {
-                        order.items.forEach(item => {
-                            axios.get(`http://localhost:8080/food/${item.foodId}`)
-                                .then(res => {
-                                    item.foodId = res.data;
-                                });
-                        })
-                    })
+                    // res.data.forEach(order => {
+                    //     order.items.forEach(item => {
+                    //         axios.get(`http://localhost:8080/food/${item.foodId}`)
+                    //             .then(res => {
+                    //                 item.foodId = res.data;
+                    //             });
+                    //     })
+                    // })
                     setData(res.data)
                 })
         }
@@ -58,13 +59,13 @@ export default function HandlerOrder() {
             }
             else if (onDisplayNumber === 3) {
                 statusCurr = 'Đang giao hàng'
-                statusUpdate = 'Đã thanh toán'
+                statusUpdate = 'Đã giao'
             }
             else if (onDisplayNumber === 4) {
-                statusCurr = 'Đã thanh toán'
+                statusCurr = 'Đã giao'
                 statusUpdate = 'Done'
             }
-            axios.post("http://localhost:8080/order/manage-order/accept", {
+            axios.post("/order/manage-order/accept", {
                 "statusCurr": statusCurr,
                 "statusUpdate": statusUpdate
             })
@@ -78,9 +79,9 @@ export default function HandlerOrder() {
 
             if (onDisplayNumber === 2) status = 'Đang được làm'
             else if (onDisplayNumber === 3) status = 'Đang giao hàng'
-            else if (onDisplayNumber === 4) status = 'Đã thanh toán'
+            else if (onDisplayNumber === 4) status = 'Đã giao'
 
-            axios.post("http://localhost:8080/order/manage-order/reject", {
+            axios.post("/order/manage-order/reject", {
                 "status": status
             })
                 .then(setData([]))
@@ -117,9 +118,9 @@ export default function HandlerOrder() {
                                 </div>
                                 <div className={onDisplayNumber === 4 ? 'step completed' : 'step'}>
                                     <div className="step-icon-wrap">
-                                        <div className="step-icon" onClick={() => displayOrder('Đã thanh toán', 4)} style={{ cursor: 'pointer' }}><i className="pe-7s-credit"></i></div>
+                                        <div className="step-icon" onClick={() => displayOrder('Đã giao', 4)} style={{ cursor: 'pointer' }}><i className="pe-7s-credit"></i></div>
                                     </div>
-                                    <h4 className="step-title">Đã thanh toán</h4>
+                                    <h4 className="step-title">Đã giao</h4>
                                 </div>
                             </div>
                         </div>
@@ -129,7 +130,6 @@ export default function HandlerOrder() {
                         <div className="text-left text-sm-right"><button className="btn btn-primary btn-rounded btn-sm" onClick={() => handlerAcceptAll()}>Chấp nhận tất cả</button></div>
                     </div>
                 </div>
-
             </div>
         );
     }
@@ -143,25 +143,25 @@ export default function HandlerOrder() {
 
             if (order.status === 'Đang chờ xử lý') sttOrder = 'Đang được làm'
             else if (order.status === 'Đang được làm') sttOrder = 'Đang giao hàng'
-            else if (order.status === 'Đang giao hàng') sttOrder = 'Đã thanh toán'
-            else if (order.status === 'Đã thanh toán') sttOrder = 'Done'
+            else if (order.status === 'Đang giao hàng') sttOrder = 'Đã giao'
+            else if (order.status === 'Đã giao') sttOrder = 'Done'
 
 
-            axios.post("http://localhost:8080/order/manage-order", {
+            axios.post("/order/manage-order", {
                 "orderId": order._id,
                 "sttOrder": sttOrder
             })
                 .then(() => {
-                    axios.get(`http://localhost:8080/order/manage-order/${order.status}`)
+                    axios.get(`/order/manage-order/${order.status}`)
                         .then(res => {
-                            res.data.forEach(order => {
-                                order.items.forEach(item => {
-                                    axios.get(`http://localhost:8080/food/${item.foodId}`)
-                                        .then(res => {
-                                            item.foodId = res.data;
-                                        });
-                                })
-                            })
+                            // res.data.forEach(order => {
+                            //     order.items.forEach(item => {
+                            //         axios.get(`http://localhost:8080/food/${item.foodId}`)
+                            //             .then(res => {
+                            //                 item.foodId = res.data;
+                            //             });
+                            //     })
+                            // })
                             setData(res.data)
                         })
                 })
@@ -169,21 +169,21 @@ export default function HandlerOrder() {
         }
 
         function handlerReject() {
-            axios.post("http://localhost:8080/order/manage-order", {
-                "orderId": order.orderId,
+            axios.post("/order/manage-order", {
+                "orderId": order._id,
                 "sttOrder": 'Đã từ chối'
             })
                 .then(() => {
-                    axios.get(`http://localhost:8080/order/manage-order/${order.status}`)
+                    axios.get(`/order/manage-order/${order.status}`)
                         .then(res => {
-                            res.data.forEach(order => {
-                                order.items.forEach(item => {
-                                    axios.get(`http://localhost:8080/food/${item.foodId}`)
-                                        .then(res => {
-                                            item.foodId = res.data;
-                                        });
-                                })
-                            })
+                            // res.data.forEach(order => {
+                            //     order.items.forEach(item => {
+                            //         axios.get(`http://localhost:8080/food/${item.foodId}`)
+                            //             .then(res => {
+                            //                 item.foodId = res.data;
+                            //             });
+                            //     })
+                            // })
                             setData(res.data)
                         })
                 })
@@ -194,9 +194,10 @@ export default function HandlerOrder() {
             <>
                 <tr>
                     <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{order._id}</td>
+                    <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{(new Date(order.createdAt)).toLocaleDateString()}</td>
                     <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{order.customerInfo.name}</td>
                     <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{order.customerInfo.typeOrder}</td>
-                    <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{Intl.NumberFormat().format(order.items.map((item) => item.price * item.quantity).reduce((acc, cur) => acc + cur, 0)) + ' đ'}</td>
+                    <td onClick={() => setLgShow(true)} style={{ "cursor": "pointer" }}>{Intl.NumberFormat().format(order.items.map((item) => item.price).reduce((acc, cur) => acc + cur, 0) + order.shipFee) + ' VND'}</td>
                     <td>
                         <button type="button" class="btn btn-sm btn-outline-primary" onClick={() => handlerAccept()} id={'accept' + idx}>Xử lý</button>
                     </td>
@@ -240,26 +241,30 @@ export default function HandlerOrder() {
                                     <Col xl={5} lg={5} md={5} sm={5} xs={5}>Quận / Huyện:</Col>
                                     <Col><p>{order.customerInfo.district}</p></Col>
                                 </Row>
+                                <Row className='mb-3'>
+                                    <Col xl={5} lg={5} md={5} sm={5} xs={5}>Phí giao hàng :</Col>
+                                    <Col><p>{order.shipFee}</p></Col>
+                                </Row>
                                 <h5>Giỏ hàng</h5>
                                 {order.items.map(item => (
                                     <Row>
-                                        <Col xl={2} lg={2} md={2} sm={2} xs={2}><Figure.Image alt="FoodImg" src={item.foodId.imageUrls ? item.foodId.imageUrls[0] : ''}></Figure.Image></Col>
+                                        <Col xl={2} lg={2} md={2} sm={2} xs={2}><Figure.Image alt="FoodImg" src={item.imageUrl}></Figure.Image></Col>
                                         <Col xl={6} lg={6} md={10} sm={10} xs={10}>
-                                            <Row><h5>{item.foodId.name}</h5></Row>
+                                            <Row><h5>{item.name}</h5></Row>
                                             <Row><p>{item.options}</p></Row>
                                         </Col>
                                         <Col xl={2} lg={2} md={10} sm={10} xs={9}>
                                             <p>Số lượng: {item.quantity}</p>
                                         </Col>
                                         <Col>
-                                            <Row><Badge variant="primary" pill>{Intl.NumberFormat().format(item.price * item.quantity) + ' đ'}</Badge></Row>
+                                            <Row><Badge variant="primary" pill>{Intl.NumberFormat().format(item.price) + ' VND'}</Badge></Row>
                                         </Col>
                                     </Row>
                                 ))}
                                 <Row>
                                     <Col xl={7} lg={7} md={7} sm={7} xs={5}><h4>Tổng tiền:</h4></Col>
                                     <Col>
-                                        <h4><Badge variant="primary" pill>{Intl.NumberFormat().format(order.items.map(item => item.price * item.quantity).reduce((acc, cur) => acc + cur, 0)) + ' đ'}</Badge></h4>
+                                        <h4><Badge variant="primary" pill>{Intl.NumberFormat().format(order.items.map(item => item.price).reduce((acc, cur) => acc + cur, 0) + order.shipFee) + ' VND'}</Badge></h4>
                                     </Col>
                                 </Row>
                             </Col>
@@ -276,10 +281,11 @@ export default function HandlerOrder() {
             <ProcessBar data={data} />
             <div class="container mt-5 ">
                 <div class="table-responsive">
-                    <table class="table table-striped table-sm">
+                    <table class="table table-striped table-sm table-hover">
                         <thead>
                             <tr>
                                 <th scope="col">Mã đơn hàng</th>
+                                <th scope="col">Ngày đặt hàng</th>
                                 <th scope="col">Tên khách hàng </th>
                                 <th scope="col">Loại đặt hàng</th>
                                 <th scope="col">Tổng tiền</th>

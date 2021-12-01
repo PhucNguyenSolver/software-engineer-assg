@@ -8,6 +8,8 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import {useHistory} from "react-router-dom";
 import { useParams } from "react-router";
+import { v4 as uuidv4 } from 'uuid';
+import { FoodEditor } from "../staff/FoodEditor";
 
 var DEFAULT_FOOD = {
     name: "Cánh gà xóc tỏi",
@@ -63,7 +65,7 @@ export default function FoodInfo({setNCartItem}) {
 
     useEffect(() => {
         if(food) {
-            let basePrice = food.unitPrice * quantity * parseFloat(food.discount) / 100;
+            let basePrice = food.unitPrice * quantity * (1 - parseFloat(food.discount) / 100);
             let newTotalPrice = basePrice + additionalPrice;
             if(newTotalPrice != totalPrice) {
                 setTotalPrice(newTotalPrice);
@@ -77,6 +79,7 @@ export default function FoodInfo({setNCartItem}) {
         const CART_STORAGE_NAME = "cart";
         let curCart = JSON.parse(localStorage.getItem(CART_STORAGE_NAME));
         let cartItem = {};
+        cartItem.offset = uuidv4();
         cartItem.orderOptions = food.orderOptions;
         cartItem.foodId = FOOD_ID;
         cartItem.quantity = quantity;
@@ -115,7 +118,7 @@ export default function FoodInfo({setNCartItem}) {
 
 
     useEffect(() => {
-        axios.get("http://localhost:8080/food/detail/" + FOOD_ID)
+        axios.get("/food/detail/" + FOOD_ID)
         .then(res => {
             setFood(res.data);
         })
@@ -124,11 +127,6 @@ export default function FoodInfo({setNCartItem}) {
         })
     }, [])
 
-    async function pay() {
-        const result = await axios.post("http://localhost:8080/pay");
-        console.log(result);
-        window.location.href = result.data;
-    }
 
 
     if(!food) {
@@ -138,11 +136,15 @@ export default function FoodInfo({setNCartItem}) {
         <div class="container p-4">
             <ToastContainer/>
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-6 col-lg-5">
                     <ImagesSlide imageData={food.images}/>
                 </div>
                 <div class="col-md-6">
                     <div class="container">
+                        { JSON.parse(localStorage.getItem("isAuthenticated")) ?
+                            <FoodEditor mode="edit" id={FOOD_ID}/>
+                        : ""
+                        }
                         <FoodDescription food={food} quantity={quantity} setQuantity={setQuantity}/>
                         <OrderOptionModal
                             food={food}

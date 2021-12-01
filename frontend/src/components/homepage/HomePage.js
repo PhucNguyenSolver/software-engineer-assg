@@ -6,10 +6,11 @@ import Filter from "./Filter";
 
 function Homepage() {
   return (
-    <div className="container" id="MenuFirst">
+    <div className="container">
         <Banner />
         <Filter />
     </div>
+    
   );
 }
 

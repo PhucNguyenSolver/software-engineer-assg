@@ -15,7 +15,7 @@ export default function Login() {
     function handleSubmit(e) {
         e.preventDefault();
         
-        axios.post('http://localhost:8080/login', {
+        axios.post('/login', {
             "account" : account,
             "password": pw
         })
@@ -54,14 +54,7 @@ export default function Login() {
                         <label for="floatingPassword">Password</label>
                     </div>
                     {/* {userAccountData.} */}
-                    <div className="form-check mx-2 mt-3 mb-3" style={{ maxWidth: "150px" }}>
-                        <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                        <label className="form-check-label" for="flexCheckDefault">
-                            Remember me
-                        </label>
-                    </div>
-                    <a className="float-start wt-5" href='#' style={{marginTop : "8px"}}> Quên mật khẩu </a>
-                    <button className="w-50 btn btn-lg btn-primary float-end mb-5" type="submit" onClick={handleSubmit}>Log in</button>
+                    <button className="w-50 btn btn-lg btn-primary float-end my-3" type="submit" onClick={handleSubmit}>Log in</button>
                     <ToastContainer />
                 </form>
             </div>

@@ -37,13 +37,14 @@ const orders = new Schema({
         ward : SchemaTypes.String,
         typeOrder : SchemaTypes.String, 
     },
-    // shipFee: SchemaTypes.Number,
+    shipFee: SchemaTypes.Number,
     status : { type : SchemaTypes.String, default : 'Đang chờ xử lý'},
     items: [{
         options: SchemaTypes.String,
-        foodId: SchemaTypes.ObjectId,
+        name : SchemaTypes.String,
+        imageUrl: SchemaTypes.String,
         price: SchemaTypes.Number,
-        discount: SchemaTypes.String, // 'x%' or number
+        // discount: SchemaTypes.String, // 'x%' or number
         quantity: SchemaTypes.Number
     }]
 }, {

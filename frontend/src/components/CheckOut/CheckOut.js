@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { ToastContainer, toast } from 'react-toastify';
 import { calculateShipFee, FROM } from "./Map";
 import { useLocation } from "react-router-dom";
-
+import { districtOptionList, wardOptionList } from "./data"; 
 const axios = require('axios');
 
 const contactData = {
@@ -12,46 +12,6 @@ const contactData = {
 	 	Phường Linh Trung, Quận Thủ Đức, Hồ Chí Minh`
 };
 
-// const productData = [
-//     {
-//         "name": "Combo Gà Rán A",
-//         "image": "https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg",
-//         "quantity": 4,
-//         "price": 97000
-//     },
-//     {
-//         "name": "Combo Gà Rán A",
-//         "image": "https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg",
-//         "quantity": 4,
-//         "price": 97000
-//     },
-//     {
-//         "name": "Combo Gà Rán A",
-//         "image": "https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg",
-//         "quantity": 4,
-//         "price": 97000
-//     },
-//     {
-//         "name": "Combo Gà Rán A",
-//         "image": "https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg",
-//         "quantity": 4,
-//         "price": 97000
-//     },
-//     {
-//         "name": "Combo Gà Rán A",
-//         "image": "https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg",
-//         "quantity": 4,
-//         "price": 97000
-//     },
-//     {
-//         "name": "Combo Gà Rán A",
-//         "image": "https://kfcvietnam.com.vn/uploads/combo/b09860e31866521c22705711916cc402.jpg",
-//         "quantity": 4,
-//         "price": 97000
-//     },
-
-// ]
-
 
 function Product(props) {
     return (
@@ -59,31 +19,24 @@ function Product(props) {
             <div className='col-2'>
                 <img src={props.product.imgUrl} alt="" style={{ marginTop: 4, width: '100%' }} />
             </div>
-            <div class='col-6'>
+            <div class='col-6 float-start'>
                 <h6 class="my-0">{props.product.name}</h6>
                 <small class="text-muted">Số lượng : {props.product.quantity}</small>
             </div>
-            <div className='float-end'>
-                <span className="text-muted">{new Intl.NumberFormat().format(props.product.price * props.product.quantity)}</span>
+            <div className='col-2 float-end'>
+                <span className="text-muted">{new Intl.NumberFormat().format(props.product.price
+                    * props.product.quantity * (1 - parseFloat(props.product.discount) / 100)
+                    + parseInt(props.product.addition))
+                }</span>
             </div>
         </li>
     )
 }
 
-const wardOptionList =
-{
-    'Quận Thủ Đức': ['Bình Chiểu', 'Bình Thọ', 'Linh Chiểu', 'Linh Trung'],
-
-    'Quận Bình Thạnh': ['Phường 6', 'Phường 7', 'Phường 11', 'Phường 22'],
-
-    'Quận 10': ['Phường 12', 'Phường 13', 'Phường 14', 'Phường 15']
-}
-
-
-
 export default function CheckOut() {
 
     const DEFAULT_LOCATE = 'Lựa chọn';
+    wardOptionList[DEFAULT_LOCATE] = [];
     const [district, setDistrict] = useState(DEFAULT_LOCATE)
     const [ward, setWard] = useState(DEFAULT_LOCATE)
     const [wardOption, setWardOption] = useState([])
@@ -98,7 +51,8 @@ export default function CheckOut() {
             if (district === DEFAULT_LOCATE || ward === DEFAULT_LOCATE) {
                 setShipFee(null);
             } else {
-                const to = ward + ', ' + district + ' TP HCM';
+                const to = ward + ', ' + district + ' Ho Chi Minh City';
+                console.log({to});
                 const { shipFee, duration } = await calculateShipFee(FROM, to);
                 setShipFee(shipFee);
                 setShipTime(duration);
@@ -106,8 +60,10 @@ export default function CheckOut() {
         }
         fetchData();
     }, [district, ward]);
-    const handleDistrictChange = (event) => {
-        setDistrict(event.target.value);
+    const handleDistrictChange = (newDistrict) => {
+        setDistrict(newDistrict);
+        setWard(DEFAULT_LOCATE);
+        setWardOption(wardOptionList[newDistrict] || []);
     }
     const handleWardChange = (event) => {
         let address = document.getElementById('input-address').value
@@ -128,13 +84,13 @@ export default function CheckOut() {
         let phone = document.getElementById('input-phone').value
         let address = document.getElementById('input-address').value
         let district = document.getElementById('district').value
-        // setDistrict(district);
         let ward = document.getElementById('ward').value
-        // setWard(ward);
         let paymentMethod = document.querySelector('input[type="radio"]:checked');
-        let totalPrice = location.reduce((acc, product) => {
-            return acc + product.price * product.quantity
-        }, 0) + shipFee
+        console.log("Payyyyy")
+
+        const cartStorage = JSON.parse(localStorage.getItem('cart'));
+
+
 
         e.preventDefault();
 
@@ -150,28 +106,67 @@ export default function CheckOut() {
             });
             return
         }
-        axios.post('http://localhost:8080/order', {
+        axios.post('/order', {
             "customerInfo": {
                 "name": name,
                 "phone": phone,
                 "address": address,
                 "district": district,
                 "ward": ward,
-                "paymentMethod": paymentMethod.value === 'cod' ? 'Trực tiếp' : 'Online'
+                "typeOrder": paymentMethod.value === 'cod' ? 'Trực tiếp' : 'Online'
             },
-            "totalPrice": totalPrice,
-            "items": location
+            "shipFee": shipFee,
+            "items": location.map((orderInfo) => {
+                return {
+                    "options": orderInfo.sideDish,
+                    "name" : orderInfo.name,
+                    "imageUrl": orderInfo.imgUrl,
+                    "price": orderInfo.price * orderInfo.quantity
+                        * (1 - parseFloat(orderInfo.discount) / 100) + parseInt(orderInfo.addition),
+                    "quantity": orderInfo.quantity
+                }
+            })
         })
-            .then(response => console.log(response))
+        .then(response => console.log(response))
+        console.log(location)
 
-        window.location.href = "/"
+        console.log(cartStorage)
+
+
+        const newCart = cartStorage.filter(cart => {
+            for (let item of location) {
+                if (item.foodId == cart.foodId) return false
+            }
+            return true
+        })
+
+        localStorage.setItem('cart', JSON.stringify(newCart))
+
+        console.log(newCart)
+
+
+        const TOTAL = location.reduce((acc, product) => {
+            return acc + product.price * product.quantity *(1 - parseFloat(product.discount) / 100)
+                + product.addition}, 0) + shipFee;
+        if(paymentMethod.value == "online") {
+            axios.post("/payment/process", {
+                amount: (TOTAL / 23000).toFixed(1),
+                description: [name, phone, location.map((orderInfo) => orderInfo.name).join(", ")].join(" | ")
+            })
+            .then(res => {
+                window.location.href = res.data;
+            })
+            .catch(err => {{
+                alert(err);
+            }})
+        }
+        else {
+            window.location.href = "/"
+        }
+
     }
 
 
-    function WardOption() {
-        if (wardOption === 'Lựa chọn') return <div></div>
-        else return wardOption.map(ward => <option key={ward} value={ward}>{ward}</option>)
-    }
 
     return (
         <div class="container">
@@ -188,8 +183,8 @@ export default function CheckOut() {
                             <span className="badge bg-danger rounded-pill">{location.length}</span>
                         </h4>
                         <ul className="list-group mb-3">
-                            {location.map((product) => {
-                                return <Product product={product} />
+                            {[...location].map((product, id) => {
+                                return <Product key={id} product={product} />
                             })}
                             {/* <li className="list-group-item d-flex justify-content-between bg-light">
                                 <div className="text-success">
@@ -208,68 +203,68 @@ export default function CheckOut() {
                             {(typeof (shipFee) === 'number') &&
                                 <li className="list-group-item d-flex justify-content-between bg-light">
                                     <div className="text-primary">
-                                        <h6 className="my-0">Phí chuyển hàng</h6>
+                                        <h6 className="my-0">Phí giao hàng</h6>
                                     </div>
                                     <span className="text-primary">{new Intl.NumberFormat().format(shipFee)}</span>
                                 </li>}
                             <li className="list-group-item d-flex justify-content-between">
                                 <span>Tổng Tiền (VND)</span>
                                 <strong>{new Intl.NumberFormat().format(location.reduce((acc, product) => {
-                                    return acc + product.price * product.quantity
+                                    return acc + product.price * product.quantity * (1 - parseFloat(product.discount) / 100)
+                                        + product.addition
                                 }, 0) + shipFee)}</strong>
                             </li>
                         </ul>
-
-                        <form class="card p-2">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Mã khuyến mãi" />
-                                <button type="submit" class="btn btn-secondary">Áp dụng</button>
-                            </div>
-                        </form>
                     </div>
                     <div className="col-md-7 col-lg-8">
                         <h4 className="mb-3">Thông Tin Thanh Toán</h4>
-                        <form className="needs-validation" method='POST' validate onSubmit={handleCheckOut}>
+                        <form className="needs-validation" method='POST' validate='true' onSubmit={handleCheckOut}>
                             <div className="row g-3">
                                 <div className="col-12">
                                     <div className="form-floating mb-2">
                                         <input type="text" name='customerName' className="form-control"
                                             id="input-name" placeholder="Hoàng Văn A" />
-                                        <label for="input-name">Họ và tên</label>
+                                        <label htmlFor="input-name">Họ và tên</label>
                                     </div>
                                 </div>
 
                                 <div className="col-12">
                                     <div className="form-floating mb-2">
                                         <input type="phone" name='customerNoPhone' className="form-control" id="input-phone" placeholder="01234556789" />
-                                        <label for="input-phone">Số điện thoại</label>
+                                        <label htmlFor="input-phone">Số điện thoại</label>
                                     </div>
                                 </div>
 
                                 <div className="col-12">
                                     <div className="form-floating mb-2">
                                         <input type="address" name='customerAddress' className="form-control" id="input-address" placeholder="40 Vũ Trọng Phụng" />
-                                        <label for="input-address">Địa chỉ</label>
+                                        <label htmlFor="input-address">Địa chỉ</label>
                                     </div>
                                 </div>
 
                                 <div className="col-md">
-                                    <label for="district" className="form-label">Quận/Huyện</label>
-                                    <select className="form-select" name='customerDistrict' id="district" onChange={even => {
-                                        if (even.target.value === 'Lựa chọn') setWardOption('Lựa chọn')
-                                        else setWardOption(wardOptionList[even.target.value])
-                                        handleDistrictChange(even);
+                                    <label htmlFor="district" className="form-label">Quận/Huyện</label>
+                                    <select className="form-select" name='customerDistrict' id="district" 
+                                      defaultValue={DEFAULT_LOCATE} onChange={even => {
+                                        // if (even.target.value === 'Lựa chọn') {
+                                        //   setWard('Lựa chọn');
+                                        //   setWardOption([]);
+                                        // }
+                                        // else setWardOption(wardOptionList[even.target.value])
+                                        // handleDistrictChange(even);
+                                        handleDistrictChange(even.target.value);
                                     }}>
-                                        <option selected>Lựa chọn</option>
-                                        <option >Quận Thủ Đức</option>
-                                        <option >Quận 10</option>
-                                        <option >Quận Bình Thạnh</option>
+                                        <option>{DEFAULT_LOCATE}</option>
+                                        {districtOptionList.map(district => (
+                                          <option key={district}>{district}</option>
+                                        ))}
                                     </select>
                                 </div>
 
                                 <div className="col-md" >
-                                    <label for="ward" className="form-label">Phường / Xã</label>
-                                    <select className="form-select" name='customerWard' id="ward" onChange={event => handleWardChange(event)} >
+                                    <label htmlFor="ward" className="form-label">Phường / Xã</label>
+                                    <select className="form-select" name='customerWard' id="ward" defaultValue={DEFAULT_LOCATE}
+                                    onChange={event => handleWardChange(event)} >
                                         <option >Lựa chọn</option>
                                         {/* <WardOption /> */}
                                         {wardOption.map(ward => <option key={ward} value={ward}>{ward}</option>)}
@@ -281,7 +276,7 @@ export default function CheckOut() {
 
                             <div class="form-check">
                                 <input type="checkbox" class="form-check-input" id="save-info" />
-                                <label class="form-check-label" for="save-info">Save this information for next time</label>
+                                <label class="form-check-label" htmlFor="save-info">Save this information for next time</label>
                             </div> */}
 
                             <hr class="my-4" />
@@ -291,10 +286,10 @@ export default function CheckOut() {
                             <div className="my-3">
                                 <div className="form-check">
                                     <input id="cod" name="paymentMethod" value='cod' type="radio" className="form-check-input" />
-                                    <label className="form-check-label" for="cod">Thanh toán khi nhận hàng</label>
+                                    <label className="form-check-label" htmlFor="cod">Thanh toán khi nhận hàng</label>
                                 </div>
                                 <div className="form-check">
-                                    <label className="form-check-label" for="online">Thanh toán Online</label>
+                                    <label className="form-check-label" htmlFor="online">Thanh toán Online</label>
                                     <input id="online" name="paymentMethod" value='online' type="radio" className="form-check-input" />
                                 </div>
                             </div>
@@ -304,11 +299,11 @@ export default function CheckOut() {
                             <button className="w-25 btn btn-danger btn-lg float-end text-white" type="submit" onClick={handleCheckOut} >Thanh Toán</button>
                             <ToastContainer />
                         </form>
-                            <button className="w-25 btn btn-lg float-start text-white" style={{ backgroundColor: "blue" }} onClick={(e) => {
-                                e.preventDefault();
-                                window.location.href = '/cart'
-                            }
-                            }>Quay lại</button>
+                        <button className="w-25 btn btn-lg float-start text-white" style={{ backgroundColor: "blue" }} onClick={(e) => {
+                            e.preventDefault();
+                            window.location.href = '/my-cart';
+                        }
+                        }>Quay lại</button>
                     </div>
                 </div>
             </main>

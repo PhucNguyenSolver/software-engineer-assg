@@ -11,6 +11,9 @@ router.post('/manage-order/reject', orderCtrler.rejectAll)
 
 router.post('/manage-order', orderCtrler.modifyStt)
 
+router.get('/top-food', orderCtrler.getTopOrderedFood)
+
 router.post('/', orderCtrler.saveOrder)
+
 
 module.exports = router;

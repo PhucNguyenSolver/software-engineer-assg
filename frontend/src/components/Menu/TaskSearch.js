@@ -1,227 +1,156 @@
 import React from "react";
-//import JSONDATA from './MOCK_DATA.json'
 import { useState, useEffect } from 'react';
-//import FoodTypeList from './FoodTypeList.js'
 import {Button} from 'react-bootstrap';
-import FoodInMenu from './FoodInMenu.js'
+import FoodInMenu from './FoodInMenu.js';
+import { FoodEditor } from "../staff/FoodEditor.js";
 
 const axios = require('axios')
 
-axios.get('http://localhost:8080')
-  .then(res => console.log(res.data))
-  .catch(err => console.log(err))
-
-
-
-
-
-
-
-// function FoodTypeList() {
-
-//     useEffect(() => {
-//     axios.get('http://localhost:8080/food')
-//     .then( (res) => {
-//       arr = res.data
-//     })
-//     }, [])
-
-//   var arr = []
-
-//   const array = ['Combo','Foody','Drink','Appetizer','Dessert']
-
-//   function ChangeEffective(e){
-//       //console.log(e.target.id)
-//       var idChange = document.getElementById(e.target.id)
-//       idChange.style.borderRadius = '50px'
-//       idChange.style.borderColor = '#F63C3C'
-//       idChange.style.color = '#F63C3C'
-//       idChange.style.boxShadow = '1px 1px #F63C3C'
-//       for(var i=0;i<array.length;i++) {
-//           if (array[i] === e.target.id) continue;
-//           else {
-//               var idNormal = document.getElementById(array[i])
-//               idNormal.style.borderColor='#ffffff'
-//               idNormal.style.color='#000000'
-//               idNormal.style.borderRadius='12px'
-//               idNormal.style.boxShadow='None'
-//           }
-//       }
-//       JSONDATA.length = 0;
-//       //console.log(JSONDATA)
-//       for(var i=0;i < arr.length;i++) {
-//         if (arr[i].type === e.target.id) {
-//           var temp = {
-//             food_name: arr[i].name,
-//             price: arr[i].price,
-//             img: arr[i].imageUrls[0],
-//           }
-//           JSONDATA.push(temp)
-//         }
-//     }
-//       console.log(JSONDATA)
-//   }
-
-//   return (
-//       <div style={{backgroundColor:'#AFEEEE',height:'100px', width:'100%'}}
-//       >
-//           <Button id="Combo" class="btn btn-light text-danger" 
-//           variant="primary" onClick={ChangeEffective}
-//           style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
-//           borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '25px 25px 25px 67px',borderRadius:'12px' }}>
-//           {"Combo"}
-//           </Button>
-//           <Button id="Foody" class="btn btn-light text-danger" 
-//           variant="primary" onClick={ChangeEffective}
-//           style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
-//           borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '15px 20px',borderRadius:'12px' }}>
-//           {"Đồ ăn"}
-//           </Button>
-//           <Button id="Drink" class="btn btn-light text-danger" 
-//           variant="primary" onClick={ChangeEffective}
-//           style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
-//           borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '15px 20px',borderRadius:'12px' }}>
-//           {"Thức uống"}
-//           </Button>
-//           <Button id="Appetizer" class="btn btn-light text-danger" 
-//           variant="primary" onClick={ChangeEffective}
-//           style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
-//           borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '15px 20px',borderRadius:'12px' }}>
-//           {"Khai vị"}
-//           </Button>
-//           <Button id="Dessert" class="btn btn-light text-danger" 
-//           variant="primary" onClick={ChangeEffective}
-//           style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
-//           borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '15px 20px',borderRadius:'12px' }}>
-//           {"Tráng miệng"}
-//           </Button>
-//       </div>
-//     );
-// }
-
-
 var arr = []
-var JSONDATA = []
-var Init = [
-{"food_name":"Combo Healthy","price":34000,"img":"https://phanphoiruounhapkhau.com/wp-content/uploads/2021/04/healthy-food-la-gi-nguyen-tac-khi-giam-can-bang-che-do-an-clean-eating.jpg"},
-{"food_name":"Combo Vegetables","price":84000,"img":"https://zicxa.com/vi/uploaded/files/rong-nho-giam-can-2-1.jpg"},
-{"food_name":"Combo Cheese","price":76000,"img":"https://tokbokki.com/wp-content/uploads/banh-gao-pho-mai.jpg"},
-{"food_name":"Combo One","price":54000,"img":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNbC-GSyu_vAWtTAEhmq7A2OmOV9f1IbXudw&usqp=CAU"},
-{"food_name":"Combo Five Spicy Beef","price":48000,"img":"https://haisanbaba.com/wp-content/uploads/6834b901e85d14034d4c.jpg"},
-{"food_name":"Combo Grill Beef","price":99000,"img":"https://cdn.dealtoday.vn/img/s630x420/a59fb6441a5547bb893f14565d84d6c6.jpg?sign=GXpsDTTdBfZBlxbPIruqBQ"},    
-{"food_name":"Combo Skewer","price":49000,"img":"https://www.vibrantplate.com/wp-content/uploads/2018/07/Tofu-skewers-03-735x490.jpg"},
-{"food_name":"Combo Spicy Chicken","price":46000,"img":"https://ameovat.com/wp-content/uploads/2016/05/cach-lam-ga-ran.jpg"},
-{"food_name":"Combo Cream Chicken","price":82000,"img":"https://songkhoe.medplus.vn/wp-content/uploads/2020/03/uc-ga-sot-kem-meo-1.png"},
-{"food_name":"Combo Three","price":30000,"img":"https://assets.grab.com/wp-content/uploads/sites/11/2020/04/03164942/111.jpg"},
-{"food_name":"Combo Salmon","price":237000,"img":"https://www.topuytin.com/wp-content/uploads/2018/05/fresh-salmon-sushi-rolls.jpg"},
-{"food_name":"Combo Sushi","price":150000,"img":"https://kenh14cdn.com/2019/1/22/5bc7df9876ec5729a74dbca5-2018-10-18-011920-15481331553641106349192.jpg"},
-]
+
+var Init = []
 
 
-function TaskSearch() { 
+function TaskSearch() {
+
   const tmp = Init.slice()
   const [temp, setTemp] = useState(tmp)
-  const [filterNameInit,setFilterNameInit] = useState('No filter here...')
+  const [filterNameInit,setFilterNameInit] = useState('Không lựa chọn')
   const [data, setData] = useState(tmp)
   const [pageNumber,setPageNumber] = useState(1)
+  const [init,setInit] = useState(Init)
+  const [colorVar,setColorVar] = useState(['#F63C3C','#000000','#000000','#000000','#000000'])
+  const [borderRadiusVar,setBorderRadiusVar] = useState(['50px','12px','12px','12px','12px'])
+  const [borderColorVar,setBorderColor] = useState(['#F63C3C','#ffffff','#ffffff','#ffffff','#ffffff'])
+  const [boxShadowVar,setBoxShadowVar] = useState(['1px 1px #F63C3C','None','None','None','None'])
 
   useEffect(() => {
-    axios.get('http://localhost:8080/food')
+    axios.get('/food')
     .then( (res) => {
       arr = res.data
+      document.getElementById("Combo").click()
     })
     }, [])
-
-
 function FoodTypeList() {
-
+  function ChangeEffective(e){
+      //setPageNumber(1)
+      var JSONDATA = []
+      JSONDATA.length = 0
+      for(var i=0;i < arr.length;i++) {
+        if (arr[i].type === e.target.id) {
+          var t = {
+            food_name: arr[i].name,
+            price: arr[i].price,
+            img: arr[i].imageUrls[0],
+            id: arr[i]._id,
+            discount: arr[i].discount
+          }
+          JSONDATA.push(t)
+        }
+    }
 
 
 const array = ['Combo','Foody','Drink','Appetizer','Dessert']
 
-function ChangeEffective(e){
-    //setPageNumber(1)
-    var JSONDATA = []
-    var idChange = document.getElementById(e.target.id)
-    idChange.style.borderRadius = '50px'
-    idChange.style.borderColor = '#F63C3C'
-    idChange.style.color = '#F63C3C'
-    idChange.style.boxShadow = '1px 1px #F63C3C'
-    for(var i=0;i<array.length;i++) {
-        if (array[i] === e.target.id) continue;
-        else {
-            var idNormal = document.getElementById(array[i])
-            idNormal.style.borderColor='#ffffff'
-            idNormal.style.color='#000000'
-            idNormal.style.borderRadius='12px'
-            idNormal.style.boxShadow='None'
-        }
+    setFilterNameInit('Không lựa chọn')
+    setTemp(JSONDATA.slice())
+    setData(JSONDATA.slice())
+    setInit(JSONDATA.slice())
+    switch(e.target.id) {
+      case 'Combo':
+        setColorVar(['#F63C3C','#000000','#000000','#000000','#000000'])
+        setBorderRadiusVar(['50px','12px','12px','12px','12px'])
+        setBorderColor(['#F63C3C','#ffffff','#ffffff','#ffffff','#ffffff'])
+        setBoxShadowVar(['1px 1px #F63C3C','None','None','None','None'])
+        break;
+      case 'Foody':
+        setColorVar(['#000000','#F63C3C','#000000','#000000','#000000'])
+        setBorderRadiusVar(['12px','50px','12px','12px','12px'])
+        setBorderColor(['#ffffff','#F63C3C','#ffffff','#ffffff','#ffffff'])
+        setBoxShadowVar(['None','1px 1px #F63C3C','None','None','None'])
+        break;
+      case 'Drink':
+        setColorVar(['#000000','#000000','#F63C3C','#000000','#000000'])
+        setBorderRadiusVar(['12px','12px','50px','12px','12px'])
+        setBorderColor(['#ffffff','#ffffff','#F63C3C','#ffffff','#ffffff'])
+        setBoxShadowVar(['None','None','1px 1px #F63C3C','None','None'])
+        break;
+      case 'Appetizer':
+        setColorVar(['#000000','#000000','#000000','#F63C3C','#000000'])
+        setBorderRadiusVar(['12px','12px','12px','50px','12px'])
+        setBorderColor(['#ffffff','#ffffff','#ffffff','#F63C3C','#ffffff'])
+        setBoxShadowVar(['None','None','None','1px 1px #F63C3C','None'])
+        break;
+      case 'Dessert':
+        setColorVar(['#000000','#000000','#000000','#000000','#F63C3C'])
+        setBorderRadiusVar(['12px','12px','12px','12px','50px'])
+        setBorderColor(['#ffffff','#ffffff','#ffffff','#ffffff','#F63C3C'])
+        setBoxShadowVar(['None','None','None','None','1px 1px #F63C3C'])
+        break;
     }
-    JSONDATA.length = 0
-    for(var i=0;i < arr.length;i++) {
-      if (arr[i].type === e.target.id) {
-        var temp = {
-          food_name: arr[i].name,
-          price: arr[i].price,
-          img: arr[i].imageUrls[0],
-        }
-        JSONDATA.push(temp)
-      }
-  }
-    setTemp(JSONDATA)
-    setData(JSONDATA)
-   // console.log(data)
 }
+
+
+
 return (
-    <div style={{backgroundColor:'#AFEEEE',height:'100px', width:'100%'}}
+    <div id="ButtonList" class="row align-items-center" style={{height:'100px'}}
     >
-        <Button id="Combo" class="btn btn-light text-danger" 
+        <div class="col-md-2 col-sm-2 col-2">
+        <Button id="Combo" class="btn btn-light text-danger"
         variant="primary" onClick={ChangeEffective}
-        style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
-        borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '25px 25px 25px 67px',borderRadius:'12px' }}>
-        {"Combo"}
-        </Button>
-        <Button id="Foody" class="btn btn-light text-danger" 
+        style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', boxShadow:boxShadowVar[0],
+        borderColor:borderColorVar[0],fontWeight:'bold',color:colorVar[0],borderRadius:borderRadiusVar[0] }}>
+        Combo
+        </Button></div>
+        <div class="col-md-2 col-sm-2 col-2">
+        <Button id="Foody" class="btn btn-light text-danger"
         variant="primary" onClick={ChangeEffective}
-        style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
-        borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '15px 20px',borderRadius:'12px' }}>
-        {"Foody"}
-        </Button>
-        <Button id="Drink" class="btn btn-light text-danger" 
+        style={{ width:'150px', height:'52px',backgroundColor:'#ffffff',boxShadow:boxShadowVar[1],
+        borderColor:borderColorVar[1],fontWeight:'bold',color:colorVar[1],borderRadius:borderRadiusVar[1] }}>
+        {"Đồ Ăn"}
+        </Button></div>
+        <div class="col-md-2 col-sm-2 col-2">
+        <Button id="Drink" class="btn btn-light text-danger"
         variant="primary" onClick={ChangeEffective}
-        style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
-        borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '15px 20px',borderRadius:'12px' }}>
-        {"Drink"}
-        </Button>
-        <Button id="Appetizer" class="btn btn-light text-danger" 
+        style={{ width:'150px', height:'52px',backgroundColor:'#ffffff',boxShadow:boxShadowVar[2],
+        borderColor:borderColorVar[2],fontWeight:'bold',color:colorVar[2],borderRadius:borderRadiusVar[2] }}>
+        {"Thức Uống"}
+        </Button></div>
+        <div class="col-md-2 col-sm-2 col-2">
+        <Button id="Appetizer" class="btn btn-light text-danger"
         variant="primary" onClick={ChangeEffective}
-        style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
-        borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '15px 20px',borderRadius:'12px' }}>
-        {"Appetizer"}
-        </Button>
-        <Button id="Dessert" class="btn btn-light text-danger" 
+        style={{ width:'150px', height:'52px',backgroundColor:'#ffffff',boxShadow:boxShadowVar[3],
+        borderColor:borderColorVar[3],fontWeight:'bold',color:colorVar[3],borderRadius: borderRadiusVar[3] }}>
+        {"Khai Vị"}
+        </Button></div>
+        <div class="col-md-2 col-sm-2 col-2">
+        <Button id="Dessert" class="btn btn-light text-danger"
         variant="primary" onClick={ChangeEffective}
-        style={{ width:'150px', height:'52px',backgroundColor:'#ffffff', 
-        borderColor:'#ffffff',fontWeight:'bold',color:'#000000',margin: '15px 20px',borderRadius:'12px' }}>
-        {"Dessert"}
-        </Button>
+        style={{ width:'150px', height:'52px',backgroundColor:'#ffffff',boxShadow:boxShadowVar[4],
+        borderColor:borderColorVar[4],fontWeight:'bold',color:colorVar[4],borderRadius:borderRadiusVar[4] }}>
+        {"Tráng Miệng"}
+        </Button></div>
+        <div class="col-md-2 col-sm-4 col-4">
+        <FilterBar />
+        </div>
     </div>
   );
 }
 
   function MenuInGen({arr}) {
     return (
-        <div >
         <div>
-          <FilterBar />
-        </div>
         <div style={{width:'100%'}}>
             <FoodTypeList />
         </div>
-        <div style={{backgroundColor:'#efefef',height:'800px',width:'100%'}}>
+        { JSON.parse(localStorage.getItem("isAuthenticated")) ?
+        <FoodEditor mode="add"/>
+        : ""
+        }
+        <div style={{width:'100%'}}>
             {
                arr.slice(0,10).map((val) => {
-               return <FoodInMenu name={val.food_name} price={val.price} image={val.img} />
+               return <FoodInMenu name={val.food_name} price={val.price} image={val.img} id={val.id} discount={val.discount}/>
              })
              }
         </div>
@@ -231,36 +160,37 @@ return (
 
   function FilterFunction(){
     setPageNumber(1)
-    setFilterNameInit('Sort by increasing price')
+    setFilterNameInit('Giá từ thấp đến cao')
     setTemp(temp.sort((a,b) => a.price - b.price))
-    setData(temp) 
+    setData(temp)
   }
 
   function FilterFunctionDesc(){
     setPageNumber(1)
-    setFilterNameInit('Sort by decreasing price')
-    setTemp(temp.sort((a,b) => -a.price + b.price)) 
+    setFilterNameInit('Giá từ cao đến thấp')
+    setTemp(temp.sort((a,b) => -a.price + b.price))
     setData(temp)
   }
 
   function NoFilterFunction(){
     setPageNumber(1)
-    setFilterNameInit('No filter here...')
-    setData(JSONDATA.slice())
-    setTemp(JSONDATA.slice())
+    setFilterNameInit('Không lựa chọn')
+    setTemp(init.slice())
+    setData(init.slice())
   }
 
   function FilterBar() {
     return (
-      <div class="dropdown" style={{position:'absolute', right:'62px',top:'90px'}}>
+      // style={{position:'absolute', right:'62px',top:'90px'}}
+      <div class="dropdown" >
     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
-    style={{backgroundColor: '#F0A12A',width:'200px',height:'52px'}}>
+    style={{backgroundColor: 'rgb(246, 60, 60)',width:'200px',height:'52px'}}>
       {filterNameInit}
     </button>
     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
-      <li><button type="button" class="btn btn-outline-primary dropdown-item" onClick={FilterFunction}>Sort by increasing price</button></li>
-      <li><button type="button" class="btn btn-outline-primary dropdown-item" onClick={FilterFunctionDesc}>Sort by decreasing price</button></li>
-      <li><button type="button" class="btn btn-outline-primary dropdown-item" onClick={NoFilterFunction}>No filter here...</button></li>
+      <li><button type="button" class="btn btn-outline-primary dropdown-item" style={{width:'200px'}} onClick={FilterFunction}>Giá từ thấp đến cao</button></li>
+      <li><button type="button" class="btn btn-outline-primary dropdown-item" onClick={FilterFunctionDesc}>Giá từ cao đến thấp</button></li>
+      <li><button type="button" class="btn btn-outline-primary dropdown-item" onClick={NoFilterFunction}>Không lựa chọn</button></li>
     </ul>
   </div>
     );
@@ -271,6 +201,8 @@ function Page(index) {
   setPageNumber(index)
   var menu = temp.slice((index-1)*10,10 + (index-1)*10)
   setData(menu)
+
+  window.location.href = "#"
 }
 
 function ChangePage(index){
@@ -279,29 +211,31 @@ function ChangePage(index){
   setPageNumber(index)
   var menu = temp.slice((index-1)*10,10 + (index-1)*10)
   setData(menu)
+
+  window.location.href = "#"
 }
 return (
   <div>
-   <div id="MenuFirst" style={{height:'950px',backgroundColor:'#efefef'}}>
-    <MenuInGen arr={data}/>
-  </div> 
-
-  <div id="PaginationSearch" style={{height:'90px',backgroundColor:'#efefef'}}>
+  {/* style={{height:'950px',backgroundColor:'#efefef'}} */}
+   <div id="MenuFirst" style={{margin:'auto'}}>
+   <MenuInGen arr={data}/>
+  </div>
+  <div id="PaginationSearch" >
   <nav  aria-label="Page navigation example">
   <ul class="pagination justify-content-center pagination-lg">
     <li class="page-item">
-    <button class="page-link" aria-label="Previous" onClick={() => ChangePage(pageNumber-1)}>
+    <button class="page-link text-primary" aria-label="Previous" onClick={() => ChangePage(pageNumber-1)} style={{color:'rgb(246, 60, 60)'}}>
         <span aria-hidden="true">&laquo;</span>
       </button>
     </li>
     {
-    Array.from({length: Math.ceil(temp.length / 10)}, (_, i) => i + 1).map((index) => 
-    {return <li class="page-item"><button class="page-link" onClick={() => Page(index)}>{index}</button></li>})
+    Array.from({length: Math.ceil(temp.length / 10)}, (_, i) => i + 1).map((index) =>
+    {return <li class="page-item"><button class="page-link text-primary" onClick={() => Page(index)} style={{color:'rgb(246, 60, 60)'}}>{index}</button></li>})
     }
     {/* <li class="page-item"><button class="page-link" onClick={Page2}>2</button></li>
     <li class="page-item"><button class="page-link" onClick={Page3}>3</button></li> */}
     <li class="page-item">
-      <button class="page-link" aria-label="Next" onClick={() => ChangePage(pageNumber+1)}>
+      <button class="page-link text-primary" aria-label="Next" onClick={() => ChangePage(pageNumber+1)} style={{color:'rgb(246, 60, 60)'}}>
         <span aria-hidden="true">&raquo;</span>
       </button>
     </li>

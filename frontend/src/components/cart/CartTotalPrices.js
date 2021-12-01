@@ -55,21 +55,21 @@ function TotalPrice(props) {
 		<Total.Calculation>
 			<div className='cal'>
 				<span>Giá gốc</span>
-				<span>+ {props.amount()}đ</span>
+				<span>+ {Intl.NumberFormat().format(props.amount())}đ</span>
 			</div>
 			<div className='cal'>
 				<span>Món phụ</span>
-				<span>+ {props.additionalFee()}đ</span>
+				<span>+ {Intl.NumberFormat().format(props.additionalFee())}đ</span>
 			</div>
 			<div className='cal'>
 				<span>Giảm giá</span>
-				<span>- {props.discount()}đ</span>
+				<span>- {Intl.NumberFormat().format(props.discount())}đ</span>
 			</div>
 		</Total.Calculation>
 		<Total.TotalPrice>
 			<div>Tổng cộng</div>
 			<div style={{ display: 'flex', flexFlow: 'column', alignItems: 'end' }}>
-				<div className='total-pay'>{props.amount() - props.discount() + props.additionalFee()}đ</div>
+				<div className='total-pay'>{Intl.NumberFormat().format(props.amount() - props.discount() + props.additionalFee())}đ</div>
 				<div className='description'>(Đã bao gồm VAT nếu có)</div>
 			</div>
 		</Total.TotalPrice>
@@ -127,15 +127,18 @@ export default function CartTotalPrice(props) {
 	return (
 		<div className='col-lg-3 col-md-12'>
 			<TotalPrice {...total}/>
-			{/* <PayButton onClick={() =>
+			<PayButton
+				disabled={numberOfItems() === 0}
+				onClick={() => {
+				// console.log(props.cartItems)
 				history.push('/checkout',props.cartItems.filter(value => value.active === true))
-			}>Đặt hàng ({
+			}}>Đặt hàng ({
 					props.cartItems.filter(value => value.active === true).length
-				})</PayButton> */}
-			<PayButton onClick={payBill} 
+				})</PayButton>
+			{/* <PayButton onClick={payBill} 
 				disabled={numberOfItems() === 0}>
 				Đặt hàng ({numberOfItems()})
-			</PayButton>
+			</PayButton> */}
 		</div>
 	)
 }

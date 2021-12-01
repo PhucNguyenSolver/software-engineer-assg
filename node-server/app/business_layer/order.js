@@ -3,6 +3,7 @@ const db = require('../data_layer')
 const saveOrder = function(req, res) {
     const order = db.Orders(req.body)
     order.save()
+    console.log("LƯU ORDER : " , order)
 }
 
 const getOrderbyStatus = async function(req, res){
@@ -27,10 +28,28 @@ const rejectAll = async function(req, res){
     // res.send(null)
 }
 
+const getTopOrderedFood = async function(req, res) {
+    const topOrderedFood = await db.Orders.aggregate([
+        {$project: {_id:0, items:1}},
+    ]).unwind('items').group({_id: "$items.name", no: {$sum: 1}}).sort('field -no').limit(8).exec();
+
+    var foods = [];
+    for(let i=0; i < topOrderedFood.length; i++) {
+        var food = await db.Foods.findOne({name: topOrderedFood[i]._id}).exec();
+        if(food) {
+            food = food.toObject();
+            food.no = topOrderedFood[i].no;
+            foods.push(food);
+        }
+    }
+    res.send(foods);
+}
+
 module.exports = {
     saveOrder,
     getOrderbyStatus,
     modifyStt,
     acceptAll,
-    rejectAll
+    rejectAll,
+    getTopOrderedFood
 }
