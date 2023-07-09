@@ -12,6 +12,32 @@ export default function Login() {
 
 
 
+    function handleLoginDemo(e) {
+        e.preventDefault();
+
+        axios.post('/login', {
+            "account": "admin",
+            "password": "admin"
+        })
+            .then((response) => {
+                if (response.data == 'Accept') {
+                    localStorage.setItem('isAuthenticated', true)
+                    window.location.href = "/manage-order"
+                }
+                else {
+                    toast.error('Mật khẩu hoặc tài khoản không đúng', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                }
+            })
+    }
+
     function handleSubmit(e) {
         e.preventDefault();
         
@@ -54,9 +80,11 @@ export default function Login() {
                         <label for="floatingPassword">Password</label>
                     </div>
                     {/* {userAccountData.} */}
-                    <button className="w-50 btn btn-lg btn-primary float-end my-3" type="submit" onClick={handleSubmit}>Log in</button>
+                    <button style={{ visibility: "hidden" }} className="w-50 btn btn-lg btn-primary my-3" type="submit" onClick={handleSubmit}>Log in</button>
+                    <button className="w-50 btn btn-lg btn-primary my-3" type="submit" onClick={handleSubmit}>Log in</button>
                     <ToastContainer />
                 </form>
+                <button className="w-100 btn btn-lg btn-secondary" type="submit" onClick={handleLoginDemo}>{"Login as admin (demo)"}</button>
             </div>
         </div>
     )

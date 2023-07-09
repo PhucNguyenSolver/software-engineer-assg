@@ -9,7 +9,7 @@ const getBanner = async function(req, res) {
     // catch(err) {
     //     res.status(500).send({msg: 'Server Error !!'})
     // }
-    const banner = await db.Banner.findById("6194a67d1a3858f6f08fa3e7").exec();
+    const banner = await db.Banner.findOne().exec();
     res.status(200).send(banner);
 }
 
