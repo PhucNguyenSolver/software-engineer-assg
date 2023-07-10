@@ -11,7 +11,8 @@ const paymentRoute = require('./app/routers/payment.router');
 const app = express();
 
 var corsOptions = {
-    origin: "http://localhost:3000"
+    // origin: "http://localhost:3000"
+    origin: "https://nihouse.vercel.app"
 };
 
 app.use(cors(corsOptions));
