@@ -1,11 +1,14 @@
 import { Carousel } from "react-bootstrap";
 import { useEffect, useState } from "react";
-const axios = require('axios');
+import axios from 'axios';
+import { API_ENDPOINT } from "../../config";
+axios.defaults.baseURL = API_ENDPOINT;
 
 
 export default function Banner() {
     const [imageBanner, setImageBanner] = useState([]);
 
+    console.log(API_ENDPOINT)
     useEffect(() => {
         axios.get("/banner")
             .then(res => {

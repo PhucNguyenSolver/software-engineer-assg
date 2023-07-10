@@ -15,8 +15,10 @@ import FoodInMenu from '../Menu/FoodInMenu'
 
 // Combo: 12, Foody: 13, Drink: 15, Appetizer: 14, Dessert: 16
 
+import { API_ENDPOINT } from "../../config";
 
 const axios = require('axios')
+axios.defaults.baseURL = API_ENDPOINT;
 var arrAll = []
 
 export default function Appbar({nCartItem}) {

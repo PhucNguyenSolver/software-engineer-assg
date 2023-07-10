@@ -3,7 +3,10 @@ import { ToastContainer, toast } from 'react-toastify';
 import { calculateShipFee, FROM } from "./Map";
 import { useLocation } from "react-router-dom";
 import { districtOptionList, wardOptionList } from "./data"; 
+import { API_ENDPOINT } from "../../config";
+
 const axios = require('axios');
+axios.defaults.baseURL = API_ENDPOINT;
 
 const contactData = {
     name: 'Nguyễn Phúc Vinh',

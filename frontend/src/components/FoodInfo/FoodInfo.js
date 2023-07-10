@@ -10,6 +10,8 @@ import {useHistory} from "react-router-dom";
 import { useParams } from "react-router";
 import { v4 as uuidv4 } from 'uuid';
 import { FoodEditor } from "../staff/FoodEditor";
+import { API_ENDPOINT } from "../../config";
+axios.defaults.baseURL = API_ENDPOINT;
 
 var DEFAULT_FOOD = {
     name: "Cánh gà xóc tỏi",

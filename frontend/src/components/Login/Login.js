@@ -2,7 +2,10 @@ import { React, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
+import { API_ENDPOINT } from "../../config";
+
 const axios = require('axios')
+axios.defaults.baseURL = API_ENDPOINT;
 
 
 

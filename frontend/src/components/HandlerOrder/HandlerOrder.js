@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import './ProcessBar.css'
 import { Badge, Col, Figure, Modal, Row } from "react-bootstrap";
 import axios from 'axios';
+import { API_ENDPOINT } from "../../config";
+axios.defaults.baseURL = API_ENDPOINT;
+
 
 
 // ReactDOM.render(logOutIcon,document.getElementById('logout'))

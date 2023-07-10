@@ -5,6 +5,8 @@ import { OrderOptionItem } from "../FoodInfo/OrderOptionItem"
 import { useState, useEffect } from "react"
 import { useParams } from "react-router"
 import axios from "axios"
+import { API_ENDPOINT } from "../../config";
+axios.defaults.baseURL = API_ENDPOINT;
 
 const DEFAULT = {
     id: 1234,

@@ -2,7 +2,10 @@ import React, {useState, useEffect} from "react";
 import Food from "./Food";
 import foods from "./foods.json";
 
+import { API_ENDPOINT } from "../../config";
+
 const axios = require('axios');
+axios.defaults.baseURL = API_ENDPOINT;
 // TODO: useContext for foods.json
 
 export default function FoodList(props) {

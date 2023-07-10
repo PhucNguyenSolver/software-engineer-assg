@@ -3,8 +3,10 @@ import { useState, useEffect } from 'react';
 import {Button} from 'react-bootstrap';
 import FoodInMenu from './FoodInMenu.js';
 import { FoodEditor } from "../staff/FoodEditor.js";
+import { API_ENDPOINT } from "../../config";
 
 const axios = require('axios')
+axios.defaults.baseURL = API_ENDPOINT;
 
 var arr = []
 
